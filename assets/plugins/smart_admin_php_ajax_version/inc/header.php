@@ -13,16 +13,16 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<!-- Basic Styles -->
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>/assets/plugins/smart_admin_php_ajax_version/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>/assets/plugins/smart_admin_php_ajax_version/css/font-awesome.min.css">
 
 		<!-- SmartAdmin Styles : Caution! DO NOT change the order -->
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>/css/smartadmin-production-plugins.min.css">
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>/css/smartadmin-production.min.css">
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>/css/smartadmin-skins.min.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>/assets/plugins/smart_admin_php_ajax_version/css/smartadmin-production-plugins.min.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>/assets/plugins/smart_admin_php_ajax_version/css/smartadmin-production.min.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>/assets/plugins/smart_admin_php_ajax_version/css/smartadmin-skins.min.css">
 
 		<!-- SmartAdmin RTL Support is under construction-->
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>/css/smartadmin-rtl.min.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>/assets/plugins/smart_admin_php_ajax_version/css/smartadmin-rtl.min.css">
 
 		<!-- We recommend you use "your_style.css" to override SmartAdmin
 		     specific styles this will also ensure you retrain your customization with each SmartAdmin update.
@@ -39,30 +39,30 @@
 
 
 		<!-- Demo purpose only: goes with demo.js, you can delete this css when designing your own WebApp -->
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>/css/demo.min.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>/assets/plugins/smart_admin_php_ajax_version/css/demo.min.css">
 
 		<!-- FAVICONS -->
-		<link rel="shortcut icon" href="<?php echo ASSETS_URL; ?>/img/favicon/favicon.ico" type="image/x-icon">
-		<link rel="icon" href="<?php echo ASSETS_URL; ?>/img/favicon/favicon.ico" type="image/x-icon">
+		<link rel="shortcut icon" href="<?php echo ASSETS_URL; ?>/assets/plugins/smart_admin_php_ajax_version/img/favicon/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="<?php echo ASSETS_URL; ?>/assets/plugins/smart_admin_php_ajax_version/img/favicon/favicon.ico" type="image/x-icon">
 
 		<!-- GOOGLE FONT -->
 		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
 
 		<!-- Specifying a Webpage Icon for Web Clip
 			 Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->
-		<link rel="apple-touch-icon" href="<?php echo ASSETS_URL; ?>/img/splash/sptouch-icon-iphone.png">
-		<link rel="apple-touch-icon" sizes="76x76" href="<?php echo ASSETS_URL; ?>/img/splash/touch-icon-ipad.png">
-		<link rel="apple-touch-icon" sizes="120x120" href="<?php echo ASSETS_URL; ?>/img/splash/touch-icon-iphone-retina.png">
-		<link rel="apple-touch-icon" sizes="152x152" href="<?php echo ASSETS_URL; ?>/img/splash/touch-icon-ipad-retina.png">
+		<link rel="apple-touch-icon" href="<?php echo ASSETS_URL; ?>/assets/plugins/smart_admin_php_ajax_version/img/splash/sptouch-icon-iphone.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="<?php echo ASSETS_URL; ?>/assets/plugins/smart_admin_php_ajax_version/img/splash/touch-icon-ipad.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="<?php echo ASSETS_URL; ?>/assets/plugins/smart_admin_php_ajax_version/img/splash/touch-icon-iphone-retina.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="<?php echo ASSETS_URL; ?>/assets/plugins/smart_admin_php_ajax_version/img/splash/touch-icon-ipad-retina.png">
 
 		<!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 		<!-- Startup image for web apps -->
-		<link rel="apple-touch-startup-image" href="<?php echo ASSETS_URL; ?>/img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
-		<link rel="apple-touch-startup-image" href="<?php echo ASSETS_URL; ?>/img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
-		<link rel="apple-touch-startup-image" href="<?php echo ASSETS_URL; ?>/img/splash/iphone.png" media="screen and (max-device-width: 320px)">
+		<link rel="apple-touch-startup-image" href="<?php echo ASSETS_URL; ?>/assets/plugins/smart_admin_php_ajax_version/img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
+		<link rel="apple-touch-startup-image" href="<?php echo ASSETS_URL; ?>/assets/plugins/smart_admin_php_ajax_version/img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
+		<link rel="apple-touch-startup-image" href="<?php echo ASSETS_URL; ?>/assets/plugins/smart_admin_php_ajax_version/img/splash/iphone.png" media="screen and (max-device-width: 320px)">
 	</head>
 	<body <?php echo implode(' ', array_map(function($prop, $value) {
 			return $prop.'="'.$value.'"';
@@ -78,7 +78,7 @@
 					<div id="logo-group">
 
 						<!-- PLACE YOUR LOGO HERE -->
-						<span id="logo"> <img src="<?php echo ASSETS_URL; ?>/img/logo.png" alt="SmartAdmin"> </span>
+						<span id="logo"> <img src="<?php echo ASSETS_URL; ?>/assets/plugins/smart_admin_php_ajax_version/img/logo.png" alt="SmartAdmin"> </span>
 						<!-- END LOGO PLACEHOLDER -->
 
 						<!-- Note: The activity badge color changes when clicked and resets the number to 0
@@ -91,13 +91,13 @@
 							<!-- the ID links are fetched via AJAX to the ajax container "ajax-notifications" -->
 							<div class="btn-group btn-group-justified" data-toggle="buttons">
 								<label class="btn btn-default">
-									<input type="radio" name="activity" id="<?php echo APP_URL; ?>/ajax/notify/mail.php">
+									<input type="radio" name="activity" id="<?php echo APP_URL; ?>/assets/plugins/smart_admin_php_ajax_version/ajax/notify/mail.php">
 									Msgs (14) </label>
 								<label class="btn btn-default">
-									<input type="radio" name="activity" id="<?php echo APP_URL; ?>/ajax/notify/notifications.php">
+									<input type="radio" name="activity" id="<?php echo APP_URL; ?>/assets/plugins/smart_admin_php_ajax_version/ajax/notify/notifications.php">
 									notify (3) </label>
 								<label class="btn btn-default">
-									<input type="radio" name="activity" id="<?php echo APP_URL; ?>/ajax/notify/tasks.php">
+									<input type="radio" name="activity" id="<?php echo APP_URL; ?>/assets/plugins/smart_admin_php_ajax_version/ajax/notify/tasks.php">
 									Tasks (4) </label>
 							</div>
 
@@ -166,7 +166,7 @@
 						<ul id="mobile-profile-img" class="header-dropdown-list hidden-xs padding-5">
 							<li class="">
 								<a href="#" class="dropdown-toggle no-margin userdropdown" data-toggle="dropdown"> 
-									<img src="<?php echo ASSETS_URL; ?>/img/avatars/sunny.png" alt="John Doe" class="online" />
+									<img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/avatars/sunny.png" alt="John Doe" class="online" />
 								</a>
 								<ul class="dropdown-menu pull-right">
 									<li>
@@ -194,7 +194,7 @@
 
 						<!-- logout button -->
 						<div id="logout" class="btn-header transparent pull-right">
-							<span> <a href="<?php echo APP_URL; ?>/login.php" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span>
+							<span> <a href="<?php echo APP_URL; ?>assets/plugins/smart_admin_php_ajax_version/login.php" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span>
 						</div>
 						<!-- end logout button -->
 
@@ -245,37 +245,37 @@
 						<ul class="header-dropdown-list hidden-xs">
 							<li>
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
-									<img src="<?php echo ASSETS_URL; ?>/img/blank.gif" class="flag flag-us" alt="United States"> <span> US</span> <i class="fa fa-angle-down"></i> </a>
+									<img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-us" alt="United States"> <span> US</span> <i class="fa fa-angle-down"></i> </a>
 								<ul class="dropdown-menu pull-right">
 									<li class="active">
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>/img/blank.gif" class="flag flag-us" alt="United States"> English (US)</a>
+										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-us" alt="United States"> English (US)</a>
 									</li>
 									<li>
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>/img/blank.gif" class="flag flag-fr" alt="France"> Français</a>
+										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-fr" alt="France"> Français</a>
 									</li>
 									<li>
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>/img/blank.gif" class="flag flag-es" alt="Spanish"> Español</a>
+										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-es" alt="Spanish"> Español</a>
 									</li>
 									<li>
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>/img/blank.gif" class="flag flag-de" alt="German"> Deutsch</a>
+										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-de" alt="German"> Deutsch</a>
 									</li>
 									<li>
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>/img/blank.gif" class="flag flag-jp" alt="Japan"> 日本語</a>
+										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-jp" alt="Japan"> 日本語</a>
 									</li>
 									<li>
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>/img/blank.gif" class="flag flag-cn" alt="China"> 中文</a>
+										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-cn" alt="China"> 中文</a>
 									</li>	
 									<li>
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>/img/blank.gif" class="flag flag-it" alt="Italy"> Italiano</a>
+										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-it" alt="Italy"> Italiano</a>
 									</li>	
 									<li>
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>/img/blank.gif" class="flag flag-pt" alt="Portugal"> Portugal</a>
+										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-pt" alt="Portugal"> Portugal</a>
 									</li>
 									<li>
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>/img/blank.gif" class="flag flag-ru" alt="Russia"> Русский язык</a>
+										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-ru" alt="Russia"> Русский язык</a>
 									</li>
 									<li>
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>/img/blank.gif" class="flag flag-kr" alt="Korea"> 한국어</a>
+										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-kr" alt="Korea"> 한국어</a>
 									</li>						
 								</ul>
 							</li>
