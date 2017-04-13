@@ -1,232 +1,192 @@
-<!DOCTYPE html>
 <?php
-//ob_start();
-    @session_start();
-    $menu = file_get_contents('menu.php',TRUE);
-  //$switcher = file_get_contents('switcher.php',TRUE);
-  //$footer = file_get_contents('footer.php',TRUE);
-  //$ourclient = file_get_contents('ourclient.php',TRUE);
+
+//initilize the page
+require_once("inc/init.php");
+
+//require UI configuration (nav, ribbon, etc.)
+require_once("inc/config.ui.php");
+
+/*---------------- PHP Custom Scripts ---------
+
+YOU CAN SET CONFIGURATION VARIABLES HERE BEFORE IT GOES TO NAV, RIBBON, ETC.
+E.G. $page_title = "Custom Title" */
+
+$page_title = "Login";
+
+/* ---------------- END PHP Custom Scripts ------------- */
+
+//include header
+//you can add your custom css in $page_css array.
+//Note: all css files are inside css/ folder
+$page_css[] = "your_style.css";
+$no_main_header = true;
+$page_body_prop = array("id"=>"extr-page", "class"=>"animated fadeInDown");
+include("inc/header.php");
+
 ?>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
-<head>
-    <title>Manit Insurance</title>
+<!-- ==========================CONTENT STARTS HERE ========================== -->
+<!-- possible classes: minified, no-right-panel, fixed-ribbon, fixed-header, fixed-width-->
+<header id="header">
+	<!--<span id="logo"></span>-->
 
-    <!-- Meta -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+	<div id="logo-group">
+		<span id="logo"> <img src="<?php echo ASSETS_URL; ?>/img/logo.png" alt="SmartAdmin"> </span>
 
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="favicon.ico">
+		<!-- END AJAX-DROPDOWN -->
+	</div>
 
-    <!-- Web Fonts -->
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin">
+	<span id="extr-page-header-space"> <span class="hidden-mobile hiddex-xs">Need an account?</span> <a href="<?php echo APP_URL; ?>/register.php" class="btn btn-danger">Creat account</a> </span>
 
-    <!-- CSS Global Compulsory -->
-    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+</header>
 
-    <!-- CSS Header and Footer -->
-    <link rel="stylesheet" href="assets/css/headers/header-v6.css">
-    <link rel="stylesheet" href="assets/css/footers/footer-v1.css">
+<div id="main" role="main">
 
-    <!-- CSS Implementing Plugins -->
-    <link rel="stylesheet" href="assets/plugins/animate.css">
-    <link rel="stylesheet" href="assets/plugins/line-icons/line-icons.css">
-    <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
+	<!-- MAIN CONTENT -->
+	<div id="content" class="container">
 
-    <!-- CSS Theme -->
-    <link rel="stylesheet" href="assets/css/theme-colors/default.css" id="style_color">
-    <link rel="stylesheet" href="assets/css/theme-skins/dark.css">
-    
-    
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-7 col-lg-8 hidden-xs hidden-sm">
+				<h1 class="txt-color-red login-header-big">SmartAdmin</h1>
+				<div class="hero">
 
-    <!-- CSS Customization -->
-    <link rel="stylesheet" href="assets/css/custom.css">
-    <!--<link href="assets/king-ui/css/king-ui.css" rel="stylesheet">
-    <link href="assets/king-ui/css/animate.css" rel="stylesheet">
-    <link href="assets/king-ui/css/owl.carousel.css" rel="stylesheet">
-    <link href="assets/king-ui/css/owl.theme.css" rel="stylesheet">-->
-    
-    <!-- CSS Page Style -->
-    <link rel="stylesheet" href="assets/css/pages/page_log_reg_v2.css">
-    <!-- fonts -->
-    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,400italic,700' rel='stylesheet' type='text/css'>
-    <link href="assets/king-ui/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href='assets/king-ui/fonts/FontAwesome.otf' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="assets/king-ui/css/linear-icons.css">
-</head>
+					<div class="pull-left login-desc-box-l">
+						<h4 class="paragraph-header">It's Okay to be Smart. Experience the simplicity of SmartAdmin, everywhere you go!</h4>
+						<div class="login-app-icons">
+							<a href="javascript:void(0);" class="btn btn-danger btn-sm">Frontend Template</a>
+							<a href="javascript:void(0);" class="btn btn-danger btn-sm">Find out more</a>
+						</div>
+					</div>
+					
+					<img src="<?php echo ASSETS_URL; ?>/img/demo/iphoneview.png" class="pull-right display-image" alt="" style="width:210px">
 
-<body class="dark">
-	<!--=== Content Part ===-->
-	<div class="container">
-            <!--Reg Block-->
-            <div class="reg-block">
-                <div class="reg-block-header">
-                    <h2>Sign In</h2>
-                    <ul class="social-icons text-center">
-                        <li><a class="rounded-x social_facebook" data-original-title="Facebook" href="#"></a></li>
-                        <li><a class="rounded-x social_twitter" data-original-title="Twitter" href="#"></a></li>
-                        <li><a class="rounded-x social_googleplus" data-original-title="Google Plus" href="#"></a></li>
-                        <li><a class="rounded-x social_linkedin" data-original-title="Linkedin" href="#"></a></li>
-                    </ul>
-                    <p>Don't Have Account? Click <a class="color-green" href="regis.php">Sign Up</a> to registration.</p>
-                </div>
+				</div>
 
-                <div class="input-group margin-bottom-20">
-                    <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                    <p id="lopEmail"><input type="text" class="form-control" placeholder="Email" id="loEmail"></p>
-                </div>
-                <div class="input-group margin-bottom-20">
-                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                    <p id="lopPassword"><input type="password" class="form-control" placeholder="Password" id="loPassword"></p>
-                </div>
-                <hr>
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+						<h5 class="about-heading">About SmartAdmin - Are you up to date?</h5>
+						<p>
+							Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa.
+						</p>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+						<h5 class="about-heading">Not just your average template!</h5>
+						<p>
+							Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi voluptatem accusantium!
+						</p>
+					</div>
+				</div>
 
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox">
-                        <p>Always stay signed in</p>
-                    </label>
-                </div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+				<div class="well no-padding">
+					<form action="<?php echo APP_URL; ?>" id="login-form" class="smart-form client-form">
+						<header>
+							Sign In
+						</header>
 
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <button type="button" class="btn-u btn-block" id="btnLogin">Log In</button>
-                    </div>
-                    <div id="loading">
-                        <img id="logo-footer" class="slick-loading" src="assets/img/ajax-loader.gif" alt="">
-                    </div>
-                    <div id="divView"></div>
-                </div>
-            </div>
-            <!--End Reg Block-->
-	</div><!--/container-->
-	<!--=== End Content Part ===-->
+						<fieldset>
+							
+							<section>
+								<label class="label">E-mail</label>
+								<label class="input"> <i class="icon-append fa fa-user"></i>
+									<input type="email" name="email">
+									<b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter email address/username</b></label>
+							</section>
 
-	<!-- JS Global Compulsory -->
-	<script type="text/javascript" src="assets/plugins/jquery/jquery.min.js"></script>
-	<script type="text/javascript" src="assets/plugins/jquery/jquery-migrate.min.js"></script>
-	<script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-	<!-- JS Implementing Plugins -->
-	<script type="text/javascript" src="assets/plugins/back-to-top.js"></script>
-	<script type="text/javascript" src="assets/plugins/smoothScroll.js"></script>
-	<script type="text/javascript" src="assets/plugins/jquery.parallax.js"></script>
-        <script type="text/javascript" src="assets/plugins/backstretch/jquery.backstretch.min.js"></script>
-	<!-- JS Customization -->
-	<script type="text/javascript" src="assets/js/custom.js"></script>
-	<!-- JS Page Level -->
-	<script type="text/javascript" src="assets/js/app.js"></script>
-	<script type="text/javascript" src="assets/js/plugins/style-switcher.js"></script>
-	<script type="text/javascript">
-            jQuery(document).ready(function() {
-                //alert('bbbbb');
-                App.init();
-                //alert('bbbbb');
-                hideLoader();
-                //$("#btnLogin").click(alert("aaaa"));
-                $("#btnLogin").click(login);
-                //$("#loEmail").focusout(loginCheckEmail("login_check_email"));
-            });
-            function showLoader() {
-                $("#loading").show();
-            }
-            function hideLoader() {
-                //alert('bbbbb');
-                $("#loading").hide();
-            }
-            function login(){
-                //alert("aaaaaaaaaaaaa");
-                $.ajax({
-                    type: 'GET', url: 'login_check.php', contentType: "application/json", dataType: 'text', 
-                    data: {'flagPage': "login"
-                        //, 'reUsername':$("#reUsername").val()
-                        , 'loEmail':$("#loEmail").val()
-                        , 'loPassword':$("#loPassword").val()
-                        }
-                    ,progress: function(e){
-                        showLoader();
-                    }
-                    ,success: function (data) {
-                        //alert('bbbbb '.data);
-                        $("#divView").append(data);
-                        //$("#divView").append("<br>ขอบคุณสำหรับการสมัครสมาชิก กับManit Insurance <br>โปรดตรวจสอบ email และconfirm ");
-                        hideLoader();
-                        
-                        //if(user!=""){
-                            window.location.assign('index.php')
-                        //}
-                    }
-                });
-            }
-            function loginCheckEmail(flag){
-                //alert("aaaa");
-                if(flag=="login_check_email"){
-                    if ($("#loEmail").val()=="") {
-                        return ;
-                    }
-                }
-                $.ajax({
-                    type: 'GET', url: 'login_check.php', contentType: "application/json", dataType: 'text', 
-                    data: {'flagPage': flag
-                        //, 'reUsername':$("#reUsername").val()
-                        , 'loEmail':$("#loEmail").val()
-                        , 'loPassword':$("#loPassword").val()
-                        } 
-                    ,progress: function(e){
-                        showLoader();
-                    }
-                    ,success: function (data) {
-                        //alert('bbbbb '.data);
-                        $("#divView").append(data);
-                        //$("#divView").append("<br>ขอบคุณสำหรับการสมัครสมาชิก กับManit Insurance <br>โปรดตรวจสอบ email และconfirm ");
-                        hideLoader();
-                    }
-                });
-//                    if($("#rePassword").val() != $("#reCPassword").val()){
-//                        alert("Password ไม่ตรงกัน ");
-//                        return ;
-//                    }
-                //alert(flag);
-                
-            }
-	</script>
-	<script type="text/javascript">
-            $.backstretch([
-                "assets/img/bg/31.jpg",
-                "assets/img/bg/32.jpg",
-                ], {
-                        fade: 1000,
-                        duration: 7000
-                });
-	</script>
-        <script>
-        var focus = 0,
-          blur = 0;
-        $( "input" )
-          .focusout(function() {
-              //alert($(this).attr("id"));
-            //focus++;
-            //$( "#divView" ).text( "focusout fired: " + focus + "x" );
-                if ($(this).attr("id")=="loEmail"){
-                    loginCheckEmail("login_check_email");
-                }else if ($(this).attr("id")=="loPassword"){
-                    //loginCheckEmail("login_check");
-                }
-            
-          })
-          .blur(function() {
-            //blur++;
-            //$( "#divView" ).text( "blur fired: " + blur + "x" );
-          });
-        </script>
-	<!--[if lt IE 9]>
-	<script src="assets/plugins/respond.js"></script>
-	<script src="assets/plugins/html5shiv.js"></script>
-	<script src="assets/plugins/placeholder-IE-fixes.js"></script>
-	<![endif]-->
-</body>
-</html>
+							<section>
+								<label class="label">Password</label>
+								<label class="input"> <i class="icon-append fa fa-lock"></i>
+									<input type="password" name="password">
+									<b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter your password</b> </label>
+								<div class="note">
+									<a href="<?php echo APP_URL; ?>/forgotpassword.php">Forgot password?</a>
+								</div>
+							</section>
+
+							<section>
+								<label class="checkbox">
+									<input type="checkbox" name="remember" checked="">
+									<i></i>Stay signed in</label>
+							</section>
+						</fieldset>
+						<footer>
+							<button type="submit" class="btn btn-primary">
+								Sign in
+							</button>
+						</footer>
+					</form>
+
+				</div>
+				
+				<h5 class="text-center"> - Or sign in using -</h5>
+													
+								<ul class="list-inline text-center">
+									<li>
+										<a href="javascript:void(0);" class="btn btn-primary btn-circle"><i class="fa fa-facebook"></i></a>
+									</li>
+									<li>
+										<a href="javascript:void(0);" class="btn btn-info btn-circle"><i class="fa fa-twitter"></i></a>
+									</li>
+									<li>
+										<a href="javascript:void(0);" class="btn btn-warning btn-circle"><i class="fa fa-linkedin"></i></a>
+									</li>
+								</ul>
+				
+			</div>
+		</div>
+	</div>
+
+</div>
+<!-- END MAIN PANEL -->
+<!-- ==========================CONTENT ENDS HERE ========================== -->
+
+<?php 
+	//include required scripts
+	include("inc/scripts.php"); 
+?>
+
+<!-- PAGE RELATED PLUGIN(S) 
+<script src="..."></script>-->
+
+<script type="text/javascript">
+	runAllForms();
+
+	$(function() {
+		// Validation
+		$("#login-form").validate({
+			// Rules for form validation
+			rules : {
+				email : {
+					required : true,
+					email : true
+				},
+				password : {
+					required : true,
+					minlength : 3,
+					maxlength : 20
+				}
+			},
+
+			// Messages for form validation
+			messages : {
+				email : {
+					required : 'Please enter your email address',
+					email : 'Please enter a VALID email address'
+				},
+				password : {
+					required : 'Please enter your password'
+				}
+			},
+
+			// Do not change code below
+			errorPlacement : function(error, element) {
+				error.insertAfter(element.parent());
+			}
+		});
+	});
+</script>
+
+<?php 
+	//include footer
+	include("inc/google-analytics.php"); 
+?>
