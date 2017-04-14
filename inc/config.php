@@ -2,13 +2,36 @@
 
 //configure constants
 //$conn = mysqli_connect("localhost",'at_healthcare','bangna','cy!C51x3');
-$conn = mysqli_connect("localhost",'root','','at_healthcare');
-$result = mysqli_query($conn,"Select DISTINCT group1 From email Order By group1");
-//while($row = mysqli_fetch_array($result)){
-    //$tmp = array();
-    //$tmp["group1"] = $row["group1"];
-    //$tmp["prov_name"] = $row["prov_name"];
-    //array_push($resultArray,$tmp);
+$databaseName="at_healthcare";
+$userDB="root";
+$passDB="";
+$hostDB="localhost";
+$acompType = array();
+$conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
+mysqli_set_charset($conn, "UTF8");
+$sql="Select * From f_company_type Where active = '1' Order By comp_type_code";
+//$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
+if ($result=mysqli_query($conn,$sql)){
+    $oComp = "<option value='0' selected='' disabled=''>ประเภทบริษัท</option>";
+    while($row = mysqli_fetch_array($result)){
+        $oComp .= '<option value='.$row["comp_type_code"].'>'.$row["comp_type_name_t"].'</option>';
+    }
+}
+$sql="Select * From provinces Order By prov_code";
+//$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
+if ($result=mysqli_query($conn,$sql)){
+    $oProv = "<option value='0' selected='' disabled=''>เลือกจังหวัด</option>";
+    while($row = mysqli_fetch_array($result)){
+        $oProv .= '<option value='.$row["prov_id"].'>'.$row["prov_name"].'</option>';
+    }
+}
+//$sql="Select * From amphurs Order By prov_id, amphur_code";
+////$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
+//if ($result=mysqli_query($conn,$sql)){
+//    $oAmphur = "<option value='0' selected='' disabled=''>เลือกอำเภอ</option>";
+//    while($row = mysqli_fetch_array($result)){
+//        $oAmphur .= '<option value='.$row["amphur_code"].'>'.$row["amphur_name"].'</option>';
+//    }
 //}
 mysqli_close($conn);
 

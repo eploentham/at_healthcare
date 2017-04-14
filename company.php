@@ -1,4 +1,40 @@
 <?php require_once("inc/init.php"); ?>
+<?php
+//echo $userDB;
+$compId="-";
+if(isset($_GET["compId"])){
+    $compId = $_GET["compId"];
+}
+$conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
+mysqli_set_charset($conn, "UTF8");
+$sql="Select * From b_company  ";
+//echo "<script> alert('aaaaa'); </script>";
+//$rComp = mysqli_query($conn,"Select * From b_company Where comp_id = '1' ");
+if ($rComp=mysqli_query($conn,$sql)){
+    $aComp = mysqli_fetch_array($rComp);
+    $compId = $aComp["comp_id"];
+    $bb = strval($aComp["prov_id"]);
+    $oProv = str_replace("selected=''", "", $oProv);
+    //$pos = strpos($oProv, "<option value='".$aComp["prov_id"]);
+    $aa = '<option selected value='.$bb;
+    $oProv = str_replace('<option value='.$bb, $aa, $oProv);
+//    echo "<script> alert('".$aa."'); </script>";
+//    if($pos===true){
+//        echo "<script> alert('aaaaa'); </script>";
+//        $aa = "<option selected='' value='".$aComp["prov_id"];
+//        $oProv = str_replace("<option value='".$aComp["prov_id"], $aa, $oProv);
+//    }
+}
+
+//while($row = mysqli_fetch_array($result)){
+//    $tmp = array();
+//    $tmp["comp_type_code"] = $row["comp_type_code"];
+//    $tmp["comp_type_name_t"] = $row["comp_type_name_t"];
+//    array_push($acompType,$tmp);
+//}
+
+mysqli_close($conn);
+?>
 <div class="row">
 	<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 		<h1 class="page-title txt-color-blueDark">
@@ -86,85 +122,76 @@
                                     <label class="label">ประเภทบริษัท</label>
                                     <label class="select">
                                         <select name="compType">
-                                                <option value="0" selected="" disabled="">ประเภทบริษัท</option>
-                                                <option value="1">Male</option>
-                                                <option value="2">Female</option>
-                                                <option value="3">Prefer not to answer</option>
+                                                <?php echo $oComp;?>
                                         </select> <i></i> </label>
                                 </section>
                                 <section >
                                     <label class="label">ชื่อบริษัท</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="compName" placeholder="ชื่อบริษัท">
+                                        <input type="text" name="compNameT" id="compNameT" placeholder="ชื่อบริษัท" value="<?php echo $aComp["comp_name_t"]?>"><input type="hidden" name="compId" id="compId" value="<?php echo $compId;?>">
+                                        <input type="hidden" name="compCode" id="compCode" value="100">
                                             <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
 
                                 <section >
                                     <label class="label">ที่อยู่</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="email" name="email" placeholder="ที่อยู่ บ้านเลขที่ ซอย ถนน">
+                                        <input type="text" name="compAddress", id="compAddress" placeholder="ที่อยู่ บ้านเลขที่ ซอย ถนน" value="<?php echo $aComp["comp_address_t"]?>">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
                                 
                                 <section >
                                     <label class="label">ตำบล</label>
                                     <label class="select">
-                                        <select name="compType">
-                                                <option value="0" selected="" disabled="">ประเภทบริษัท</option>
-                                                <option value="1">Male</option>
-                                                <option value="2">Female</option>
-                                                <option value="3">Prefer not to answer</option>
+                                        <select name="cDistrict" id="cDistrict">
+                                                <?php echo $oComp;?>
                                         </select> <i></i> </label>
                                 </section>
                                 
                                 <section >
                                     <label class="label">อำเภอ</label>
                                     <label class="select">
-                                        <select name="compType">
-                                                <option value="0" selected="" disabled="">ประเภทบริษัท</option>
-                                                <option value="1">Male</option>
-                                                <option value="2">Female</option>
-                                                <option value="3">Prefer not to answer</option>
+                                        <select name="cAmphur" id="cAmphur">
+                                            <?php echo $oComp;?>
                                         </select> <i></i> </label>
                                 </section>
                                 
                                 <section >
                                     <label class="label">จังหวัด</label>
                                     <label class="select">
-                                        <select name="compType">
-                                                <option value="0" selected="" disabled="">ประเภทบริษัท</option>
-                                                <option value="1">Male</option>
-                                                <option value="2">Female</option>
-                                                <option value="3">Prefer not to answer</option>
+                                        <select name="cProv" id="cProv">
+                                            <?php echo $oProv;?>
                                         </select> <i></i> </label>
                                 </section>
 
                                 <section>
                                     <label class="label">รหัสไปรษณีย์</label>
                                     <label class="input"> <i class="icon-append fa fa-lock"></i>
-                                            <input type="text" name="zipcode" placeholder="รหัสไปรษณีย์" id="zipcode">
+                                            <input type="text" name="cZipcode" placeholder="รหัสไปรษณีย์" id="cZipcode" value="<?php echo $aComp["zipcode"]?>">
                                             <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
                                 </section>
 
                                 <section>
                                     <label class="label">โทรศัพท์</label>
                                     <label class="input"> <i class="icon-prepend fa fa-phone"></i>
-                                        <input type="tel" name="tele" placeholder="Phone" data-mask="(999) 999-9999"></label>
+                                        <input type="tel" name="tele" id="tele" placeholder="Phone" data-mask="(999) 999-9999" value="<?php echo $aComp["tele"]?>"></label>
+                                </section>
+                                <section>
+                                    <label class="label">Email</label>
+                                    <label class="input"> <i class="icon-prepend fa fa-phone"></i>
+                                        <input type="email" name="email" id="email" placeholder="Phone" value="<?php echo $aComp["email"]?>"></label>
                                 </section>
                                 
                                 <section >
                                     <label class="label">เลขที่ผู้เสียภาษี</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="email" name="email" placeholder="เลขที่ผู้เสียภาษี">
+                                        <input type="text" name="taxid" id="taxid" placeholder="เลขที่ผู้เสียภาษี" value="<?php echo $aComp["tax_id"]?>">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
                             </fieldset>
-
                             
                             <footer>
-                                <button type="submit" class="btn btn-primary">
-                                        Validate Form
-                                </button>
+                                <button type="button" id="btnSave" class="btn btn-primary">บันทึกข้อมูล</button>
                             </footer>
                         </form>						
 
@@ -216,7 +243,6 @@
 	 */
 
 	pageSetUp();
-	
 	
 	// PAGE RELATED SCRIPTS
 
@@ -321,5 +347,105 @@
 	
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
-
+        
+        $("#cProv").change(getAmphur);
+        $("#cAmphur").change(getDistrict);
+        $("#cDistrict").change(getZipcode);
+        $("#btnSave").click(saveComp);
+//        function getAmphur(){
+//            alert("aaaa");
+//        }
+        function getAmphur(){
+            //alert("aaaa");
+            $("#cAmphur").empty();
+            $.ajax({ 
+                type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', data: { 'prov_id': $("#cProv").val(), 'flagPage':"amphur" }, 
+                success: function (data) {
+                    //alert('bbbbb');
+                    var json_obj = $.parseJSON(data);
+                    //alert('bbbbb '+json_obj.length);
+                    toAppend = "<option value='0' selected='' disabled=''>เลือกอำเภอ</option>";
+                    for (var i in json_obj)
+                    {
+                        if(json_obj[i].amphur_name==null) {
+                            //alert('ddddd ');
+                        }
+                        toAppend += '<option value="'+json_obj[i].amphur_id+'">'+json_obj[i].amphur_name+'</option>';
+                        //
+                    }
+                    $("#cAmphur").append(toAppend);
+                    $("#cAmphur").selectpicker('refresh');
+                }
+            });
+        }
+        function getDistrict(){
+            //alert("aaaa"+$("#cAmphur").val());
+            $("#cDistrict").empty();
+            $.ajax({ 
+                type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', data: { 'amphur_id': $("#cAmphur").val(), 'flagPage':"district" }, 
+                success: function (data) {
+                    //alert('bbbbb');
+                    var json_obj = $.parseJSON(data);
+                    //alert('bbbbb '+json_obj.length);
+                    toAppend = "<option value='0' selected='' disabled=''>เลือกตำบล</option>";
+                    for (var i in json_obj)
+                    {
+                        if(json_obj[i].district_name==null) {
+                            //alert('ddddd ');
+                        }
+                        toAppend += '<option value="'+json_obj[i].district_id+'">'+json_obj[i].district_name+'</option>';
+                        //
+                    }
+                    $("#cDistrict").append(toAppend);
+                    $("#cDistrict").selectpicker('refresh');
+                }
+            });
+        }
+        function getZipcode(){
+            //alert("aaaa"+$("#cAmphur").val());
+            //$("#cDistrict").empty();
+            $.ajax({ 
+                type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', data: { 'district_id': $("#cDistrict").val(), 'flagPage':"zipcode" }, 
+                success: function (data) {
+                    //alert('bbbbb');
+                    var json_obj = $.parseJSON(data);
+//                    alert('bbbbb '+json_obj.length);
+//                    alert('ccccc '+$("#cDistrict").val());
+                    //$("#cZipcode").val("aaaa");
+                    for (var i in json_obj){
+                        if(json_obj[i].zipcode!=null) {
+                            $("#cZipcode").val(json_obj[i].zipcode);
+                        }
+                    }
+                }
+            });
+        }
+        function saveComp(){
+            //alert('aaaaa');
+            $.ajax({ 
+                type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', 
+                data: { 'comp_id': $("#compId").val()
+                    ,'comp_code': $("#compCode").val()
+                    ,'comp_name_t': $("#compNameT").val()
+                    ,'comp_address_t': $("#compAddress").val()
+                    ,'tele': $("#tele").val()
+                    ,'email': $("#email").val()
+                    ,'taxid': $("#taxid").val()
+                    ,'prov_id': $("#cProv").val()
+                    ,'amphur_id': $("#cAmphur").val()
+                    ,'district_id': $("#cDistrict").val()
+                    ,'zipcode': $("#cZipcode").val()
+                    ,'flagPage': "company" }, 
+                success: function (data) {
+                    //alert('bbbbb'+data);
+                    var json_obj = $.parseJSON(data);
+                    for (var i in json_obj){
+                        alert("aaaa "+json_obj[i].success);
+                    }
+//                    alert('bbbbb '+json_obj.length);
+//                    alert('ccccc '+$("#cDistrict").val());
+                    //$("#cZipcode").val("aaaa");
+                }
+            });
+        }
 </script>
