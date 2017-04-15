@@ -1,4 +1,31 @@
 <?php require_once("inc/init.php"); ?>
+<?php
+//echo $userDB;
+$custId="-";
+$cuCode="";
+if(isset($_GET["custId"])){
+    $custId = $_GET["custId"];
+}
+$conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
+mysqli_set_charset($conn, "UTF8");
+$sql="Select * From b_customer Where cust_id = '".$custId."' ";
+//echo "<script> alert('aaaaa'); </script>";
+//$rComp = mysqli_query($conn,"Select * From b_company Where comp_id = '1' ");
+if ($rComp=mysqli_query($conn,$sql)){
+    $aCust = mysqli_fetch_array($rComp);
+    $cuId = $aCust["cust_id"];
+    $cuCode = strval($aCust["cust_code"]);
+    $cuNameT = strval($aCust["cust_name_t"]);
+    $cuAddress = strval($aCust["cust_address"]);
+    $cuTele = strval($aCust["tele"]);
+    $cuEmail = strval($aCust["email"]);
+    $cuTaxId = strval($aCust["tax_id"]);
+}else{
+    $cuId = $custId;
+}
+
+mysqli_close($conn);
+?>
 <div class="row">
 	<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 		<h1 class="page-title txt-color-blueDark">
@@ -84,83 +111,78 @@
                                 <section>
                                     <label class="label">ประเภทลูกค้า</label>
                                     <label class="select">
-                                        <select name="custType">
-                                            <option value="0" selected="" disabled="">ประเภทลูกค้า</option>
-                                            <option value="1">Male</option>
-                                            <option value="2">Female</option>
-                                            <option value="3">Prefer not to answer</option>
+                                        <select name="custType" id="custType">
+                                            <?php echo $oComp;?>
                                         </select> <i></i> </label>
                                 </section>
                                 <section>
                                     <label class="label">ชื่อลูกค้า</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="custName" placeholder="ชื่อลูกค้า">
+                                        <input type="text" name="cuNameT" id="cuNameT" value="<?php echo $cuNameT;?>" placeholder="ชื่อลูกค้า">
+                                        <input type="hidden" name="cuId" id="cuId" value="<?php echo $cuId;?>">
+                                        <input type="hidden" name="cuCode" id="cuCode" value="<?php echo $cuCode;?>">
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
 
                                 <section >
                                     <label class="label">ที่อยู่</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="email" name="custAddress" placeholder="ที่อยู่ บ้านเลขที่ ซอย ถนน">
+                                            <input type="text" name="cuAddress" id="cuAddress" placeholder="ที่อยู่ บ้านเลขที่ ซอย ถนน">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
                                 
                                 <section >
                                     <label class="label">ตำบล</label>
                                     <label class="select">
-                                        <select name="custDistrict">
-                                            <option value="0" selected="" disabled="">ประเภทบริษัท</option>
-                                            <option value="1">Male</option>
-                                            <option value="2">Female</option>
-                                            <option value="3">Prefer not to answer</option>
+                                        <select name="cuDistrict" id="cuDistrict">
+                                            <?php echo $oComp;?>
                                         </select> <i></i> </label>
                                 </section>
                                 
                                 <section >
                                     <label class="label">อำเภอ</label>
                                     <label class="select">
-                                        <select name="custAmphur">
-                                            <option value="0" selected="" disabled="">ประเภทบริษัท</option>
-                                            <option value="1">Male</option>
-                                            <option value="2">Female</option>
-                                            <option value="3">Prefer not to answer</option>
+                                        <select name="cuAmphur" id="cuAmphur">
+                                            <?php echo $oComp;?>
                                         </select> <i></i> </label>
                                 </section>
                                 
                                 <section >
                                     <label class="label">จังหวัด</label>
                                     <label class="select">
-                                        <select name="custProv">
-                                            <option value="0" selected="" disabled="">ประเภทบริษัท</option>
-                                            <option value="1">Male</option>
-                                            <option value="2">Female</option>
-                                            <option value="3">Prefer not to answer</option>
+                                        <select name="cuProv" id="cuProv">
+                                            <?php echo $oProv;?>
                                         </select> <i></i> </label>
                                 </section>
 
                                 <section>
                                     <label class="label">รหัสไปรษณีย์</label>
                                     <label class="input"> <i class="icon-append fa fa-lock"></i>
-                                        <input type="text" name="zipcode" placeholder="รหัสไปรษณีย์" id="zipcode">
+                                        <input type="text" name="cuZipcode" id="cuZipcode" placeholder="รหัสไปรษณีย์" id="zipcode">
                                         <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
                                 </section>
 
                                 <section>
                                     <label class="label">โทรศัพท์</label>
                                     <label class="input"> <i class="icon-prepend fa fa-phone"></i>
-                                        <input type="tel" name="tele" placeholder="Phone" data-mask="(999) 999-9999"></label>
+                                        <input type="tel" name="cuTele" id="cuTele" placeholder="Phone" data-mask="(999) 999-9999" value="<?php echo $cuTele;?>"></label>
                                 </section>
-                                
+                                <section >
+                                    <label class="label">Email</label>
+                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                        <input type="email" name="cuEmail" id="cuEmail" placeholder="Email" value="<?php echo $cuEmail;?>">
+                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                </section >
                                 <section >
                                     <label class="label">เลขที่ผู้เสียภาษี</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="email" name="custTaxId" placeholder="เลขที่ผู้เสียภาษี">
+                                        <input type="text" name="cuTaxId" id="cuTaxId" placeholder="เลขที่ผู้เสียภาษี" value="<?php echo $cuTaxId;?>">
                                         <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
                             </fieldset>
                             
                             <footer>
-                                <button type="button" class="btn btn-primary">
+                                <button type="button" id="btnSave" class="btn btn-primary">
                                         บันทึกข้อมูล
                                 </button>
                             </footer>
@@ -319,5 +341,104 @@
 	
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
+        
+        $("#cuProv").change(getAmphur);
+        $("#cuAmphur").change(getDistrict);
+        $("#cuDistrict").change(getZipcode);
+        $("#btnSave").click(saveCust);
+        
+        function getAmphur(){
+            //alert("aaaa");
+            $("#cuAmphur").empty();
+            $.ajax({ 
+                type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', data: { 'prov_id': $("#cuProv").val(), 'flagPage':"amphur" }, 
+                success: function (data) {
+                    //alert('bbbbb');
+                    var json_obj = $.parseJSON(data);
+                    //alert('bbbbb '+json_obj.length);
+                    toAppend = "<option value='0' selected='' disabled=''>เลือกอำเภอ</option>";
+                    for (var i in json_obj)
+                    {
+                        if(json_obj[i].amphur_name==null) {
+                            //alert('ddddd ');
+                        }
+                        toAppend += '<option value="'+json_obj[i].amphur_id+'">'+json_obj[i].amphur_name+'</option>';
+                        //
+                    }
+                    $("#cuAmphur").append(toAppend);
+                    $("#cuAmphur").selectpicker('refresh');
+                }
+            });
+        }
+        function getDistrict(){
+            //alert("aaaa"+$("#cAmphur").val());
+            $("#cuDistrict").empty();
+            $.ajax({ 
+                type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', data: { 'amphur_id': $("#cuAmphur").val(), 'flagPage':"district" }, 
+                success: function (data) {
+                    //alert('bbbbb');
+                    var json_obj = $.parseJSON(data);
+                    //alert('bbbbb '+json_obj.length);
+                    toAppend = "<option value='0' selected='' disabled=''>เลือกตำบล</option>";
+                    for (var i in json_obj)
+                    {
+                        if(json_obj[i].district_name==null) {
+                            //alert('ddddd ');
+                        }
+                        toAppend += '<option value="'+json_obj[i].district_id+'">'+json_obj[i].district_name+'</option>';
+                        //
+                    }
+                    $("#cuDistrict").append(toAppend);
+                    $("#cuDistrict").selectpicker('refresh');
+                }
+            });
+        }
+        function getZipcode(){
+            //alert("aaaa"+$("#cAmphur").val());
+            //$("#cDistrict").empty();
+            $.ajax({ 
+                type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', data: { 'district_id': $("#cuDistrict").val(), 'flagPage':"zipcode" }, 
+                success: function (data) {
+                    //alert('bbbbb');
+                    var json_obj = $.parseJSON(data);
+//                    alert('bbbbb '+json_obj.length);
+//                    alert('ccccc '+$("#cDistrict").val());
+                    //$("#cZipcode").val("aaaa");
+                    for (var i in json_obj){
+                        if(json_obj[i].zipcode!=null) {
+                            $("#cuZipcode").val(json_obj[i].zipcode);
+                        }
+                    }
+                }
+            });
+        }
+        function saveCust(){
+            //alert('aaaaa');
+            $.ajax({ 
+                type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', 
+                data: { 'cust_id': $("#cuId").val()
+                    ,'cust_code': $("#cuCode").val()
+                    ,'cust_name_t': $("#cuNameT").val()
+                    ,'cust_address_t': $("#cuAddress").val()
+                    ,'tele': $("#cuTele").val()
+                    ,'email': $("#cuEmail").val()
+                    ,'tax_id': $("#cuTaxId").val()
+                    ,'prov_id': $("#cuProv").val()
+                    ,'amphur_id': $("#cuAmphur").val()
+                    ,'district_id': $("#cuDistrict").val()
+                    ,'zipcode': $("#cuZipcode").val()
+                    ,'flagPage': "customer" }, 
+                success: function (data) {
+                    alert('bbbbb'+data);
+                    var json_obj = $.parseJSON(data);
+                    for (var i in json_obj){
+                        alert("aaaa "+json_obj[i].success);
+                    }
+//                    alert('bbbbb '+json_obj.length);
+//                    alert('ccccc '+$("#cDistrict").val());
+                    //$("#cZipcode").val("aaaa");
+                }
+            });
+        }
 
 </script>

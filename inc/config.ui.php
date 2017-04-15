@@ -599,42 +599,46 @@ ex:
 //);
 $page_nav = array(
     "stock" => array(
-		"title" => "Stock At-Healthcare",
-		"icon" => "fa-home",
-		"sub" => array(
-			"recStock" => array(
-				"title" => "รับสินค้าเข้า",
-				"url" => "ajax/dashboard.php"
-			),
-			"drawStock" => array(
-				"title" => "เบิกตัดจ่ายสินค้า",
-				"url" => "ajax/dashboard-social.php"
-			),
-			"goods" => array(
-				"title" => "รายการสินค้าทั้งหมด",
-				"url" => "goodsView.php"
-			)
-		)
-	),
+        "title" => "Stock At-Healthcare",
+        "icon" => "fa-home",
+        "sub" => array(
+            "recStock" => array(
+                "title" => "รับสินค้าเข้า",
+                "url" => "ajax/dashboard.php"
+            ),
+            "drawStock" => array(
+                "title" => "เบิกตัดจ่ายสินค้า",
+                "url" => "ajax/dashboard-social.php"
+            ),
+            "goods" => array(
+                "title" => "รายการสินค้าทั้งหมด",
+                "url" => "goodsView.php"
+            )
+        )
+    ),
     "company" => array(
-		"title" => "บริษัท",
-		"icon" => "fa-table",
-		"sub" => array(
-			"comp" => array(
-				"title" => "รายละเอียดบริษัท",
-				"url" => "company.php"
-			),
-			"cust" => array(
-				"title" => "ข้อมูลลูกค้า",
-				"url" => "customerView.php",
-				"label_htm" => ' <span class="badge inbox-badge bg-color-greenLight">responsive</span>'
-			),
-			"vend" => array(
-				"title" => "ผู้จัดจำหน่าย",
-				"url" => "vendorView.php"
-			)
-		)
-	),
+        "title" => "บริษัท",
+        "icon" => "fa-table",
+        "sub" => array(
+            "comp" => array(
+                "title" => "รายละเอียดบริษัท",
+                "url" => "company.php"
+            ),
+            "branch" => array(
+                "title" => "สาขา",
+                "url" => "compBranchView.php"
+            ),
+            "cust" => array(
+                "title" => "ข้อมูลลูกค้า",
+                "url" => "customerView.php",
+                "label_htm" => ' <span class="badge inbox-badge bg-color-greenLight">responsive</span>'
+            ),
+            "vend" => array(
+                "title" => "ผู้จัดจำหน่าย",
+                "url" => "vendorView.php"
+            )
+        )
+    ),
 );
 //configuration variables
 $page_title = "";

@@ -121,14 +121,15 @@ mysqli_close($conn);
                                 <section >
                                     <label class="label">ประเภทบริษัท</label>
                                     <label class="select">
-                                        <select name="compType">
+                                        <select name="compType" id="compType">
                                                 <?php echo $oComp;?>
                                         </select> <i></i> </label>
                                 </section>
                                 <section >
                                     <label class="label">ชื่อบริษัท</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="compNameT" id="compNameT" placeholder="ชื่อบริษัท" value="<?php echo $aComp["comp_name_t"]?>"><input type="hidden" name="compId" id="compId" value="<?php echo $compId;?>">
+                                        <input type="text" name="compNameT" id="compNameT" placeholder="ชื่อบริษัท" value="<?php echo $aComp["comp_name_t"]?>">
+                                        <input type="hidden" name="compId" id="compId" value="<?php echo $compId;?>">
                                         <input type="hidden" name="compCode" id="compCode" value="100">
                                             <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
@@ -136,7 +137,7 @@ mysqli_close($conn);
                                 <section >
                                     <label class="label">ที่อยู่</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="text" name="compAddress", id="compAddress" placeholder="ที่อยู่ บ้านเลขที่ ซอย ถนน" value="<?php echo $aComp["comp_address_t"]?>">
+                                        <input type="text" name="compAddress" id="compAddress" placeholder="ที่อยู่ บ้านเลขที่ ซอย ถนน" value="<?php echo $aComp["comp_address_t"]?>">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
                                 
@@ -430,7 +431,7 @@ mysqli_close($conn);
                     ,'comp_address_t': $("#compAddress").val()
                     ,'tele': $("#tele").val()
                     ,'email': $("#email").val()
-                    ,'taxid': $("#taxid").val()
+                    ,'tax_id': $("#taxid").val()
                     ,'prov_id': $("#cProv").val()
                     ,'amphur_id': $("#cAmphur").val()
                     ,'district_id': $("#cDistrict").val()
