@@ -16,7 +16,7 @@ if ($rComp=mysqli_query($conn,$sql)){
     $cuId = $aCust["cust_id"];
     $cuCode = strval($aCust["cust_code"]);
     $cuNameT = strval($aCust["cust_name_t"]);
-    $cuAddress = strval($aCust["cust_address"]);
+    $cuAddress = strval($aCust["cust_address_t"]);
     $cuTele = strval($aCust["tele"]);
     $cuEmail = strval($aCust["email"]);
     $cuTaxId = strval($aCust["tax_id"]);
@@ -127,7 +127,7 @@ mysqli_close($conn);
                                 <section >
                                     <label class="label">ที่อยู่</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="text" name="cuAddress" id="cuAddress" placeholder="ที่อยู่ บ้านเลขที่ ซอย ถนน">
+                                            <input type="text" name="cuAddress" id="cuAddress" value="<?php echo $cuAddress;?>" placeholder="ที่อยู่ บ้านเลขที่ ซอย ถนน">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
                                 
@@ -158,7 +158,7 @@ mysqli_close($conn);
                                 <section>
                                     <label class="label">รหัสไปรษณีย์</label>
                                     <label class="input"> <i class="icon-append fa fa-lock"></i>
-                                        <input type="text" name="cuZipcode" id="cuZipcode" placeholder="รหัสไปรษณีย์" id="zipcode">
+                                        <input type="text" name="cuZipcode" id="cuZipcode" placeholder="รหัสไปรษณีย์">
                                         <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
                                 </section>
 

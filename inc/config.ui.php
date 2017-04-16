@@ -634,9 +634,52 @@ $page_nav = array(
                 "label_htm" => ' <span class="badge inbox-badge bg-color-greenLight">responsive</span>'
             ),
             "vend" => array(
-                "title" => "ผู้จัดจำหน่าย",
-                "url" => "vendorView.php"
+                "title" => "Vendor",
+                "url" => "#vendorView.php"
+            ),
+            "type" => array(
+                "title" => "ประเภทสินค้า",
+                "url" => "#goodsTypeView.php"
+            ),
+            "catagory" => array(
+                "title" => "ชนิดสินค้า",
+                "url" => "#goodsCatView.php"
+            ),
+            "diameter" => array(
+                "title" => "Diameter",
+                "url" => "#diameterView.php"
+            ),
+            "length" => array(
+                "title" => "Length",
+                "url" => "#lengthView.php"
+            ),
+            "unit" => array(
+                "title" => "Unit",
+                "url" => "#unitView.php"
             )
+//            "tables" => array(
+//		"title" => "Tables",
+//		"icon" => "fa-table",
+//		"sub" => array(
+//			"normal" => array(
+//				"title" => "Normal Tables",
+//				"url" => "ajax/table.php"
+//			),
+//			"data" => array(
+//				"title" => "Data Tables",
+//				"url" => "ajax/datatables.php",
+//				"label_htm" => ' <span class="badge inbox-badge bg-color-greenLight">responsive</span>'
+//			),
+//			"jqgrid" => array(
+//				"title" => "Jquery Grid",
+//				"url" => "ajax/jqgrid.php"
+//			)
+//		)
+//            ),
+//            "grid" => array(
+//                "title" => "Grid",
+//                "url" => "ajax/grid.php"
+//            )
         )
     ),
 );

@@ -3,14 +3,12 @@
 $trCust="";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
-$sql="Select g.*, gt.goods_type_name, gc.goods_cat_name From b_goods g Left Join b_goods_type gt On g.goods_type_id = gt.goods_type_id "
-        ."Left Join b_goods_catagory gc On g.goods_cat_id = gc.goods_cat_id "
-        ."Where g.active = '1' ";
+$sql="Select * From b_unit Where active = '1' ";
 $result = mysqli_query($conn,$sql);
 if($result){
     while($row = mysqli_fetch_array($result)){
-        $brName="<a href='#goodsAdd.php?goodsId=".$row["goods_id"]."'>".$row["goods_name"]."</a>";
-    $trCust .= "<tr><td>".$_GET["goods_code"]."</td><td>".$_GET["goods_code_ex"]."</td><td>".$brName."</td><td>".$row["goods_type_name"]."</td><td>".$row["goods_cat_name"]."</td>";
+        $brName="<a href='#unitAdd.php?unitId=".$row["unit_id"]."'>".$row["unit_name"]."</a>";
+        $trCust .= "<tr><td>".$brName."</td>";
     }
 }
 $result->free();
@@ -93,11 +91,7 @@ mysqli_close($conn);
                                 <table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
                                     <thead>
                                         <tr>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>รหัสสินค้า</th>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> รหัสสินค้า ex</th>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> ชื่อสินค้า</th>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> ประเภทสินค้า</th>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> ชนิดสินค้า</th>
+                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> หน่วยสินค้า</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -111,8 +105,8 @@ mysqli_close($conn);
                     </div>
 			<!-- end widget -->
                     <footer>
-                        <button type="button" class="btn btn-primary" id="btnGoodsAdd">
-                                    เพิ่ม สินค้า
+                        <button type="button" class="btn btn-primary" id="btnUnitAdd">
+                                    เพิ่ม หน่วยสินค้า
                         </button>
                     </footer>
 		</article>
@@ -343,10 +337,10 @@ mysqli_close($conn);
 			});
 		});
 	});
-        $("#btnGoodsAdd").click(showGoodsAdd);
-        function showGoodsAdd(){
+        $("#btnUnitAdd").click(showUnitAdd);
+        function showUnitAdd(){
             //alert("aaaa");
-            window.location.assign('#goodsAdd.php?goodsId="-"');
+            window.location.assign('#unitAdd.php');
         }
 
 </script>

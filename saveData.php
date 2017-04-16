@@ -91,6 +91,77 @@ if($_GET["flagPage"] === "company"){
                 .", date_modi = now() "
                 ."Where cust_id = '".$cust_id."'";
     }
+}else if($_GET["flagPage"] === "vendor"){
+    $vend_id=$_GET["vend_id"];
+    $vend_code=$_GET["vend_code"];
+    $vend_name_t=$_GET["vend_name_t"];
+    $vend_address_t=$_GET["vend_address_t"];
+    $tele=$_GET["tele"];
+    $email=$_GET["email"];
+    $tax_id=$_GET["tax_id"];
+    $prov_id=$_GET["prov_id"];
+    $amphur_id=$_GET["amphur_id"];
+    $district_id=$_GET["district_id"];
+    $zipcode=$_GET["zipcode"];
+    if(($_GET["vend_id"]==="-")|| ($_GET["vend_id"]==="")){
+        $sql="Insert Into b_vendor(vend_id, vend_code, vend_name_t, vend_address_t, tele, email, tax_id, active, date_create) "
+                ."Values(UUID(),'".$vend_code."','".$vend_name_t."','".$vend_address_t."','".$tele."','".$email."','".$tax_id."','1',now())";
+    }else{
+        $sql="Update b_customer "
+                ."Set vend_code = '".$vend_code."' "
+                .", vend_name_t = '".$vend_name_t."' "
+                .", vend_address_t = '".$vend_address_t."' "
+                .", tele = '".$tele."' "
+                .", email = '".$email."' "
+                .", tax_id = '".$tax_id."' "
+                .", prov_id = '".$prov_id."' "
+                .", amphur_id = '".$amphur_id."' "
+                .", district_id = '".$district_id."' "
+                .", zipcode = '".$zipcode."' "
+                .", date_modi = now() "
+                ."Where vend_id = '".$vend_id."'";
+    }
+}else if($_GET["flagPage"] === "goodsType"){
+    $goods_type_id=$_GET["goods_type_id"];
+
+    $goods_type_name=$_GET["goods_type_name"];
+
+    if(($_GET["goods_type_id"]==="-")|| ($_GET["goods_type_id"]==="")){
+        $sql="Insert Into b_goods_type(goods_type_id, goods_type_name, active, date_create) "
+                ."Values(UUID(),'".$goods_type_name."','1',now())";
+    }else{
+        $sql="Update b_goods_type "
+                ."Set  "
+                ." goods_type_name = '".$goods_type_name."' "                
+                .", date_modi = now() "
+                ."Where goods_type_id = '".$goods_type_id."'";
+    }
+}else if($_GET["flagPage"] === "goodsCatagory"){
+    $goods_cat_id=$_GET["goods_cat_id"];
+    $goods_cat_name=$_GET["goods_cat_name"];
+    if(($_GET["goods_cat_id"]==="-")|| ($_GET["goods_cat_id"]==="")){
+        $sql="Insert Into b_goods_catagory(goods_cat_id, goods_cat_name, active, date_create) "
+                ."Values(UUID(),'".$goods_cat_name."','1',now())";
+    }else{
+        $sql="Update b_goods_catagory "
+                ."Set  "
+                ." goods_cat_name = '".$goods_cat_name."' "                
+                .", date_modi = now() "
+                ."Where goods_cat_id = '".$goods_cat_id."'";
+    }
+}else if($_GET["flagPage"] === "unit"){
+    $unit_id=$_GET["unit_id"];
+    $unit_name=$_GET["unit_name"];
+    if(($_GET["unit_id"]==="-")|| ($_GET["unit_id"]==="")){
+        $sql="Insert Into b_unit(unit_id, unit_name, active, date_create) "
+                ."Values(UUID(),'".$unit_name."','1',now())";
+    }else{
+        $sql="Update b_unit "
+                ."Set  "
+                ." unit_name = '".$unit_name."' "                
+                .", date_modi = now() "
+                ."Where unit_id = '".$unit_id."'";
+    }
 }
 $response = array();
 $resultArray = array();
