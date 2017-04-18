@@ -5,7 +5,20 @@ $compId="-";
 if(isset($_GET["compId"])){
     $compId = $_GET["compId"];
 }
+//$databaseName="at_healthcare";
+//$userDB="root";
+//$passDB="";
+//
+//$userDB="athealtcare";
+//$passDB="Srb!g302";
+//
+//$hostDB="mysql-5.5.chaiyohosting.com";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
+if(!$conn){
+    echo mysqli_error();
+    echo "<script>alert(".mysql_error().");</script>";
+    return;
+}
 mysqli_set_charset($conn, "UTF8");
 $sql="Select * From b_company  ";
 //echo "<script> alert('aaaaa'); </script>";

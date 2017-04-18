@@ -1,15 +1,15 @@
 <?php
-
+require_once("inc/init.php");
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 //$objConnect = mysql_connect("http://tossakan.com",'tossakan_payroll','payroll');
-$databaseName="at_healthcare";
-$userDB="root";
-$passDB="";
-$hostDB="localhost";
+//$databaseName="at_healthcare";
+//$userDB="root";
+//$passDB="";
+//$hostDB="localhost";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
 

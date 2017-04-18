@@ -1,14 +1,16 @@
 <?php require_once("inc/init.php"); ?>
 <?php
 //echo $userDB;
-$gCatId="-";
+//$gCatId="-";
 $gcId="";
 if(isset($_GET["goodsCatId"])){
-    $gCatId = $_GET["goodsCatId"];
+    $gcId = $_GET["goodsCatId"];
+}else{
+    $gcId="";
 }
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
-$sql="Select * From b_goods_catagory Where goods_cat_id = '".$gCatId."' ";
+$sql="Select * From b_goods_catagory Where goods_cat_id = '".$gcId."' ";
 //echo "<script> alert('aaaaa'); </script>";
 //$rComp = mysqli_query($conn,"Select * From b_company Where comp_id = '1' ");
 if ($rComp=mysqli_query($conn,$sql)){
@@ -20,8 +22,6 @@ if ($rComp=mysqli_query($conn,$sql)){
 //    $cuTele = strval($aCust["tele"]);
 //    $cuEmail = strval($aCust["email"]);
 //    $cuTaxId = strval($aCust["tax_id"]);
-}else{
-    $gcId = $gCatId;
 }
 
 mysqli_close($conn);

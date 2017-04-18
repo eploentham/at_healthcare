@@ -1,15 +1,24 @@
 <?php require_once("inc/init.php"); ?>
 <?php
-$trBranch="";
+$trCust="";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
-$sql="Select * From b_branch Where active = '1' Order By branch_code ";
+$sql="Select rec.*, ifnull(comp.comp_name_t,'') as comp_name_t, ifnull(vend.vend_name_t,'') as vend_name_t, ifnull(br.branch_name,'') as branch_name_t "
+        ."From t_goods_rec rec "
+        ."Left Join t_goods_rec_detail recd On rec.rec_id = recd.rec_id "
+        ."Left Join b_company comp On comp.comp_id = rec.comp_id "
+        ."Left Join b_vendor vend On vend.vend_id = rec.vend_id "
+        ."Left Join b_branch br On br.branch_id = rec.branch_id "
+        ."Where rec.active = '1' ";
 $result = mysqli_query($conn,$sql);
 if($result){
     while($row = mysqli_fetch_array($result)){
-        $brName="<a href='#compBranchAdd.php?branchId=".$row["branch_id"]."'>".$row["branch_name"]."</>";
-        $trBranch .= "<tr><td>".$row["branch_code"]."</td><td>".$brName."</td><td>".$row["branch_address"]."</td><td>".$row["tele"]."</td>";
+        $brName="<a href='#goodsRecAdd.php?recId=".$row["rec_id"]."'>".$row["description"]."</a>";
+        $trCust .= "<tr><td>".$row["rec_doc"]."</td><td>".$row["inv_ex"]."</td><td>".$brName."</td><td>"
+                .$row["rec_date"]."</td><td>".$row["inv_ex_date"]."</td><td>".$row["comp_name_t"]."</td><td>".$row["vend_name_t"]."</td><td>".$row["branch_name"]."</td>";
     }
+}else{
+    echo mysqli_error($conn);
 }
 $result->free();
 mysqli_close($conn);
@@ -17,35 +26,35 @@ mysqli_close($conn);
 ?>
 <div class="row">
 	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-            <h1 class="page-title txt-color-blueDark">
-                <i class="fa fa-table fa-fw "></i> 
-                        Table 
-                <span>> 
-                        Data Tables
-                </span>
-            </h1>
+		<h1 class="page-title txt-color-blueDark">
+			<i class="fa fa-table fa-fw "></i> 
+				Table 
+			<span>> 
+				Data Tables
+			</span>
+		</h1>
 	</div>
 	<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
-            <ul id="sparks" class="">
-                <li class="sparks-info">
-                    <h5> My Income <span class="txt-color-blue">$47,171</span></h5>
-                    <div class="sparkline txt-color-blue hidden-mobile hidden-md hidden-sm">
-                            1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471
-                    </div>
-                </li>
-                <li class="sparks-info">
-                    <h5> Site Traffic <span class="txt-color-purple"><i class="fa fa-arrow-circle-up" data-rel="bootstrap-tooltip" title="Increased"></i>&nbsp;45%</span></h5>
-                    <div class="sparkline txt-color-purple hidden-mobile hidden-md hidden-sm">
-                            110,150,300,130,400,240,220,310,220,300, 270, 210
-                    </div>
-                </li>
-                <li class="sparks-info">
-                    <h5> Site Orders <span class="txt-color-greenDark"><i class="fa fa-shopping-cart"></i>&nbsp;2447</span></h5>
-                    <div class="sparkline txt-color-greenDark hidden-mobile hidden-md hidden-sm">
-                            110,150,300,130,400,240,220,310,220,300, 270, 210
-                    </div>
-                </li>
-            </ul>
+		<ul id="sparks" class="">
+			<li class="sparks-info">
+				<h5> My Income <span class="txt-color-blue">$47,171</span></h5>
+				<div class="sparkline txt-color-blue hidden-mobile hidden-md hidden-sm">
+					1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471
+				</div>
+			</li>
+			<li class="sparks-info">
+				<h5> Site Traffic <span class="txt-color-purple"><i class="fa fa-arrow-circle-up" data-rel="bootstrap-tooltip" title="Increased"></i>&nbsp;45%</span></h5>
+				<div class="sparkline txt-color-purple hidden-mobile hidden-md hidden-sm">
+					110,150,300,130,400,240,220,310,220,300, 270, 210
+				</div>
+			</li>
+			<li class="sparks-info">
+				<h5> Site Orders <span class="txt-color-greenDark"><i class="fa fa-shopping-cart"></i>&nbsp;2447</span></h5>
+				<div class="sparkline txt-color-greenDark hidden-mobile hidden-md hidden-sm">
+					110,150,300,130,400,240,220,310,220,300, 270, 210
+				</div>
+			</li>
+		</ul>
 	</div>
 </div>
 
@@ -89,17 +98,17 @@ mysqli_close($conn);
                             <!-- widget content -->
                             <div class="widget-body no-padding">
                                 <table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
-                                    <thead>			                
-                                            <tr>
-                                                    <th data-hide="phone">CODE</th>
-                                                    <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> สาขา</th>
-                                                    <th data-hide="phone"><i class="fa fa-fw fa-phone text-muted hidden-md hidden-sm hidden-xs"></i> เบอรฺ์ติดต่อ</th>                                                    
-                                                    <th data-hide="phone,tablet"><i class="fa fa-fw fa-map-marker txt-color-blue hidden-md hidden-sm hidden-xs"></i> ที่อยู่</th>                                                    
-                                                    <!--<th data-hide="phone,tablet"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Date</th>-->
-                                            </tr>
+                                    <thead>
+                                        <tr>
+                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>รหัสสินค้า</th>
+                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> รหัสสินค้า ex</th>
+                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> ชื่อสินค้า</th>
+                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> ประเภทสินค้า</th>
+                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> ชนิดสินค้า</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                            <?php echo $trBranch;?>
+                                            <?php echo $trCust;?>
                                     </tbody>
                                 </table>
                             </div>
@@ -109,8 +118,8 @@ mysqli_close($conn);
                     </div>
 			<!-- end widget -->
                     <footer>
-                        <button type="button" class="btn btn-primary" id="btnBranchAdd">
-                                    เพิ่มสาขา
+                        <button type="button" class="btn btn-primary" id="btnGoodsRecAdd">
+                                    รับเข้าสินค้า
                         </button>
                     </footer>
 		</article>
@@ -341,10 +350,10 @@ mysqli_close($conn);
 			});
 		});
 	});
-        $("#btnBranchAdd").click(showBranchAdd);
-        function showBranchAdd(){
+        $("#btnGoodsRecAdd").click(showGoodsRecAdd);
+        function showGoodsRecAdd(){
             //alert("aaaa");
-            window.location.assign('#compBranchAdd.php');
+            window.location.assign("#goodsRecAdd.php");
         }
 
 </script>

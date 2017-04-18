@@ -3,15 +3,17 @@
 $trCust="";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
-$sql="Select g.*, gt.goods_type_name, gc.goods_cat_name From b_goods g Left Join b_goods_type gt On g.goods_type_id = gt.goods_type_id "
+$sql="Select g.*, ifnull(gt.goods_type_name,'') as goods_type_name, ifnull(gc.goods_cat_name,'') as goods_cat_name From b_goods g Left Join b_goods_type gt On g.goods_type_id = gt.goods_type_id "
         ."Left Join b_goods_catagory gc On g.goods_cat_id = gc.goods_cat_id "
         ."Where g.active = '1' ";
 $result = mysqli_query($conn,$sql);
 if($result){
     while($row = mysqli_fetch_array($result)){
         $brName="<a href='#goodsAdd.php?goodsId=".$row["goods_id"]."'>".$row["goods_name"]."</a>";
-    $trCust .= "<tr><td>".$_GET["goods_code"]."</td><td>".$_GET["goods_code_ex"]."</td><td>".$brName."</td><td>".$row["goods_type_name"]."</td><td>".$row["goods_cat_name"]."</td>";
+        $trCust .= "<tr><td>".$row["goods_code"]."</td><td>".$row["goods_code_ex"]."</td><td>".$brName."</td><td>".$row["goods_type_name"]."</td><td>".$row["goods_cat_name"]."</td>";
     }
+}else{
+    echo mysqli_error($conn);
 }
 $result->free();
 mysqli_close($conn);
@@ -346,7 +348,7 @@ mysqli_close($conn);
         $("#btnGoodsAdd").click(showGoodsAdd);
         function showGoodsAdd(){
             //alert("aaaa");
-            window.location.assign('#goodsAdd.php?goodsId="-"');
+            window.location.assign("#goodsAdd.php");
         }
 
 </script>

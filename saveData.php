@@ -1,15 +1,15 @@
 <?php
-
+require_once("inc/init.php");
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-$databaseName="at_healthcare";
-$userDB="root";
-$passDB="";
-$hostDB="localhost";
+//$databaseName="at_healthcare";
+//$userDB="root";
+//$passDB="";
+//$hostDB="localhost";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
 $sql="";
@@ -107,7 +107,7 @@ if($_GET["flagPage"] === "company"){
         $sql="Insert Into b_vendor(vend_id, vend_code, vend_name_t, vend_address_t, tele, email, tax_id, active, date_create) "
                 ."Values(UUID(),'".$vend_code."','".$vend_name_t."','".$vend_address_t."','".$tele."','".$email."','".$tax_id."','1',now())";
     }else{
-        $sql="Update b_customer "
+        $sql="Update b_vendor "
                 ."Set vend_code = '".$vend_code."' "
                 .", vend_name_t = '".$vend_name_t."' "
                 .", vend_address_t = '".$vend_address_t."' "
@@ -161,6 +161,43 @@ if($_GET["flagPage"] === "company"){
                 ." unit_name = '".$unit_name."' "                
                 .", date_modi = now() "
                 ."Where unit_id = '".$unit_id."'";
+    }
+}else if($_GET["flagPage"] === "goods"){
+    $goods_id=$_GET["goods_id"];
+    $goods_name=$_GET["goods_name"];
+    $goods_name_ex=$_GET["goods_name_ex"];
+    $goods_code=$_GET["goods_code"];
+    $goods_type_id= $_GET["goods_type_id"];
+    $goods_cat_id= $_GET["goods_cat_id"];
+    $price=$_GET["price"];
+    $cost=$_GET["cost"];
+    $holes=$_GET["holes"];
+    $side=$_GET["side"];
+    $dia_meter=$_GET["dia_meter"];
+    $length=$_GET["length"];
+    $unit_id=$_GET["unit_id"];
+    if(($_GET["goods_id"]==="-")|| ($_GET["goods_id"]==="")){
+        $sql="Insert Into b_goods(goods_id, goods_code, goods_name, goods_name_ex, "
+                ."price, cost, holes, side, dia_meter, length, unit_id, goods_type_id, goods_cat_id, active, date_create) "
+                ."Values(UUID(),'".$goods_code."','".$goods_name."','".$goods_name_ex."','"
+                .$price."','".$cost."','".$holes."','".$side."','".$dia_meter."','".$length."','".$unit_id."','".$goods_type_id."','".$goods_cat_id."','1',now())";
+    }else{
+        $sql="Update b_goods "
+                ."Set  "
+                ." goods_code = '".$goods_code."' "
+                .", goods_name = '".$goods_name."' "
+                .", goods_name_ex = '".$goods_name_ex."' "
+                .", goods_type_id = '".$goods_type_id."' "
+                .", goods_cat_id = '".$goods_cat_id."' "
+                .", price = '".$price."' "
+                .", cost = '".$cost."' "
+                .", holes = '".$holes."' "
+                .", side = '".$side."' "
+                .", dia_meter = '".$dia_meter."' "
+                .", length = '".$length."' "
+                .", unit_id = '".$unit_id."' "
+                .", date_modi = now() "
+                ."Where goods_id = '".$goods_id."'";
     }
 }
 $response = array();

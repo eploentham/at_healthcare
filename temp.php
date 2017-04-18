@@ -1,35 +1,78 @@
 <?php require_once("inc/init.php"); ?>
 <?php
 //echo $userDB;
-$veId="";
-$veCode="";
-if(isset($_GET["vendId"])){
-    $veId = $_GET["vendId"];
-}else{
-    $veId="";
+$goodsId="-";
+$goCode="";
+$oUnit="";
+$oCat="";
+$oType="";
+if(isset($_GET["goodsId"])){
+    $goodsId = $_GET["goodsId"];
 }
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
-$sql="Select * From b_vendor Where vend_id = '".$veId."' ";
+$sql="Select * From b_goods Where goods_id = '".$goodsId."' ";
 //echo "<script> alert('aaaaa'); </script>";
 //$rComp = mysqli_query($conn,"Select * From b_company Where comp_id = '1' ");
 if ($rComp=mysqli_query($conn,$sql)){
-    $aVend = mysqli_fetch_array($rComp);
-    $veId = $aVend["cust_id"];
-    $veCode = strval($aVend["vend_code"]);
-    $veNameT = strval($aVend["vend_name_t"]);
-    $veAddress = strval($aVend["vend_address_t"]);
-    $veTele = strval($aVend["tele"]);
-    $veEmail = strval($aVend["email"]);
-    $veTaxId = strval($aVend["tax_id"]);
+    $aGoods = mysqli_fetch_array($rComp);
+    $goId = $aGoods["goods_id"];
+    $goCode = strval($aGoods["goods_code"]);
+    $goCodeEx = strval($aGoods["goods_code_ex"]);
+    $goName = strval($aGoods["goods_name"]);
+    $goNameEx = strval($aGoods["goods_name_ex"]);
+    $goCost = strval($aGoods["cost"]);
+    $goPrice = strval($aGoods["price"]);
+    $goTypeId = strval($aGoods["goods_type_id"]);
+    $goCatId = strval($aGoods["goods_cat_id"]);
+    $goUnit = strval($aGoods["unit_id"]);
+}else{
+    $goId = $goodsId;
 }
-
+$sql="Select * From b_goods_type Order By goods_type_name";
+//$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
+if ($result=mysqli_query($conn,$sql)){
+    //$oType = "<option value='0' selected='' disabled=''>เลือกจังหวัด</option>";
+    while($row = mysqli_fetch_array($result)){
+        if($goTypeId===$row["goods_type_id"]){
+            $oType .= '<option selected value='.$row["goods_type_id"].'>'.$row["goods_type_name"].'</option>';
+        }else{
+            $oType .= '<option value='.$row["goods_type_id"].'>'.$row["goods_type_name"].'</option>';
+        }
+        
+    }
+}
+$sql="Select * From b_goods_catagory Order By goods_cat_name";
+//$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
+if ($result=mysqli_query($conn,$sql)){
+    //$oType = "<option value='0' selected='' disabled=''>เลือกจังหวัด</option>";
+    while($row = mysqli_fetch_array($result)){
+        if($goCatId===$row["goods_cat_id"]){
+            $oCat .= '<option selected value='.$row["goods_cat_id"].'>'.$row["goods_cat_name"].'</option>';
+        }else{
+            $oCat .= '<option value='.$row["goods_cat_id"].'>'.$row["goods_cat_name"].'</option>';
+        }
+        
+    }
+}
+$sql="Select * From b_unit Order By unit_code";
+//$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
+if ($result=mysqli_query($conn,$sql)){
+    //$oType = "<option value='0' selected='' disabled=''>เลือกจังหวัด</option>";
+    while($row = mysqli_fetch_array($result)){
+        if($goUnit===$row["unit_id"]){
+            $oUnit .= '<option selected value='.$row["unit_id"].'>'.$row["unit_name"].'</option>';
+        }else{
+            $oUnit .= '<option value='.$row["unit_id"].'>'.$row["unit_name"].'</option>';
+        }
+        
+    }
+}
 mysqli_close($conn);
 ?>
 <div class="row">
 	<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-		<h1 class="page-title txt-color-blueDark">
-			
+		<h1 class="page-title txt-color-blueDark">			
 			<!-- PAGE HEADER -->
 			<i class="fa-fw fa fa-pencil-square-o"></i> 
 				Forms
@@ -39,8 +82,7 @@ mysqli_close($conn);
 		</h1>
 	</div>
 	
-	<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-		
+	<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">		
 		<!-- Button trigger modal -->
 		<a href="ajax/modal-content/model-content-2.html" data-toggle="modal" data-target="#remoteModal" class="btn btn-success btn-lg pull-right header-btn hidden-mobile">
 			<i class="fa fa-circle-arrow-up fa-lg"></i> 
@@ -53,8 +95,7 @@ mysqli_close($conn);
 				<div class="modal-content"></div>
 			</div>
 		</div>
-		<!-- END MODAL -->
-		
+		<!-- END MODAL -->		
 	</div>
 </div>
 
@@ -89,96 +130,91 @@ mysqli_close($conn);
                 -->
                 <header>
                     <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-                    <h2>รายละเอียด ลูกค้า </h2>				
-
+                    <h2>รายละเอียด สินค้า </h2>				
                 </header>
 
                 <!-- widget div-->
                 <div>
-
                         <!-- widget edit box -->
                     <div class="jarviswidget-editbox">
                             <!-- This area used as dropdown edit box -->
                     </div>
                     <!-- end widget edit box -->
-
                     <!-- widget content -->
                     <div class="widget-body no-padding">
-
-                        <form action="" id="smart-form-register" class="smart-form">
-                            
+                        <form action="" id="smart-form-register" class="smart-form">                            
                             <fieldset>
                                 <section>
-                                    <label class="label">ประเภทลูกค้า</label>
+                                    <label class="label">ประเภทสินค้า</label>
                                     <label class="select">
-                                        <select name="vendType" id="vendType">
-                                            <?php echo $oComp;?>
+                                        <select name="goType" id="goType">
+                                            <?php echo $oType;?>
                                         </select> <i></i> </label>
                                 </section>
                                 <section>
-                                    <label class="label">ชื่อVendor</label>
+                                    <label class="label">ชนิดสินค้า</label>
+                                    <label class="select">
+                                        <select name="goCat" id="goCat">
+                                            <?php echo $oCat;?>
+                                        </select> <i></i> </label>
+                                </section>
+                                <section>
+                                    <label class="label">ชื่อ สินค้า</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="veNameT" id="veNameT" value="<?php echo $veNameT;?>" placeholder="ชื่อVendor">
-                                        <input type="hidden" name="veId" id="veId" value="<?php echo $veId;?>">
-                                        <input type="hidden" name="veCode" id="veCode" value="<?php echo $veCode;?>">
+                                        <input type="text" name="goName" id="goName" value="<?php echo $goName;?>" placeholder="ชื่อ สินค้า">
+                                        <input type="hidden" name="goId" id="goId" value="<?php echo $goId;?>">
+                                        <input type="hidden" name="goCode" id="goCode" value="<?php echo $goCode;?>">
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
 
                                 <section >
-                                    <label class="label">ที่อยู่</label>
+                                    <label class="label">ราคาซื้อ</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="text" name="veAddress" id="veAddress" value="<?php echo $veAddress;?>" placeholder="ที่อยู่ บ้านเลขที่ ซอย ถนน">
+                                            <input type="text" name="goCost" id="goCost" value="<?php echo $goCost;?>" placeholder="ราคาซื้อ">
+                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                </section >
+                                <section >
+                                    <label class="label">ราคาขาย</label>
+                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="text" name="goPrice" id="goPrice" value="<?php echo $goPrice;?>" placeholder="ราคาขาย">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
                                 
                                 <section >
-                                    <label class="label">ตำบล</label>
+                                    <label class="label">Holes</label>
+                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="text" name="goCost" id="goCost" value="<?php echo $goCost;?>" placeholder="Holes">
+                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                </section >
+                                
+                                <section >
+                                    <label class="label">Side</label>
+                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="text" name="goCost" id="goCost" value="<?php echo $goCost;?>" placeholder="Side">
+                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                </section >
+
+                                <section >
+                                    <label class="label">Diameter</label>
+                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="text" name="goCost" id="goCost" value="<?php echo $goCost;?>" placeholder="Diameter">
+                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                </section >
+
+                                <section >
+                                    <label class="label">Length</label>
+                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="text" name="goCost" id="goCost" value="<?php echo $goCost;?>" placeholder="Length">
+                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                </section >
+                                <section>
+                                    <label class="label">Unit</label>
                                     <label class="select">
-                                        <select name="veDistrict" id="veDistrict">
-                                            <?php echo $oComp;?>
+                                        <select name="caType" id="caType">
+                                            <?php echo $oUnit;?>
                                         </select> <i></i> </label>
                                 </section>
                                 
-                                <section >
-                                    <label class="label">อำเภอ</label>
-                                    <label class="select">
-                                        <select name="veAmphur" id="veAmphur">
-                                            <?php echo $oComp;?>
-                                        </select> <i></i> </label>
-                                </section>
-                                
-                                <section >
-                                    <label class="label">จังหวัด</label>
-                                    <label class="select">
-                                        <select name="veProv" id="veProv">
-                                            <?php echo $oProv;?>
-                                        </select> <i></i> </label>
-                                </section>
-
-                                <section>
-                                    <label class="label">รหัสไปรษณีย์</label>
-                                    <label class="input"> <i class="icon-append fa fa-lock"></i>
-                                        <input type="text" name="veZipcode" id="veZipcode" placeholder="รหัสไปรษณีย์">
-                                        <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
-                                </section>
-
-                                <section>
-                                    <label class="label">โทรศัพท์</label>
-                                    <label class="input"> <i class="icon-prepend fa fa-phone"></i>
-                                        <input type="tel" name="veTele" id="veTele" placeholder="Phone" data-mask="(999) 999-9999" value="<?php echo $veTele;?>"></label>
-                                </section>
-                                <section >
-                                    <label class="label">Email</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="email" name="veEmail" id="veEmail" placeholder="Email" value="<?php echo $veEmail;?>">
-                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section >
-                                <section >
-                                    <label class="label">เลขที่ผู้เสียภาษี</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="text" name="veTaxId" id="veTaxId" placeholder="เลขที่ผู้เสียภาษี" value="<?php echo $veTaxId;?>">
-                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section >
                             </fieldset>
                             
                             <footer>
@@ -342,77 +378,11 @@ mysqli_close($conn);
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
         
-        $("#veProv").change(getAmphur);
-        $("#veAmphur").change(getDistrict);
-        $("#veDistrict").change(getZipcode);
-        $("#btnSave").click(saveVend);
+
+        $("#btnSave").click(saveGoods);
         
-        function getAmphur(){
-            //alert("aaaa");
-            $("#veAmphur").empty();
-            $.ajax({ 
-                type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', data: { 'prov_id': $("#veProv").val(), 'flagPage':"amphur" }, 
-                success: function (data) {
-                    //alert('bbbbb');
-                    var json_obj = $.parseJSON(data);
-                    //alert('bbbbb '+json_obj.length);
-                    toAppend = "<option value='0' selected='' disabled=''>เลือกอำเภอ</option>";
-                    for (var i in json_obj)
-                    {
-                        if(json_obj[i].amphur_name==null) {
-                            //alert('ddddd ');
-                        }
-                        toAppend += '<option value="'+json_obj[i].amphur_id+'">'+json_obj[i].amphur_name+'</option>';
-                        //
-                    }
-                    $("#veAmphur").append(toAppend);
-                    $("#veAmphur").selectpicker('refresh');
-                }
-            });
-        }
-        function getDistrict(){
-            //alert("aaaa"+$("#cAmphur").val());
-            $("#veDistrict").empty();
-            $.ajax({ 
-                type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', data: { 'amphur_id': $("#veAmphur").val(), 'flagPage':"district" }, 
-                success: function (data) {
-                    //alert('bbbbb');
-                    var json_obj = $.parseJSON(data);
-                    //alert('bbbbb '+json_obj.length);
-                    toAppend = "<option value='0' selected='' disabled=''>เลือกตำบล</option>";
-                    for (var i in json_obj)
-                    {
-                        if(json_obj[i].district_name==null) {
-                            //alert('ddddd ');
-                        }
-                        toAppend += '<option value="'+json_obj[i].district_id+'">'+json_obj[i].district_name+'</option>';
-                        //
-                    }
-                    $("#veDistrict").append(toAppend);
-                    $("#veDistrict").selectpicker('refresh');
-                }
-            });
-        }
-        function getZipcode(){
-            //alert("aaaa"+$("#cAmphur").val());
-            //$("#cDistrict").empty();
-            $.ajax({ 
-                type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', data: { 'district_id': $("#veDistrict").val(), 'flagPage':"zipcode" }, 
-                success: function (data) {
-                    //alert('bbbbb');
-                    var json_obj = $.parseJSON(data);
-//                    alert('bbbbb '+json_obj.length);
-//                    alert('ccccc '+$("#cDistrict").val());
-                    //$("#cZipcode").val("aaaa");
-                    for (var i in json_obj){
-                        if(json_obj[i].zipcode!=null) {
-                            $("#veZipcode").val(json_obj[i].zipcode);
-                        }
-                    }
-                }
-            });
-        }
-        function saveVend(){
+        
+        function saveGoods(){
             //alert('aaaaa');
             $.ajax({ 
                 type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', 
@@ -427,12 +397,12 @@ mysqli_close($conn);
                     ,'amphur_id': $("#veAmphur").val()
                     ,'district_id': $("#veDistrict").val()
                     ,'zipcode': $("#veZipcode").val()
-                    ,'flagPage': "vendor" }, 
+                    ,'flagPage': "goods" }, 
                 success: function (data) {
-                    //alert('bbbbb'+data);
+                    alert('bbbbb'+data);
                     var json_obj = $.parseJSON(data);
                     for (var i in json_obj){
-                        //alert("aaaa "+json_obj[i].success);
+                        alert("aaaa "+json_obj[i].success);
                     }
 //                    alert('bbbbb '+json_obj.length);
 //                    alert('ccccc '+$("#cDistrict").val());

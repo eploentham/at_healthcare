@@ -6,23 +6,23 @@
 		<meta charset="utf-8">
 		<!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
 
-		<title> <?php echo $page_title != "" ? $page_title." - " : ""; ?>SmartAdmin </title>
+		<title> <?php echo $page_title != "" ? $page_title." - " : ""; ?>SmartAdmin1 </title>
 		<meta name="description" content="">
 		<meta name="author" content="">
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<!-- Basic Styles -->
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>css/font-awesome.min.css">
 
 		<!-- SmartAdmin Styles : Caution! DO NOT change the order -->
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/css/smartadmin-production-plugins.min.css">
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/css/smartadmin-production.min.css">
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/css/smartadmin-skins.min.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>css/smartadmin-production-plugins.min.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>css/smartadmin-production.min.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>css/smartadmin-skins.min.css">
 
 		<!-- SmartAdmin RTL Support is under construction-->
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/css/smartadmin-rtl.min.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>css/smartadmin-rtl.min.css">
 
 		<!-- We recommend you use "your_style.css" to override SmartAdmin
 		     specific styles this will also ensure you retrain your customization with each SmartAdmin update.
@@ -60,9 +60,9 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 		<!-- Startup image for web apps -->
-		<link rel="apple-touch-startup-image" href="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
-		<link rel="apple-touch-startup-image" href="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
-		<link rel="apple-touch-startup-image" href="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/splash/iphone.png" media="screen and (max-device-width: 320px)">
+		<link rel="apple-touch-startup-image" href="<?php echo ASSETS_URL; ?>img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
+		<link rel="apple-touch-startup-image" href="<?php echo ASSETS_URL; ?>img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
+		<link rel="apple-touch-startup-image" href="<?php echo ASSETS_URL; ?>img/splash/iphone.png" media="screen and (max-device-width: 320px)">
 	</head>
 	<body <?php echo implode(' ', array_map(function($prop, $value) {
 			return $prop.'="'.$value.'"';
@@ -78,7 +78,7 @@
 					<div id="logo-group">
 
 						<!-- PLACE YOUR LOGO HERE -->
-						<span id="logo"> <img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/logo.png" alt="SmartAdmin"> </span>
+						<span id="logo"> <img src="<?php echo ASSETS_URL; ?>img/logo.png" alt="SmartAdmin"> </span>
 						<!-- END LOGO PLACEHOLDER -->
 
 						<!-- Note: The activity badge color changes when clicked and resets the number to 0
@@ -91,13 +91,13 @@
 							<!-- the ID links are fetched via AJAX to the ajax container "ajax-notifications" -->
 							<div class="btn-group btn-group-justified" data-toggle="buttons">
 								<label class="btn btn-default">
-									<input type="radio" name="activity" id="<?php echo APP_URL; ?>assets/plugins/smart_admin_php_ajax_version/ajax/notify/mail.php">
+									<input type="radio" name="activity" id="<?php echo APP_URL; ?>ajax/notify/mail.php">
 									Msgs (14) </label>
 								<label class="btn btn-default">
-									<input type="radio" name="activity" id="<?php echo APP_URL; ?>assets/plugins/smart_admin_php_ajax_version/ajax/notify/notifications.php">
+									<input type="radio" name="activity" id="<?php echo APP_URL; ?>ajax/notify/notifications.php">
 									notify (3) </label>
 								<label class="btn btn-default">
-									<input type="radio" name="activity" id="<?php echo APP_URL; ?>assets/plugins/smart_admin_php_ajax_version/ajax/notify/tasks.php">
+									<input type="radio" name="activity" id="<?php echo APP_URL; ?>ajax/notify/tasks.php">
 									Tasks (4) </label>
 							</div>
 
@@ -166,7 +166,7 @@
 						<ul id="mobile-profile-img" class="header-dropdown-list hidden-xs padding-5">
 							<li class="">
 								<a href="#" class="dropdown-toggle no-margin userdropdown" data-toggle="dropdown"> 
-									<img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/avatars/sunny.png" alt="John Doe" class="online" />
+									<img src="<?php echo ASSETS_URL; ?>img/avatars/3818_p.png" alt="John Doe" class="online" />
 								</a>
 								<ul class="dropdown-menu pull-right">
 									<li>
@@ -194,7 +194,7 @@
 
 						<!-- logout button -->
 						<div id="logout" class="btn-header transparent pull-right">
-							<span> <a href="<?php echo APP_URL; ?>assets/plugins/smart_admin_php_ajax_version/login.php" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span>
+							<span> <a href="<?php echo APP_URL; ?>login.php" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span>
 						</div>
 						<!-- end logout button -->
 
@@ -243,42 +243,42 @@
 						<!-- multiple lang dropdown : find all flags in the flags page -->
 											
 						<ul class="header-dropdown-list hidden-xs">
-							<li>
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
-									<img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-us" alt="United States"> <span> US</span> <i class="fa fa-angle-down"></i> </a>
-								<ul class="dropdown-menu pull-right">
-									<li class="active">
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-us" alt="United States"> English (US)</a>
-									</li>
-									<li>
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-fr" alt="France"> Français</a>
-									</li>
-									<li>
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-es" alt="Spanish"> Español</a>
-									</li>
-									<li>
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-de" alt="German"> Deutsch</a>
-									</li>
-									<li>
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-jp" alt="Japan"> 日本語</a>
-									</li>
-									<li>
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-cn" alt="China"> 中文</a>
-									</li>	
-									<li>
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-it" alt="Italy"> Italiano</a>
-									</li>	
-									<li>
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-pt" alt="Portugal"> Portugal</a>
-									</li>
-									<li>
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-ru" alt="Russia"> Русский язык</a>
-									</li>
-									<li>
-										<a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/img/blank.gif" class="flag flag-kr" alt="Korea"> 한국어</a>
-									</li>						
-								</ul>
-							</li>
+                                                    <li>
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
+                                                            <img src="<?php echo ASSETS_URL; ?>img/blank.gif" class="flag flag-us" alt="United States"> <span> US</span> <i class="fa fa-angle-down"></i> </a>
+                                                        <ul class="dropdown-menu pull-right">
+                                                            <li class="active">
+                                                                    <a href="javascript:void(0);"><img src="<?php echo ASSETS_URL; ?>img/blank.gif" class="flag flag-us" alt="United States"> English (US)</a>
+                                                            </li>
+                                                            <!--<li>
+                                                                    <a href="javascript:void(0);"><img src="<?php //echo ASSETS_URL; ?>img/blank.gif" class="flag flag-fr" alt="France"> Français</a>
+                                                            </li>
+                                                            <li>
+                                                                    <a href="javascript:void(0);"><img src="<?php //echo ASSETS_URL; ?>img/blank.gif" class="flag flag-es" alt="Spanish"> Español</a>
+                                                            </li>
+                                                            <li>
+                                                                    <a href="javascript:void(0);"><img src="<?php //echo ASSETS_URL; ?>img/blank.gif" class="flag flag-de" alt="German"> Deutsch</a>
+                                                            </li>
+                                                            <li>
+                                                                    <a href="javascript:void(0);"><img src="<?php //echo ASSETS_URL; ?>img/blank.gif" class="flag flag-jp" alt="Japan"> 日本語</a>
+                                                            </li>
+                                                            <li>
+                                                                    <a href="javascript:void(0);"><img src="<?php //echo ASSETS_URL; ?>img/blank.gif" class="flag flag-cn" alt="China"> 中文</a>
+                                                            </li>	
+                                                            <li>
+                                                                    <a href="javascript:void(0);"><img src="<?php //echo ASSETS_URL; ?>img/blank.gif" class="flag flag-it" alt="Italy"> Italiano</a>
+                                                            </li>	
+                                                            <li>
+                                                                    <a href="javascript:void(0);"><img src="<?php //echo ASSETS_URL; ?>img/blank.gif" class="flag flag-pt" alt="Portugal"> Portugal</a>
+                                                            </li>
+                                                            <li>
+                                                                    <a href="javascript:void(0);"><img src="<?php //echo ASSETS_URL; ?>img/blank.gif" class="flag flag-ru" alt="Russia"> Русский язык</a>
+                                                            </li>
+                                                            <li>
+                                                                    <a href="javascript:void(0);"><img src="<?php //echo ASSETS_URL; ?>img/blank.gif" class="flag flag-kr" alt="Korea"> 한국어</a>
+                                                            </li>-->
+                                                        </ul>
+                                                    </li>
 						</ul>
 						
 						<!-- end multiple lang -->

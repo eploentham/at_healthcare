@@ -1,14 +1,16 @@
 <?php require_once("inc/init.php"); ?>
 <?php
 //echo $userDB;
-$gTypeId="-";
+//$gTypeId="-";
 $gtId="";
 if(isset($_GET["goodsTypeId"])){
-    $gTypeId = $_GET["goodsTypeId"];
+    $gtId = $_GET["goodsTypeId"];
+}else{
+    $gtId="";
 }
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
-$sql="Select * From b_goods_type Where goods_type_id = '".$gTypeId."' ";
+$sql="Select * From b_goods_type Where goods_type_id = '".$gtId."' ";
 //echo "<script> alert('aaaaa'); </script>";
 //$rComp = mysqli_query($conn,"Select * From b_company Where comp_id = '1' ");
 if ($rComp=mysqli_query($conn,$sql)){
@@ -20,8 +22,6 @@ if ($rComp=mysqli_query($conn,$sql)){
 //    $cuTele = strval($aCust["tele"]);
 //    $cuEmail = strval($aCust["email"]);
 //    $cuTaxId = strval($aCust["tax_id"]);
-}else{
-    $gtId = $gTypeId;
 }
 
 mysqli_close($conn);
@@ -89,7 +89,7 @@ mysqli_close($conn);
                 -->
                 <header>
                     <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-                    <h2>รายละเอียด ลูกค้า </h2>				
+                    <h2>รายละเอียด ประเภทสินค้า </h2>				
 
                 </header>
 

@@ -604,7 +604,7 @@ $page_nav = array(
         "sub" => array(
             "recStock" => array(
                 "title" => "รับสินค้าเข้า",
-                "url" => "ajax/dashboard.php"
+                "url" => "goodsRecView.php"
             ),
             "drawStock" => array(
                 "title" => "เบิกตัดจ่ายสินค้า",

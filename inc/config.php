@@ -3,9 +3,13 @@
 //configure constants
 //$conn = mysqli_connect("localhost",'at_healthcare','bangna','cy!C51x3');
 $databaseName="at_healthcare";
+$hostDB="localhost";
 $userDB="root";
 $passDB="";
-$hostDB="localhost";
+
+//$userDB="athealtcare";
+//$passDB="Srb!g302";
+//$hostDB="mysql-5.5.chaiyohosting.com";
 $acompType = array();
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");

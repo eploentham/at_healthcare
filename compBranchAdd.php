@@ -1,13 +1,27 @@
 <?php require_once("inc/init.php"); ?>
 <?php
 //echo $userDB;
-$branchId="-";
+$brId="";
 if(isset($_GET["branchId"])){
-    $branchId = $_GET["branchId"];
+    $brId = $_GET["branchId"];
+}else{
+    $brId="";
 }
+//$databaseName="at_healthcare";
+//$userDB="root";
+//$passDB="";
+//
+//$userDB="athealtcare";
+//$passDB="Srb!g302";
+//
+//$hostDB="mysql-5.5.chaiyohosting.com:3306";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
+if(!$conn){
+    echo mysqli_error();
+    return;
+}
 mysqli_set_charset($conn, "UTF8");
-$sql="Select * From b_branch Where branch_id = '".$branchId."'";
+$sql="Select * From b_branch Where branch_id = '".$brId."'";
 
 if ($rComp=mysqli_query($conn,$sql)){
     $aComp = mysqli_fetch_array($rComp);
@@ -17,11 +31,7 @@ if ($rComp=mysqli_query($conn,$sql)){
     $brAddress = strval($aComp["branch_address"]);
     $brTele = strval($aComp["tele"]);
 
-}else{
-    $brId = $branchId;
 }
-
-
 
 mysqli_close($conn);
 ?>

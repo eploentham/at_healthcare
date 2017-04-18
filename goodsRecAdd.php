@@ -152,89 +152,66 @@ mysqli_close($conn);
                         <form action="" id="smart-form-register" class="smart-form">                            
                             <fieldset>
                                 <section>
-                                    <label class="label">ประเภทสินค้า</label>
+                                    <label class="label">เลขที่เอกสาร</label>
                                     <label class="select">
                                         <select name="goType" id="goType">
                                             <?php echo $oType;?>
                                         </select> <i></i> </label>
                                 </section>
                                 <section>
-                                    <label class="label">ชนิดสินค้า</label>
+                                    <label class="label">เลขที่ Invoice</label>
                                     <label class="select">
                                         <select name="goCat" id="goCat">
                                             <?php echo $oCat;?>
                                         </select> <i></i> </label>
                                 </section>
                                 <section>
-                                    <label class="label">code</label>
+                                    <label class="label">รายละเอียด</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
                                         <input type="text" name="goCode" id="goCode" value="<?php echo $goCode;?>" placeholder="code สินค้า">
                                         <input type="hidden" name="goId" id="goId" value="<?php echo $goId;?>">
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
                                 <section>
-                                    <label class="label">ชื่อ สินค้า</label>
+                                    <label class="label">วันที่รับสินค้า</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
                                         <input type="text" name="goName" id="goName" value="<?php echo $goName;?>" placeholder="ชื่อ สินค้า">
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
                                 <section>
-                                    <label class="label">ชื่อ สินค้า ex</label>
+                                    <label class="label">วันที่ใน Invoice</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
                                         <input type="text" name="goNameEx" id="goNameEx" value="<?php echo $goNameEx;?>" placeholder="ชื่อ สินค้า ex">
                                         
                                         <input type="hidden" name="goCode" id="goCode" value="<?php echo $goCode;?>">
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
-
                                 <section >
-                                    <label class="label">ราคาซื้อ</label>
+                                    <label class="label">รับเข้าบริษัท</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
                                             <input type="text" name="goCost" id="goCost" value="<?php echo $goCost;?>" placeholder="ราคาซื้อ">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
                                 <section >
-                                    <label class="label">ราคาขาย</label>
+                                    <label class="label">Vendor</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
                                             <input type="text" name="goPrice" id="goPrice" value="<?php echo $goPrice;?>" placeholder="ราคาขาย">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
                                 
                                 <section >
-                                    <label class="label">Holes</label>
+                                    <label class="label">รับเข้าสาขา</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
                                             <input type="text" name="goHoles" id="goHoles" value="<?php echo $goHoles;?>" placeholder="Holes">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
                                 
                                 <section >
-                                    <label class="label">Side</label>
+                                    <label class="label">หมายเหตุ</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
                                             <input type="text" name="goSide" id="goSide" value="<?php echo $goSide;?>" placeholder="Side">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
-
-                                <section >
-                                    <label class="label">Diameter</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="text" name="goDiameter" id="goDiameter" value="<?php echo $goDiameter;?>" placeholder="Diameter">
-                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section >
-
-                                <section >
-                                    <label class="label">Length</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="text" name="goLength" id="goLength" value="<?php echo $goLength;?>" placeholder="Length">
-                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section >
-                                <section>
-                                    <label class="label">Unit</label>
-                                    <label class="select">
-                                        <select name="goUnit" id="goUnit">
-                                            <?php echo $oUnit;?>
-                                        </select> <i></i> </label>
-                                </section>
-                                
                             </fieldset>
                             
                             <footer>

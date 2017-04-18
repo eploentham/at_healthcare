@@ -1,14 +1,16 @@
 <?php require_once("inc/init.php"); ?>
 <?php
 //echo $userDB;
-$custId="-";
+//$custId="-";
 $cuCode="";
 if(isset($_GET["custId"])){
-    $custId = $_GET["custId"];
+    $cuId = $_GET["custId"];
+}else{
+    $cuId="";
 }
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
-$sql="Select * From b_customer Where cust_id = '".$custId."' ";
+$sql="Select * From b_customer Where cust_id = '".$cuId."' ";
 //echo "<script> alert('aaaaa'); </script>";
 //$rComp = mysqli_query($conn,"Select * From b_company Where comp_id = '1' ");
 if ($rComp=mysqli_query($conn,$sql)){
@@ -20,8 +22,6 @@ if ($rComp=mysqli_query($conn,$sql)){
     $cuTele = strval($aCust["tele"]);
     $cuEmail = strval($aCust["email"]);
     $cuTaxId = strval($aCust["tax_id"]);
-}else{
-    $cuId = $custId;
 }
 
 mysqli_close($conn);
