@@ -8,7 +8,7 @@ $result = mysqli_query($conn,$sql);
 if($result){
     while($row = mysqli_fetch_array($result)){
         $brName="<a href='#goodsTypeAdd.php?goodsTypeId=".$row["goods_type_id"]."'>".$row["goods_type_name"]."</a>";
-        $trCust .= "<tr><td>".$brName."</td>";
+        $trCust .= "<tr><td>".$brName."</td></tr>";
     }
 }
 $result->free();

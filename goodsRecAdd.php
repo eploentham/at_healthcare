@@ -1,82 +1,102 @@
 <?php require_once("inc/init.php"); ?>
 <?php
 //echo $userDB;
-//$goodsId="-";
-$goCode="";
-$oUnit="";
-$oCat="";
-$oType="";
-$goTypeId="";
-$goCatId="";
-if(isset($_GET["goodsId"])){
-    $goId = $_GET["goodsId"];
+$reRecId="-";
+$reInvEx="";
+$reRecDoc="";
+$reDesc="";
+$reRecDate="";
+$reInvExDate="";
+$compId="";
+$vendId="";
+$branchId="";
+$remark="";
+if(isset($_GET["recId"])){
+    $reRecId = $_GET["recId"];
 }else{
-    $goId = "";
+    $reRecId = "";
 }
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
-$sql="Select * From b_goods Where goods_id = '".$goId."' ";
+$sql="Select * From t_goods_rec Where rec_id = '".$reRecId."' ";
 //echo "<script> alert('aaaaa'); </script>";
 //$rComp = mysqli_query($conn,"Select * From b_company Where comp_id = '1' ");
 if ($rComp=mysqli_query($conn,$sql)){
-    $aGoods = mysqli_fetch_array($rComp);
-    $goId = $aGoods["goods_id"];
-    $goCode = strval($aGoods["goods_code"]);
-    $goCodeEx = strval($aGoods["goods_code_ex"]);
-    $goName = strval($aGoods["goods_name"]);
-    $goNameEx = strval($aGoods["goods_name_ex"]);
-    $goCost = strval($aGoods["cost"]);
-    $goPrice = strval($aGoods["price"]);
-    $goSide = strval($aGoods["side"]);
-    $goHoles = strval($aGoods["holes"]);
-    $goDiameter = strval($aGoods["dia_meter"]);
-    $goLength = strval($aGoods["length"]);
-    $goUnit = strval($aGoods["unit_id"]);
-    $goTypeId = strval($aGoods["goods_type_id"]);
-    $goCatId = strval($aGoods["goods_cat_id"]);
+    $aRec = mysqli_fetch_array($rComp);
+    $reRecId = $aRec["rec_id"];
+    $reRecDoc = ($aRec["rec_doc"]);
+    $reInvEx = ($aRec["inv_ex"]);
+    $reDesc = ($aRec["description"]);
+    $reRecDate = ($aRec["rec_date"]);
+    $reInvExDate = ($aRec["inv_ex_date"]);
+    $reRemark = ($aRec["remark"]);
+    
+    $compId = ($aRec["comp_id"]);
+    $vendId = ($aRec["vend_id"]);
+    $branchId = ($aRec["branch_id"]);
+//    $goLength = strval($aRec["length"]);
+//    $goUnit = strval($aRec["unit_id"]);
+//    $goTypeId = strval($aRec["goods_type_id"]);
+//    $goCatId = strval($aRec["goods_cat_id"]);
 }else{
     $goId = $goodsId;
 }
-$sql="Select * From b_goods_type Order By goods_type_name";
+$sql="Select * From b_company Order By comp_name_t";
 //$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
 if ($result=mysqli_query($conn,$sql)){
-    $oType = "<option value='0' selected='' disabled=''>เลือก ประะเภทสินค้า</option>";
+    $oComp1 = "<option value='0' selected='' disabled=''>เลือก บริษัท</option>";
     while($row = mysqli_fetch_array($result)){
-        if($goTypeId===$row["goods_type_id"]){
-            $oType .= '<option selected value='.$row["goods_type_id"].'>'.$row["goods_type_name"].'</option>';
+        if($compId===$row["comp_id"]){
+            $oComp1 .= '<option selected value='.$row["comp_id"].'>'.$row["comp_name_t"].'</option>';
         }else{
-            $oType .= '<option value='.$row["goods_type_id"].'>'.$row["goods_type_name"].'</option>';
+            $oComp1 .= '<option value='.$row["comp_id"].'>'.$row["comp_name_t"].'</option>';
         }
     }
 }
-$sql="Select * From b_goods_catagory Order By goods_cat_name";
+$sql="Select * From b_vendor Order By vend_name_t";
 //$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
 if ($result=mysqli_query($conn,$sql)){
-    $oCat = "<option value='0' selected='' disabled=''>เลือก ชนิดสินค้า</option>";
+    $oVend = "<option value='0' selected='' disabled=''>เลือก Vendor</option>";
     while($row = mysqli_fetch_array($result)){
-        if($goCatId===$row["goods_cat_id"]){
-            $oCat .= '<option selected value='.$row["goods_cat_id"].'>'.$row["goods_cat_name"].'</option>';
+        if($vendId===$row["vend_id"]){
+            $oVend .= '<option selected value='.$row["vend_id"].'>'.$row["vend_name_t"].'</option>';
         }else{
-            $oCat .= '<option value='.$row["goods_cat_id"].'>'.$row["goods_cat_name"].'</option>';
-        }
-        
-    }
-}
-$sql="Select * From b_unit Order By unit_code";
-//$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
-if ($result=mysqli_query($conn,$sql)){
-    $oUnit = "<option value='0' selected='' disabled=''>เลือก หน่วย</option>";
-    while($row = mysqli_fetch_array($result)){
-        if($goUnit===$row["unit_id"]){
-            $oUnit .= '<option selected value='.$row["unit_id"].'>'.$row["unit_name"].'</option>';
-        }else{
-            $oUnit .= '<option value='.$row["unit_id"].'>'.$row["unit_name"].'</option>';
+            $oVend .= '<option value='.$row["vend_id"].'>'.$row["vend_name_t"].'</option>';
         }
         
     }
 }
+$sql="Select * From b_branch Order By branch_name";
+//$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
+if ($result=mysqli_query($conn,$sql)){
+    $oBranch = "<option value='0' selected='' disabled=''>เลือก สาขา</option>";
+    while($row = mysqli_fetch_array($result)){
+        if($branchId===$row["branch_id"]){
+            $oBranch .= '<option selected value='.$row["branch_id"].'>'.$row["branch_name"].'</option>';
+        }else{
+            $oBranch .= '<option value='.$row["branch_id"].'>'.$row["branch_name"].'</option>';
+        }
+    }
+}
+$tr1="<table id='trReDetail' class='table table-striped table-bordered table-hover' width='100%'><thead>"
+        ."<tr><th data-class='expand'>รหัส</th>"
+        ."<th data-class='expand'>ชื่อสินค้า</th>"
+        ."<th data-class='expand'>qty</th><th data-class='expand'>ราคา</th><th data-class='expand'>หน่วย</th><th data-class='expand'>รวมราคา</th></tr></thead><tbody>";
+$sql="Select * From t_goods_rec_detail Where rec_id = '".$reRecId."'";
+$reCnt=0;
+if ($rDetail=mysqli_query($conn,$sql)){
+    while($row = mysqli_fetch_array($rDetail)){
+        $reCnt++;
+        $tr1 .= "<tr><td>a</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+    }
+    
+}else{
+    
+}
+$tr1 .= "</tbody></table>";
 mysqli_close($conn);
 ?>
+
 <div class="row">
 	<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 		<h1 class="page-title txt-color-blueDark">			
@@ -137,7 +157,7 @@ mysqli_close($conn);
                 -->
                 <header>
                     <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-                    <h2>รายละเอียด สินค้า </h2>				
+                    <h2>รายการรับเข้า สินค้า </h2>				
                 </header>
 
                 <!-- widget div-->
@@ -153,67 +173,125 @@ mysqli_close($conn);
                             <fieldset>
                                 <section>
                                     <label class="label">เลขที่เอกสาร</label>
-                                    <label class="select">
-                                        <select name="goType" id="goType">
-                                            <?php echo $oType;?>
-                                        </select> <i></i> </label>
+                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                        <input type="text" name="reRecDoc" id="reRecDoc" value="<?php echo $reRecDoc;?>" placeholder="เลขที่เอกสาร">
+                                        <input type="hidden" name="reRecId" id="reRecId" value="<?php echo $reRecId;?>">
+                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section>
                                 <section>
                                     <label class="label">เลขที่ Invoice</label>
-                                    <label class="select">
-                                        <select name="goCat" id="goCat">
-                                            <?php echo $oCat;?>
-                                        </select> <i></i> </label>
+                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                        <input type="text" name="reInvEx" id="reInvEx" value="<?php echo $reInvEx;?>" placeholder="เลขที่ Invoice">
+                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section>
                                 <section>
                                     <label class="label">รายละเอียด</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="goCode" id="goCode" value="<?php echo $goCode;?>" placeholder="code สินค้า">
-                                        <input type="hidden" name="goId" id="goId" value="<?php echo $goId;?>">
+                                        <input type="text" name="reDesc" id="reDesc" value="<?php echo $reDesc;?>" placeholder="รายละเอียด">
+                                        
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
                                 <section>
                                     <label class="label">วันที่รับสินค้า</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="goName" id="goName" value="<?php echo $goName;?>" placeholder="ชื่อ สินค้า">
+                                        <input type="text" name="reRecDate" id="reRecDate" value="<?php echo $reRecDate;?>" placeholder="วันที่รับสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
                                 <section>
                                     <label class="label">วันที่ใน Invoice</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="goNameEx" id="goNameEx" value="<?php echo $goNameEx;?>" placeholder="ชื่อ สินค้า ex">
-                                        
-                                        <input type="hidden" name="goCode" id="goCode" value="<?php echo $goCode;?>">
+                                        <input type="text" name="reInvExDate" id="reInvExDate" value="<?php echo $reInvExDate;?>" placeholder="วันที่ใน Invoice" class="datepicker" data-date-format="dd/mm/yyyy">                                        
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
                                 <section >
                                     <label class="label">รับเข้าบริษัท</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="text" name="goCost" id="goCost" value="<?php echo $goCost;?>" placeholder="ราคาซื้อ">
-                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    <label class="select">
+                                        <select name="reComp" id="reComp">
+                                            <?php echo $oComp1;?>
+                                        </select> <i></i> </label>
                                 </section >
                                 <section >
                                     <label class="label">Vendor</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="text" name="goPrice" id="goPrice" value="<?php echo $goPrice;?>" placeholder="ราคาขาย">
-                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    <label class="select">
+                                        <select name="reVend" id="reVend">
+                                            <?php echo $oVend;?>
+                                        </select> <i></i> </label>
                                 </section >
-                                
                                 <section >
-                                    <label class="label">รับเข้าสาขา</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="text" name="goHoles" id="goHoles" value="<?php echo $goHoles;?>" placeholder="Holes">
-                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    <label class="label">รับเข้า สาขา</label>
+                                    <label class="select">
+                                        <select name="reBranch" id="reBranch">
+                                            <?php echo $oBranch;?>
+                                        </select> <i></i> </label>
                                 </section >
-                                
                                 <section >
                                     <label class="label">หมายเหตุ</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="text" name="goSide" id="goSide" value="<?php echo $goSide;?>" placeholder="Side">
+                                            <input type="text" name="reRemark" id="reRemark" value="<?php echo $reRemark;?>" placeholder="หมายเหตุ">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
                             </fieldset>
                             
+                            <header>
+                                <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                                <h2>รายละเอียด สินค้า </h2>				
+                            </header>
+
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <label class="label">รหัส</label>
+                                        <label class="input"> <i class="icon-prepend fa fa-phone"></i>
+                                                <input type="text" name="reGoCode" id="reGoCode" placeholder="รหัส">
+                                        </label>
+                                        
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">&nbsp;&nbsp;</label>
+                                        <button id=""btnReGoSearch class="btn btn-primary btn-sm">ค้นหา</button>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">ชื่อสินค้า</label>
+                                        <label class="input"> <i class="icon-prepend fa fa-phone"></i>
+                                                <input type="text" name="reGoName" id="reGoName" placeholder="ชื่อสินค้า">
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-2">
+                                        <label class="label">จำนวน</label>
+                                        <label class="input"> <i class="icon-prepend fa fa-phone"></i>
+                                                <input type="text" name="reGoQty" id="reGoQty" placeholder="จำนวน">
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">ราคา</label>
+                                        <label class="input"> <i class="icon-prepend fa fa-phone"></i>
+                                                <input type="text" name="reGoPrice" id="reGoPrice" placeholder="ราคา">
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">Unit</label>
+                                        <label class="select">
+                                            <select name="reGoUnit" id="reGoUnit">
+                                                <?php echo $oUnit;?>
+                                            </select> <i></i> </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">รวมราคา</label>
+                                        <label class="input"> <i class="icon-prepend fa fa-phone"></i>
+                                                <input type="text" name="reGoAmt" id="reGoAmt" placeholder="รวมราคา">
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">&nbsp;&nbsp;</label>
+                                        <button type="button" class="btn btn-primary btn-sm" id="btnReAdd">เพิ่มสินค้า</button>
+                                        <input type="hidden" name="reCnt" id="reCnt" value="<?php echo $reCnt;?>">
+                                    </section>
+                                </div>
+                            </fieldset>
+
+                            <div id="divView"><?php echo $tr1?></div>
                             <footer>
                                 <button type="button" id="btnSave" class="btn btn-primary">
                                         บันทึกข้อมูล
@@ -234,7 +312,6 @@ mysqli_close($conn);
 </section>
 <!-- end widget grid -->
 
-		
 <!-- SCRIPTS ON PAGE EVENT -->
 <script type="text/javascript">
 	
@@ -375,28 +452,50 @@ mysqli_close($conn);
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
         
-
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            startDate: '-3d'
+        });
+        $('#sandbox-container input').datepicker({ });
         $("#btnSave").click(saveGoods);
+        $("#btnReAdd").click(addRow);
         
-        
+        function addRow(){
+            var reCnt = $("#reCnt").val();
+            var reGoCode = $("#reGoCode").val();
+            var reGoName = $("#reGoName").val();
+            var reGoQty = $("#reGoQty").val();
+            var reGoPrice = $("#reGoPrice").val();
+            var reGoAmt = $("#reGoAmt").val();
+            var reGoUnit = $("#reGoUnit").val();
+            var trCode = "<input type='hidden' id='reGoCode"+reCnt+"' value='"+reGoCode+"'>";
+            var trQty = "<input type='hidden' id='reGoQty"+reCnt+"' value='"+reGoQty+"'>";
+            var trPrice = "<input type='hidden' id='reGoPrice"+reCnt+"' value='"+reGoPrice+"'>";
+            var trAmt = "<input type='hidden' id='reGoAmt"+reCnt+"' value='"+reGoAmt+"'>";
+            var trUnit = "<input type='hidden' id='reGoUnit"+reCnt+"' value='"+reGoUnit+"'>";
+            
+            var tr = "<tr class='child'><td>"+reGoCode+trCode+"</td><td>"+reGoName+"</td><td>"+reGoQty+trQty+"</td><td>"+reGoPrice+trPrice+"</td><td>"+reGoUnit+trUnit+"</td><td>"+reGoAmt+trAmt+"</td></tr>";
+            reCnt++;
+            $("#reCnt").val(reCnt);
+            //alert('aaaa');
+            $('#trReDetail').append(tr);
+            //$('#trReDetail tr:last').after('<tr class="child"><td>blahblah<\/td></tr>');
+        }
         function saveGoods(){
-            alert('aaaaa');
+            alert('aaaaa '+$("#reRecDate").val());
             $.ajax({ 
                 type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', 
-                data: { 'goods_id': $("#goId").val()
-                    ,'goods_code': $("#goCode").val()
-                    ,'goods_name': $("#goName").val()
-                    ,'goods_name_ex': $("#goNameEx").val()
-                    ,'goods_type_id': $("#goType").val()
-                    ,'goods_cat_id': $("#goCat").val()
-                    ,'price': $("#goPrice").val()
-                    ,'cost': $("#goCost").val()
-                    ,'holes': $("#goHoles").val()
-                    ,'side': $("#goSide").val()
-                    ,'dia_meter': $("#goDiameter").val()
-                    ,'length': $("#goLength").val()
-                    ,'unit_id': $("#goUnit").val()
-                    ,'flagPage': "goods" }, 
+                data: { 'rec_id': $("#reRecId").val()
+                    ,'rec_doc': $("#reRecDoc").val()
+                    ,'inv_ex': $("#reInvEx").val()
+                    ,'description': $("#reDesc").val()
+                    ,'rec_date': $("#reRecDate").val()
+                    ,'inv_ex_date': $("#reInvExDate").val()
+                    ,'comp_id': $("#reComp").val()
+                    ,'vend_id': $("#reVend").val()
+                    ,'branch_id': $("#reBranch").val()
+                    ,'remark': $("#reRemark").val()
+                    ,'flagPage': "goods_rec" }, 
                 success: function (data) {
                     alert('bbbbb'+data);
                     var json_obj = $.parseJSON(data);

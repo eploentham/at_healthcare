@@ -167,6 +167,7 @@ if($_GET["flagPage"] === "company"){
     $goods_name=$_GET["goods_name"];
     $goods_name_ex=$_GET["goods_name_ex"];
     $goods_code=$_GET["goods_code"];
+    $goods_code_ex=$_GET["goods_code_ex"];
     $goods_type_id= $_GET["goods_type_id"];
     $goods_cat_id= $_GET["goods_cat_id"];
     $price=$_GET["price"];
@@ -178,13 +179,18 @@ if($_GET["flagPage"] === "company"){
     $unit_id=$_GET["unit_id"];
     if(($_GET["goods_id"]==="-")|| ($_GET["goods_id"]==="")){
         $sql="Insert Into b_goods(goods_id, goods_code, goods_name, goods_name_ex, "
-                ."price, cost, holes, side, dia_meter, length, unit_id, goods_type_id, goods_cat_id, active, date_create) "
+                ."price, cost, holes, side, "
+                ."dia_meter, length, unit_id, goods_type_id, "
+                ."goods_cat_id, goods_code_ex, active, date_create) "
                 ."Values(UUID(),'".$goods_code."','".$goods_name."','".$goods_name_ex."','"
-                .$price."','".$cost."','".$holes."','".$side."','".$dia_meter."','".$length."','".$unit_id."','".$goods_type_id."','".$goods_cat_id."','1',now())";
+                .$price."','".$cost."','".$holes."','".$side."','"
+                .$dia_meter."','".$length."','".$unit_id."','".$goods_type_id."','"
+                .$goods_cat_id."','".$goods_code_ex."','1',now())";
     }else{
         $sql="Update b_goods "
                 ."Set  "
                 ." goods_code = '".$goods_code."' "
+                .", goods_code_ex = '".$goods_code_ex."' "
                 .", goods_name = '".$goods_name."' "
                 .", goods_name_ex = '".$goods_name_ex."' "
                 .", goods_type_id = '".$goods_type_id."' "
@@ -198,6 +204,39 @@ if($_GET["flagPage"] === "company"){
                 .", unit_id = '".$unit_id."' "
                 .", date_modi = now() "
                 ."Where goods_id = '".$goods_id."'";
+    }
+}else if($_GET["flagPage"] === "goods_rec"){
+    $rec_id=$_GET["rec_id"];
+    $rec_doc=$_GET["rec_doc"];
+    $inv_ex=$_GET["inv_ex"];
+    $description=$_GET["description"];
+    $rec_date=$_GET["rec_date"];
+    $inv_ex_date=$_GET["inv_ex_date"];
+    $comp_id=$_GET["comp_id"];
+    $vend_id=$_GET["vend_id"];
+    $branch_id=$_GET["branch_id"];
+    $remark=$_GET["remark"];
+    if(($_GET["rec_id"]==="-")|| ($_GET["rec_id"]==="")){
+        $sql="Insert Into t_goods_rec(rec_id, rec_doc, inv_ex, description, "
+                ."rec_date, inv_ex_date, comp_id, vend_id, "
+                ."branch_id, remark, active, date_create) "
+                ."Values(UUID(),'".$rec_doc."','".$inv_ex."','".$description."','"
+                .$rec_date."','".$inv_ex_date."','".$comp_id."','".$vend_id."','"
+                .$branch_id."','".$remark."','1',now())";
+    }else{
+        $sql="Update t_goods_rec "
+                ."Set  "
+                ." rec_doc = '".$rec_doc."' "
+                .", inv_ex = '".$inv_ex."' "
+                .", description = '".$description."' "
+                .", rec_date = '".$rec_date."' "
+                .", inv_ex_date = '".$inv_ex_date."' "
+                .", comp_id = '".$comp_id."' "
+                .", vend_id = '".$vend_id."' "
+                .", branch_id = '".$branch_id."' "
+                .", remark = '".$remark."' "
+                .", date_modi = now() "
+                ."Where rec_id = '".$rec_id."'";
     }
 }
 $response = array();

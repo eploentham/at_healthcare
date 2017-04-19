@@ -22,40 +22,40 @@
 		<script src="js/app.config.js"></script>
 
 		<!-- JS TOUCH : include this plugin for mobile drag / drop touch events-->
-		<script src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script> 
+		<script src="<?php echo ASSETS_URL; ?>js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script> 
 
 		<!-- BOOTSTRAP JS -->
-		<script src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/js/bootstrap/bootstrap.min.js"></script>
+		<script src="<?php echo ASSETS_URL; ?>js/bootstrap/bootstrap.min.js"></script>
 
 		<!-- CUSTOM NOTIFICATION -->
-		<script src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/js/notification/SmartNotification.min.js"></script>
+		<script src="<?php echo ASSETS_URL; ?>js/notification/SmartNotification.min.js"></script>
 
 		<!-- JARVIS WIDGETS -->
-		<script src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/js/smartwidgets/jarvis.widget.min.js"></script>
+		<script src="<?php echo ASSETS_URL; ?>js/smartwidgets/jarvis.widget.min.js"></script>
 
 		<!-- EASY PIE CHARTS -->
-		<script src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js"></script>
+		<script src="<?php echo ASSETS_URL; ?>js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js"></script>
 
 		<!-- SPARKLINES -->
-		<script src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/js/plugin/sparkline/jquery.sparkline.min.js"></script>
+		<script src="<?php echo ASSETS_URL; ?>js/plugin/sparkline/jquery.sparkline.min.js"></script>
 
 		<!-- JQUERY VALIDATE -->
-		<script src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/js/plugin/jquery-validate/jquery.validate.min.js"></script>
+		<script src="<?php echo ASSETS_URL; ?>js/plugin/jquery-validate/jquery.validate.min.js"></script>
 
 		<!-- JQUERY MASKED INPUT -->
-		<script src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/js/plugin/masked-input/jquery.maskedinput.min.js"></script>
+		<script src="<?php echo ASSETS_URL; ?>js/plugin/masked-input/jquery.maskedinput.min.js"></script>
 
 		<!-- JQUERY SELECT2 INPUT -->
-		<script src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/js/plugin/select2/select2.min.js"></script>
+		<script src="<?php echo ASSETS_URL; ?>js/plugin/select2/select2.min.js"></script>
 
 		<!-- JQUERY UI + Bootstrap Slider -->
-		<script src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/js/plugin/bootstrap-slider/bootstrap-slider.min.js"></script>
+		<script src="<?php echo ASSETS_URL; ?>js/plugin/bootstrap-slider/bootstrap-slider.min.js"></script>
 
 		<!-- browser msie issue fix -->
-		<script src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/js/plugin/msie-fix/jquery.mb.browser.min.js"></script>
+		<script src="<?php echo ASSETS_URL; ?>js/plugin/msie-fix/jquery.mb.browser.min.js"></script>
 
 		<!-- FastClick: For mobile devices -->
-		<script src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/js/plugin/fastclick/fastclick.min.js"></script>
+		<script src="<?php echo ASSETS_URL; ?>js/plugin/fastclick/fastclick.min.js"></script>
 
 		<!--[if IE 8]>
 
@@ -64,15 +64,15 @@
 		<![endif]-->
 
 		<!-- Demo purpose only -->
-		<script src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/js/demo.min.js"></script>
+		<script src="<?php echo ASSETS_URL; ?>js/demo.min.js"></script>
 
 		<!-- MAIN APP JS FILE -->
-		<script src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/js/app.min.js"></script>		
+		<script src="<?php echo ASSETS_URL; ?>js/app.min.js"></script>		
 
 		<!-- ENHANCEMENT PLUGINS : NOT A REQUIREMENT -->
 		<!-- Voice command : plugin -->
-		<script src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/js/speech/voicecommand.min.js"></script>		
+		<script src="<?php echo ASSETS_URL; ?>js/speech/voicecommand.min.js"></script>		
 
 		<!-- SmartChat UI : plugin -->
-		<script src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/js/smart-chat-ui/smart.chat.ui.min.js"></script>
-		<script src="<?php echo ASSETS_URL; ?>assets/plugins/smart_admin_php_ajax_version/js/smart-chat-ui/smart.chat.manager.min.js"></script>
+		<script src="<?php echo ASSETS_URL; ?>js/smart-chat-ui/smart.chat.ui.min.js"></script>
+		<script src="<?php echo ASSETS_URL; ?>js/smart-chat-ui/smart.chat.manager.min.js"></script>

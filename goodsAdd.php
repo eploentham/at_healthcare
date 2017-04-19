@@ -21,19 +21,19 @@ $sql="Select * From b_goods Where goods_id = '".$goId."' ";
 if ($rComp=mysqli_query($conn,$sql)){
     $aGoods = mysqli_fetch_array($rComp);
     $goId = $aGoods["goods_id"];
-    $goCode = strval($aGoods["goods_code"]);
-    $goCodeEx = strval($aGoods["goods_code_ex"]);
-    $goName = strval($aGoods["goods_name"]);
-    $goNameEx = strval($aGoods["goods_name_ex"]);
+    $goCode = ($aGoods["goods_code"]);
+    $goCodeEx = ($aGoods["goods_code_ex"]);
+    $goName = ($aGoods["goods_name"]);
+    $goNameEx = ($aGoods["goods_name_ex"]);
     $goCost = strval($aGoods["cost"]);
     $goPrice = strval($aGoods["price"]);
-    $goSide = strval($aGoods["side"]);
-    $goHoles = strval($aGoods["holes"]);
-    $goDiameter = strval($aGoods["dia_meter"]);
-    $goLength = strval($aGoods["length"]);
-    $goUnit = strval($aGoods["unit_id"]);
-    $goTypeId = strval($aGoods["goods_type_id"]);
-    $goCatId = strval($aGoods["goods_cat_id"]);
+    $goSide = ($aGoods["side"]);
+    $goHoles = ($aGoods["holes"]);
+    $goDiameter = ($aGoods["dia_meter"]);
+    $goLength = ($aGoods["length"]);
+    $goUnit = ($aGoods["unit_id"]);
+    $goTypeId = ($aGoods["goods_type_id"]);
+    $goCatId = ($aGoods["goods_cat_id"]);
 }else{
     $goId = $goodsId;
 }
@@ -173,6 +173,12 @@ mysqli_close($conn);
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
                                 <section>
+                                    <label class="label">code ex</label>
+                                    <label class="input"> <i class="icon-append fa fa-user"></i>
+                                        <input type="text" name="goCodeEx" id="goCodeEx" value="<?php echo $goCodeEx;?>" placeholder="code ex สินค้า">
+                                        <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
+                                </section>
+                                <section>
                                     <label class="label">ชื่อ สินค้า</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
                                         <input type="text" name="goName" id="goName" value="<?php echo $goName;?>" placeholder="ชื่อ สินค้า">
@@ -182,8 +188,6 @@ mysqli_close($conn);
                                     <label class="label">ชื่อ สินค้า ex</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
                                         <input type="text" name="goNameEx" id="goNameEx" value="<?php echo $goNameEx;?>" placeholder="ชื่อ สินค้า ex">
-                                        
-                                        <input type="hidden" name="goCode" id="goCode" value="<?php echo $goCode;?>">
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
 
@@ -203,29 +207,29 @@ mysqli_close($conn);
                                 <section >
                                     <label class="label">Holes</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="text" name="goHoles" id="goHoles" value="<?php echo $goHoles;?>" placeholder="Holes">
-                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                        <input type="text" name="goHoles" id="goHoles" value="<?php echo $goHoles;?>" placeholder="Holes">
+                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
                                 
                                 <section >
                                     <label class="label">Side</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="text" name="goSide" id="goSide" value="<?php echo $goSide;?>" placeholder="Side">
-                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                        <input type="text" name="goSide" id="goSide" value="<?php echo $goSide;?>" placeholder="Side">
+                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
 
                                 <section >
                                     <label class="label">Diameter</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="text" name="goDiameter" id="goDiameter" value="<?php echo $goDiameter;?>" placeholder="Diameter">
-                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                        <input type="text" name="goDiameter" id="goDiameter" value="<?php echo $goDiameter;?>" placeholder="Diameter">
+                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
 
                                 <section >
                                     <label class="label">Length</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="text" name="goLength" id="goLength" value="<?php echo $goLength;?>" placeholder="Length">
-                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                        <input type="text" name="goLength" id="goLength" value="<?php echo $goLength;?>" placeholder="Length">
+                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
                                 <section>
                                     <label class="label">Unit</label>
@@ -408,6 +412,7 @@ mysqli_close($conn);
                 type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', 
                 data: { 'goods_id': $("#goId").val()
                     ,'goods_code': $("#goCode").val()
+                    ,'goods_code_ex': $("#goCodeEx").val()
                     ,'goods_name': $("#goName").val()
                     ,'goods_name_ex': $("#goNameEx").val()
                     ,'goods_type_id': $("#goType").val()

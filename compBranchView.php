@@ -8,7 +8,7 @@ $result = mysqli_query($conn,$sql);
 if($result){
     while($row = mysqli_fetch_array($result)){
         $brName="<a href='#compBranchAdd.php?branchId=".$row["branch_id"]."'>".$row["branch_name"]."</>";
-        $trBranch .= "<tr><td>".$row["branch_code"]."</td><td>".$brName."</td><td>".$row["branch_address"]."</td><td>".$row["tele"]."</td>";
+        $trBranch .= "<tr><td>".$row["branch_code"]."</td><td>".$brName."</td><td>".$row["branch_address"]."</td><td>".$row["tele"]."</td></tr>";
     }
 }
 $result->free();
