@@ -238,6 +238,39 @@ if($_GET["flagPage"] === "company"){
                 .", date_modi = now() "
                 ."Where rec_id = '".$rec_id."'";
     }
+}else if($_GET["flagPage"] === "goods_rec_detail"){
+    $rec_detail_id=$_GET["rec_detail_id"];
+    $rec_id="";
+    $rec_id=$_GET["rec_id"];
+    $goods_id=$_GET["goods_id"];
+    $qty=$_GET["qty"];
+    $price=$_GET["price"];
+    $cost=$_GET["cost"];
+    $amt=$_GET["amt"];
+    $unit_id=$_GET["unit_id"];
+    if(($_GET["rec_detail_id"]==="-")|| ($_GET["rec_detail_id"]==="")){
+        $sql="Insert Into t_goods_rec_detail(rec_detail_id, rec_id, goods_id, price, "
+                ."cost, qty, amount, unit_id, "
+                ."remark, active, date_create) "
+                ."Values(UUID(),'".$rec_id."','".$goods_id."','".$price."','"
+                .$cost."','".$qty."','".$amt."','".$unit_id."','"
+                .$remark."','1',now())";
+//        $sql="Insert Into t_goods_rec_detail(rec_detail_id, active, date_create) "
+//                ."Values(UUID(),'1',now())";
+    }else{
+        $sql="Update t_goods_rec_detail "
+                ."Set  "
+                ." rec_id = '".$rec_id."' "
+                .", goods_id = '".$goods_id."' "
+                .", price = '".$price."' "
+                .", cost = '".$cost."' "
+                .", qty = '".$qty."' "
+                .", amount = '".$amount."' "
+                .", unit_id = '".$unit_id."' "
+                .", remark = '".$remark."' "
+                .", date_modi = now() "
+                ."Where rec_detail_id = '".$rec_detail_id."'";
+    }
 }
 $response = array();
 $resultArray = array();

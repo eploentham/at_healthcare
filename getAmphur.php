@@ -89,6 +89,31 @@ if($_GET['flagPage']=="amphur"){
         }
         $result->free();
     }
+}else if($_GET['flagPage']=="goSearch"){
+    $sql="Select * From b_goods go Where goods_code = '".$_GET['goods_code']."' ";
+    if ($result=mysqli_query($conn,$sql)){
+        if(!$result){
+            $ok="0";
+            $err= mysqli_error();
+            $tmp = array();
+            $tmp["error"] = $err;
+            $tmp["sql"] = $sql;
+            array_push($resultArray,$tmp);
+        }else{
+            $ok="1";
+            $tmp = array();
+            $tmp["sql"] = $sql;
+            array_push($resultArray,$tmp);
+            while($row = mysqli_fetch_array($result)){
+                $tmp["goods_name"] = $row["goods_name"];
+                $tmp["goods_id"] = $row["goods_id"];
+                $tmp["price"] = $row["price"];
+                $tmp["unit_id"] = $row["unit_id"];
+                array_push($resultArray,$tmp);
+            }
+        }
+        $result->free();
+    }
 }
 
 

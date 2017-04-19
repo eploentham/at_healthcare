@@ -78,6 +78,20 @@ if ($result=mysqli_query($conn,$sql)){
         }
     }
 }
+$sql="Select * From b_unit Order By unit_code";
+//$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
+if ($result=mysqli_query($conn,$sql)){
+    $oUnit = "<option value='0' selected='' disabled=''>เลือก หน่วย</option>";
+    while($row = mysqli_fetch_array($result)){
+        if($goUnit===$row["unit_id"]){
+            $oUnit .= '<option selected value='.$row["unit_id"].'>'.$row["unit_name"].'</option>';
+        }else{
+            $oUnit .= '<option value='.$row["unit_id"].'>'.$row["unit_name"].'</option>';
+        }
+        
+    }
+}
+
 $tr1="<table id='trReDetail' class='table table-striped table-bordered table-hover' width='100%'><thead>"
         ."<tr><th data-class='expand'>รหัส</th>"
         ."<th data-class='expand'>ชื่อสินค้า</th>"
@@ -243,12 +257,13 @@ mysqli_close($conn);
                                         <label class="label">รหัส</label>
                                         <label class="input"> <i class="icon-prepend fa fa-phone"></i>
                                                 <input type="text" name="reGoCode" id="reGoCode" placeholder="รหัส">
+                                                <input type="hidden" name="reGoId" id="reGoId" placeholder="รหัส">
                                         </label>
                                         
                                     </section>
                                     <section class="col col-2">
                                         <label class="label">&nbsp;&nbsp;</label>
-                                        <button id=""btnReGoSearch class="btn btn-primary btn-sm">ค้นหา</button>
+                                        <button type="button" id="btnReGoSearch" class="btn btn-primary btn-sm">ค้นหา</button>
                                     </section>
                                     <section class="col col-6">
                                         <label class="label">ชื่อสินค้า</label>
@@ -457,33 +472,73 @@ mysqli_close($conn);
             startDate: '-3d'
         });
         $('#sandbox-container input').datepicker({ });
-        $("#btnSave").click(saveGoods);
+        $("#btnSave").click(saveRec1);
         $("#btnReAdd").click(addRow);
-        
+        $("#btnReGoSearch").click(goSearch);
+        $("#reGoQty").keyup(calAmt);
+        function calAmt(){
+            $("#reGoAmt").val($("#reGoQty").val()*$("#reGoPrice").val());
+        }
+        function goSearch(){
+            $.ajax({
+                type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', data: { 'goods_code': $("#reGoCode").val(), 'flagPage':"goSearch" }, 
+                success: function (data) {
+                    //alert('bbbbb');
+                    var json_obj = $.parseJSON(data);
+//                    alert('bbbbb '+json_obj.length);
+//                    alert('ccccc '+$("#cDistrict").val());
+                    //$("#cZipcode").val("aaaa");
+                    for (var i in json_obj){
+                        if(json_obj[i].goods_name!=null) {
+                            $("#reGoName").val(json_obj[i].goods_name);
+                        }
+                        if(json_obj[i].price!=null) {
+                            $("#reGoPrice").val(json_obj[i].price);
+                        }
+                        if(json_obj[i].goods_id!=null) {
+                            $("#reGoId").val(json_obj[i].goods_id);
+                        }
+                        if(json_obj[i].unit_id!=null) {
+                            //$("#reGoId").val(json_obj[i].unit_id);
+                            $('#reGoUnit').val(json_obj[i].unit_id);
+                        }
+                    }
+                }
+            });
+        }
         function addRow(){
             var reCnt = $("#reCnt").val();
             var reGoCode = $("#reGoCode").val();
+            var reGoId = $("#reGoId").val();
             var reGoName = $("#reGoName").val();
             var reGoQty = $("#reGoQty").val();
             var reGoPrice = $("#reGoPrice").val();
             var reGoAmt = $("#reGoAmt").val();
             var reGoUnit = $("#reGoUnit").val();
+            var reGoUnit1 = $("#reGoUnit :selected").text();
+            
+            var trId = "<input type='text' id='reRecDId"+reCnt+"' value=''>";
+            var trGoId = "<input type='hidden' id='reGoId"+reCnt+"' value='"+reGoId+"'>";
             var trCode = "<input type='hidden' id='reGoCode"+reCnt+"' value='"+reGoCode+"'>";
             var trQty = "<input type='hidden' id='reGoQty"+reCnt+"' value='"+reGoQty+"'>";
             var trPrice = "<input type='hidden' id='reGoPrice"+reCnt+"' value='"+reGoPrice+"'>";
             var trAmt = "<input type='hidden' id='reGoAmt"+reCnt+"' value='"+reGoAmt+"'>";
             var trUnit = "<input type='hidden' id='reGoUnit"+reCnt+"' value='"+reGoUnit+"'>";
             
-            var tr = "<tr class='child'><td>"+reGoCode+trCode+"</td><td>"+reGoName+"</td><td>"+reGoQty+trQty+"</td><td>"+reGoPrice+trPrice+"</td><td>"+reGoUnit+trUnit+"</td><td>"+reGoAmt+trAmt+"</td></tr>";
+            var tr = "<tr class='child'><td>"+reGoCode+trCode+trId+trGoId+"</td><td>"+reGoName+"</td><td>"+reGoQty+trQty+"</td><td>"+reGoPrice+trPrice+"</td><td>"+reGoUnit1+trUnit+"</td><td>"+reGoAmt+trAmt+"</td></tr>";
             reCnt++;
             $("#reCnt").val(reCnt);
             //alert('aaaa');
             $('#trReDetail').append(tr);
             //$('#trReDetail tr:last').after('<tr class="child"><td>blahblah<\/td></tr>');
         }
-        function saveGoods(){
-            alert('aaaaa '+$("#reRecDate").val());
-            $.ajax({ 
+        function saveRec1(){
+            saveRec();
+            //saveDetail();
+        }
+        function saveRec(){
+            //alert('aaaaa '+$("#reRecDate").val());
+            $.ajax({
                 type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', 
                 data: { 'rec_id': $("#reRecId").val()
                     ,'rec_doc': $("#reRecDoc").val()
@@ -497,7 +552,8 @@ mysqli_close($conn);
                     ,'remark': $("#reRemark").val()
                     ,'flagPage': "goods_rec" }, 
                 success: function (data) {
-                    alert('bbbbb'+data);
+                    saveDetail();
+                    //alert('bbbbb'+data);
                     var json_obj = $.parseJSON(data);
                     for (var i in json_obj){
                         alert("aaaa "+json_obj[i].success);
@@ -507,6 +563,46 @@ mysqli_close($conn);
                     //$("#cZipcode").val("aaaa");
                 }
             });
+        }
+        function saveDetail(){
+            var cnt = $("#reCnt").val();
+            var reRecId = $("#reRecId").val();
+            //alert('saveDetail ');
+            for (var i=0;i<cnt;i++){
+                alert("zzzzzz");
+                //var reRecId = $("#reRecId"+i).val();
+                var reRecDId = $("#reRecDId"+i).val();
+                var reGoId = $("#reGoId"+i).val();
+                //var reGoCode = $("#reGoCode"+i).val();
+                //var reGoName = $("#reGoName"+i).val();
+                var reGoQty = $("#reGoQty"+i).val();
+                var reGoPrice = $("#reGoPrice"+i).val();
+                var reGoAmt = $("#reGoAmt"+i).val();
+                var reGoUnit = $("#reGoUnit"+i).val();
+                //var reRecId = $("#reRecId").val();
+                //alert("pppppp "+reRecDId);
+                $.ajax({
+                    type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', 
+                    data: { 'rec_detail_id': reRecDId
+                        ,'rec_id': reRecId
+                        ,'goods_id': reGoId
+                        ,'qty': reGoQty
+                        ,'price': reGoPrice
+                        ,'amt': reGoAmt
+                        ,'cost': reGoPrice
+                        ,'unit_id': reGoUnit
+                        ,'remark': ''
+                        ,'flagPage': "goods_rec_detail"
+                    },
+                    success: function (data) {
+                        var json_obj = $.parseJSON(data);
+
+                        for (var i in json_obj){
+                            alert("mmmmm "+json_obj[i].success);
+                        }
+                    }
+                });
+            }
         }
 
 </script>
