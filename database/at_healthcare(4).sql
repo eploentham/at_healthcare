@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2017 at 12:49 PM
--- Server version: 10.1.13-MariaDB
--- PHP Version: 5.6.23
+-- Generation Time: Apr 20, 2017 at 02:47 AM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -10523,7 +10523,7 @@ CREATE TABLE `t_goods_rec` (
 --
 
 INSERT INTO `t_goods_rec` (`rec_id`, `rec_doc`, `inv_ex`, `description`, `rec_date`, `inv_ex_date`, `comp_id`, `vend_id`, `branch_id`, `remark`, `active`, `date_create`, `date_modi`, `date_cancel`) VALUES
-('6e9c48dd-24ce-11e7-8e22-4ccc6a2a8cae', 'aaa', '2222', '3333', '19.04.2017', '17.04.2017', '25fc13b0-20ff-11e7-b800-1c1b0d8ca1a0', '0f063b54-21f5-11e7-b800-1c1b0d8ca1a0', 'c48bf5b8-21b1-11e7-b800-1c1b0d8ca1a0', 'ddddd', '1', '2017-04-19 12:57:11', NULL, NULL);
+('b48ebc04-6190-41ce-8c02-dda602959368', 'bbb', 'ccc', 'ddd', '20.04.2017', '19.04.2017', '25fc13b0-20ff-11e7-b800-1c1b0d8ca1a0', '0f063b54-21f5-11e7-b800-1c1b0d8ca1a0', 'c48bf5b8-21b1-11e7-b800-1c1b0d8ca1a0', 'eeee', '1', '2017-04-20 07:43:28', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -10538,9 +10538,22 @@ CREATE TABLE `t_goods_rec_detail` (
   `price` decimal(17,2) DEFAULT '0.00',
   `cost` decimal(17,2) DEFAULT '0.00',
   `qty` decimal(17,2) DEFAULT '0.00',
+  `amount` decimal(17,2) DEFAULT '0.00',
+  `unit_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `remark` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `active` varchar(255) COLLATE utf8_bin DEFAULT NULL
+  `active` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `date_create` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `date_modi` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `date_cancel` varchar(255) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `t_goods_rec_detail`
+--
+
+INSERT INTO `t_goods_rec_detail` (`rec_detail_id`, `rec_id`, `goods_id`, `price`, `cost`, `qty`, `amount`, `unit_id`, `remark`, `active`, `date_create`, `date_modi`, `date_cancel`) VALUES
+('5efeebac-2562-11e7-ae9b-1c1b0d8ca1a0', 'b48ebc04-6190-41ce-8c02-dda602959368', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '5.00', '5.00', '3.00', '15.00', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '', '1', '2017-04-20 07:43:28', NULL, NULL),
+('5efd9879-2562-11e7-ae9b-1c1b0d8ca1a0', 'b48ebc04-6190-41ce-8c02-dda602959368', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '5.00', '5.00', '4.00', '20.00', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '', '1', '2017-04-20 07:43:28', NULL, NULL);
 
 -- --------------------------------------------------------
 
