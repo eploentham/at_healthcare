@@ -114,13 +114,15 @@ $reCnt=0;
 if ($rDetail=mysqli_query($conn,$sql)){
     while($row = mysqli_fetch_array($rDetail)){
         $reCnt++;
-        $tr1 .= "<tr><td>".$row["goods_code"]."</td><td>".$row["goods_name"]."</td><td>"
+        $tr1 .= "<tr><td>".$row["goods_code"]."</td><td><a href='#' onclick='alert('aaaa');return false;'>".$row["goods_name"]."</a></td><td>"
                 .$row["qty"]."</td><td>".$row["price"]."</td><td>".$row["unit_name"]."</td><td>".$row["amount"]."</td></tr>";
     }
     
 }else{
     
 }
+$result->free();
+$rDetail->free();
 $tr1 .= "</tbody></table>";
 mysqli_close($conn);
 ?>
@@ -307,7 +309,7 @@ mysqli_close($conn);
                                                 <?php echo $oUnit;?>
                                             </select> <i></i> </label>
                                     </section>
-                                    <section class="col col-2">
+                                    <section class="col col-2 right-inner">
                                         <label class="label">รวมราคา</label>
                                         <label class="input"> <i class="icon-prepend fa fa-phone"></i>
                                                 <input type="text" name="reGoAmt" id="reGoAmt" placeholder="รวมราคา">
@@ -323,12 +325,20 @@ mysqli_close($conn);
 
                             <div id="divView"><?php echo $tr1?></div>
                             <footer>
-                                <button type="button" id="btnSave" class="btn btn-primary">
-                                        บันทึกข้อมูล
-                                </button>
+                                <div class="row">
+                                    <section class="col col-2 left-inner">
+                                        <button type="button" id="btnSave" class="btn btn-primary">
+                                                บันทึกข้อมูล
+                                        </button>
+                                    </section>
+                                    <section class="col col-10 right-inner">
+                                        <button type="button" id="btnReDoc" class="btn btn-primary">
+                                                ออกเลขที่เอกสาร เพิ่มStock
+                                        </button>
+                                    </section>
+                                </div>
                             </footer>
                         </form>						
-
                     </div>
                     <!-- end widget content -->
                 </div>

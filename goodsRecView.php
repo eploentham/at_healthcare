@@ -3,12 +3,13 @@
 $trCust="";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
-$sql="Select rec.*, ifnull(comp.comp_name_t,'') as comp_name_t, ifnull(vend.vend_name_t,'') as vend_name_t, ifnull(br.branch_name,'') as branch_name "
+$sql="Select rec.rec_id, ifnull(rec.description,'-') as description, ifnull(rec.rec_doc,'-') as rec_doc, ifnull(rec.inv_ex,'-') as inv_ex, ifnull(rec.rec_date,'-') as rec_date, ifnull(rec.inv_ex_date,'-') as inv_ex_date "
+        .", ifnull(comp.comp_name_t,'') as comp_name_t, ifnull(vend.vend_name_t,'') as vend_name_t, ifnull(br.branch_name,'') as branch_name "
         ."From t_goods_rec rec "
         //."Left Join t_goods_rec_detail recd On rec.rec_id = recd.rec_id "
-        ."Left Join b_company comp On comp.comp_id = rec.comp_id "
-        ."Left Join b_vendor vend On vend.vend_id = rec.vend_id "
-        ."Left Join b_branch br On br.branch_id = rec.branch_id "
+        ."Left Join b_company comp On rec.comp_id = comp.comp_id "
+        ."Left Join b_vendor vend On rec.vend_id = vend.vend_id "
+        ."Left Join b_branch br On rec.branch_id = br.branch_id "
         ."Where rec.active = '1' ";
 $result = mysqli_query($conn,$sql);
 if($result){
