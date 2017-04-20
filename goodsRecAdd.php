@@ -1,5 +1,6 @@
 <?php require_once("inc/init.php"); ?>
 <?php
+include 'UUID.php';
 //echo $userDB;
 $reRecId="-";
 $reInvEx="";
@@ -10,12 +11,18 @@ $reInvExDate="";
 $compId="";
 $vendId="";
 $branchId="";
-$remark="";
+$reRemark="";
+$reFlagNew="";
 if(isset($_GET["recId"])){
     $reRecId = $_GET["recId"];
+    $reFlagNew = "old";
+    //$reRecId="aa";
 }else{
-    $reRecId = "";
+    $reRecId = UUID::v4();
+    $reFlagNew = "new";
 }
+
+//$reRecId="aa";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
 $sql="Select * From t_goods_rec Where rec_id = '".$reRecId."' ";
@@ -23,21 +30,23 @@ $sql="Select * From t_goods_rec Where rec_id = '".$reRecId."' ";
 //$rComp = mysqli_query($conn,"Select * From b_company Where comp_id = '1' ");
 if ($rComp=mysqli_query($conn,$sql)){
     $aRec = mysqli_fetch_array($rComp);
-    $reRecId = $aRec["rec_id"];
-    $reRecDoc = ($aRec["rec_doc"]);
-    $reInvEx = ($aRec["inv_ex"]);
-    $reDesc = ($aRec["description"]);
-    $reRecDate = ($aRec["rec_date"]);
-    $reInvExDate = ($aRec["inv_ex_date"]);
-    $reRemark = ($aRec["remark"]);
-    
-    $compId = ($aRec["comp_id"]);
-    $vendId = ($aRec["vend_id"]);
-    $branchId = ($aRec["branch_id"]);
-//    $goLength = strval($aRec["length"]);
-//    $goUnit = strval($aRec["unit_id"]);
-//    $goTypeId = strval($aRec["goods_type_id"]);
-//    $goCatId = strval($aRec["goods_cat_id"]);
+    while($aRec = mysqli_fetch_array($rComp)){
+        $reRecId = $aRec["rec_id"];
+        $reRecDoc = ($aRec["rec_doc"]);
+        $reInvEx = ($aRec["inv_ex"]);
+        $reDesc = ($aRec["description"]);
+        $reRecDate = ($aRec["rec_date"]);
+        $reInvExDate = ($aRec["inv_ex_date"]);
+        $reRemark = ($aRec["remark"]);
+
+        $compId = ($aRec["comp_id"]);
+        $vendId = ($aRec["vend_id"]);
+        $branchId = ($aRec["branch_id"]);
+    //    $goLength = strval($aRec["length"]);
+    //    $goUnit = strval($aRec["unit_id"]);
+    //    $goTypeId = strval($aRec["goods_type_id"]);
+    //    $goCatId = strval($aRec["goods_cat_id"]);
+    }
 }else{
     $goId = $goodsId;
 }
@@ -83,11 +92,11 @@ $sql="Select * From b_unit Order By unit_code";
 if ($result=mysqli_query($conn,$sql)){
     $oUnit = "<option value='0' selected='' disabled=''>เลือก หน่วย</option>";
     while($row = mysqli_fetch_array($result)){
-        if($goUnit===$row["unit_id"]){
-            $oUnit .= '<option selected value='.$row["unit_id"].'>'.$row["unit_name"].'</option>';
-        }else{
+//        if($goUnit===$row["unit_id"]){
+//            $oUnit .= '<option selected value='.$row["unit_id"].'>'.$row["unit_name"].'</option>';
+//        }else{
             $oUnit .= '<option value='.$row["unit_id"].'>'.$row["unit_name"].'</option>';
-        }
+//        }
         
     }
 }
@@ -96,12 +105,17 @@ $tr1="<table id='trReDetail' class='table table-striped table-bordered table-hov
         ."<tr><th data-class='expand'>รหัส</th>"
         ."<th data-class='expand'>ชื่อสินค้า</th>"
         ."<th data-class='expand'>qty</th><th data-class='expand'>ราคา</th><th data-class='expand'>หน่วย</th><th data-class='expand'>รวมราคา</th></tr></thead><tbody>";
-$sql="Select * From t_goods_rec_detail Where rec_id = '".$reRecId."'";
+$sql="Select recd.*, g.goods_code, g.goods_name, u.unit_name "
+        ."From t_goods_rec_detail recd "
+        ."Left Join b_goods g on recd.goods_id = g.goods_id "
+        ."Left Join b_unit u on recd.unit_id = u.unit_id "
+        ."Where rec_id = '".$reRecId."'";
 $reCnt=0;
 if ($rDetail=mysqli_query($conn,$sql)){
     while($row = mysqli_fetch_array($rDetail)){
         $reCnt++;
-        $tr1 .= "<tr><td>a</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+        $tr1 .= "<tr><td>".$row["goods_code"]."</td><td>".$row["goods_name"]."</td><td>"
+                .$row["qty"]."</td><td>".$row["price"]."</td><td>".$row["unit_name"]."</td><td>".$row["amount"]."</td></tr>";
     }
     
 }else{
@@ -190,6 +204,7 @@ mysqli_close($conn);
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
                                         <input type="text" name="reRecDoc" id="reRecDoc" value="<?php echo $reRecDoc;?>" placeholder="เลขที่เอกสาร">
                                         <input type="hidden" name="reRecId" id="reRecId" value="<?php echo $reRecId;?>">
+                                        <input type="hidden" name="reFlagNew" id="reFlagNew" value="<?php echo $reFlagNew;?>">
                                         <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section>
                                 <section>
@@ -536,11 +551,14 @@ mysqli_close($conn);
             saveRec();
             //saveDetail();
         }
+
         function saveRec(){
             //alert('aaaaa '+$("#reRecDate").val());
+            var reRecId = $("#reRecId").val();
+
             $.ajax({
                 type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', 
-                data: { 'rec_id': $("#reRecId").val()
+                data: { 'rec_id': reRecId
                     ,'rec_doc': $("#reRecDoc").val()
                     ,'inv_ex': $("#reInvEx").val()
                     ,'description': $("#reDesc").val()
@@ -550,8 +568,10 @@ mysqli_close($conn);
                     ,'vend_id': $("#reVend").val()
                     ,'branch_id': $("#reBranch").val()
                     ,'remark': $("#reRemark").val()
+                    ,'flag_new': $("#reFlagNew").val()
                     ,'flagPage': "goods_rec" }, 
                 success: function (data) {
+                    //var rec_id = $("#reRecId").val();
                     saveDetail();
                     //alert('bbbbb'+data);
                     var json_obj = $.parseJSON(data);
@@ -569,7 +589,7 @@ mysqli_close($conn);
             var reRecId = $("#reRecId").val();
             //alert('saveDetail ');
             for (var i=0;i<cnt;i++){
-                alert("zzzzzz");
+                //alert("zzzzzz");
                 //var reRecId = $("#reRecId"+i).val();
                 var reRecDId = $("#reRecDId"+i).val();
                 var reGoId = $("#reGoId"+i).val();

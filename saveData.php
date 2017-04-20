@@ -216,11 +216,12 @@ if($_GET["flagPage"] === "company"){
     $vend_id=$_GET["vend_id"];
     $branch_id=$_GET["branch_id"];
     $remark=$_GET["remark"];
-    if(($_GET["rec_id"]==="-")|| ($_GET["rec_id"]==="")){
+    $flag_new=$_GET["flag_new"];
+    if(($_GET["flag_new"]==="-")|| ($_GET["flag_new"]==="new")){
         $sql="Insert Into t_goods_rec(rec_id, rec_doc, inv_ex, description, "
                 ."rec_date, inv_ex_date, comp_id, vend_id, "
                 ."branch_id, remark, active, date_create) "
-                ."Values(UUID(),'".$rec_doc."','".$inv_ex."','".$description."','"
+                ."Values('".$rec_id."','".$rec_doc."','".$inv_ex."','".$description."','"
                 .$rec_date."','".$inv_ex_date."','".$comp_id."','".$vend_id."','"
                 .$branch_id."','".$remark."','1',now())";
     }else{

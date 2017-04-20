@@ -3,9 +3,9 @@
 $trCust="";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
-$sql="Select rec.*, ifnull(comp.comp_name_t,'') as comp_name_t, ifnull(vend.vend_name_t,'') as vend_name_t, ifnull(br.branch_name,'') as branch_name_t "
+$sql="Select rec.*, ifnull(comp.comp_name_t,'') as comp_name_t, ifnull(vend.vend_name_t,'') as vend_name_t, ifnull(br.branch_name,'') as branch_name "
         ."From t_goods_rec rec "
-        ."Left Join t_goods_rec_detail recd On rec.rec_id = recd.rec_id "
+        //."Left Join t_goods_rec_detail recd On rec.rec_id = recd.rec_id "
         ."Left Join b_company comp On comp.comp_id = rec.comp_id "
         ."Left Join b_vendor vend On vend.vend_id = rec.vend_id "
         ."Left Join b_branch br On br.branch_id = rec.branch_id "
