@@ -598,7 +598,7 @@ mysqli_close($conn);
                         $.ajax({
                             type: 'GET', url: 'genStock.php', contentType: "application/json", dataType: 'text', 
                             data: { 'rec_id': reRecId
-                                ,'flagPage': "gen_stock" }, 
+                                ,'flagPage': "gen_stock_rec" }, 
                             success: function (data) {
                                 //var rec_id = $("#reRecId").val();
                                 //saveDetail();

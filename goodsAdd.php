@@ -8,6 +8,8 @@ $oCat="";
 $oType="";
 $goTypeId="";
 $goCatId="";
+$goPup="";
+$goPuPer="";
 if(isset($_GET["goodsId"])){
     $goId = $_GET["goodsId"];
 }else{
@@ -34,6 +36,8 @@ if ($rComp=mysqli_query($conn,$sql)){
     $goUnit = ($aGoods["unit_id"]);
     $goTypeId = ($aGoods["goods_type_id"]);
     $goCatId = ($aGoods["goods_cat_id"]);
+    $goPup = ($aGoods["purchase_point"]);
+    $goPuPer = ($aGoods["purchase_period"]);
 }else{
     $goId = $goodsId;
 }
@@ -238,7 +242,18 @@ mysqli_close($conn);
                                             <?php echo $oUnit;?>
                                         </select> <i></i> </label>
                                 </section>
-                                
+                                <section >
+                                    <label class="label">Purchase point</label>
+                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                        <input type="text" name="goPup" id="goPup" value="<?php echo $goPup;?>" placeholder="Purchase point">
+                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                </section >
+                                <section >
+                                    <label class="label">Purchase Period</label>
+                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                        <input type="text" name="goPuPer" id="goPuPer" value="<?php echo $goPuPer;?>" placeholder="Purchase Period">
+                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                </section >
                             </fieldset>
                             
                             <footer>
@@ -407,7 +422,7 @@ mysqli_close($conn);
         
         
         function saveGoods(){
-            alert('aaaaa');
+            //alert('aaaaa');
             $.ajax({ 
                 type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', 
                 data: { 'goods_id': $("#goId").val()
@@ -424,6 +439,8 @@ mysqli_close($conn);
                     ,'dia_meter': $("#goDiameter").val()
                     ,'length': $("#goLength").val()
                     ,'unit_id': $("#goUnit").val()
+                    ,'purchase_point': $("#goPup").val()
+                    ,'purchase_period': $("#goPuPer").val()
                     ,'flagPage': "goods" }, 
                 success: function (data) {
                     alert('bbbbb'+data);

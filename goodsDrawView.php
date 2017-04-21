@@ -15,7 +15,7 @@ $sql="Select dra.draw_id, ifnull(dra.description,'-') as description, ifnull(dra
 $result = mysqli_query($conn,$sql);
 if($result){
     while($row = mysqli_fetch_array($result)){
-        $brName="<a href='#goodsDrawAdd.php?draId=".$row["dra_id"]."'>".$row["description"]."</a>";
+        $brName="<a href='#goodsDrawAdd.php?draId=".$row["draw_id"]."'>".$row["description"]."</a>";
         $trCust .= "<tr><td>".$row["draw_doc"]."</td><td>".$brName."</td><td>"
                 .$row["draw_date"]."</td><td>".$row["comp_name_t"]."</td><td>".$row["branch_name_d"]."</td><td>".$row["branch_name_r"]."</td>";
     }

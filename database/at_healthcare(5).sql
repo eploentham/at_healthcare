@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 21, 2017 at 01:12 PM
+-- Generation Time: Apr 21, 2017 at 05:05 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.23
 
@@ -1188,6 +1188,7 @@ CREATE TABLE `b_goods` (
   `goods_cat_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `active` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `on_hand` decimal(17,2) DEFAULT '0.00',
+  `purchase_point` decimal(17,2) DEFAULT '0.00',
   `branch_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `price` decimal(17,2) DEFAULT '0.00',
   `cost` decimal(17,2) DEFAULT '0.00',
@@ -1196,6 +1197,7 @@ CREATE TABLE `b_goods` (
   `dia_meter` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `length` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `unit_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `purchase_period` decimal(17,2) DEFAULT '0.00',
   `date_create` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `date_modi` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `date_cancel` varchar(255) COLLATE utf8_bin DEFAULT NULL,
@@ -1208,8 +1210,8 @@ CREATE TABLE `b_goods` (
 -- Dumping data for table `b_goods`
 --
 
-INSERT INTO `b_goods` (`goods_id`, `goods_code`, `goods_code_ex`, `goods_name`, `goods_name_ex`, `goods_type_id`, `goods_cat_id`, `active`, `on_hand`, `branch_id`, `price`, `cost`, `holes`, `side`, `dia_meter`, `length`, `unit_id`, `date_create`, `date_modi`, `date_cancel`, `user_create`, `user_modi`, `user_cancel`) VALUES
-('f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', 'aaa', '5555', '222', '33', '05233f7d-225b-11e7-b800-1c1b0d8ca1a0', '90d1cff8-225c-11e7-b800-1c1b0d8ca1a0', '1', '0.00', NULL, '5.00', '44.00', 'a', 'b', 'c', 'd', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '2017-04-18 22:16:17', '2017-04-19 10:19:08', NULL, NULL, NULL, NULL);
+INSERT INTO `b_goods` (`goods_id`, `goods_code`, `goods_code_ex`, `goods_name`, `goods_name_ex`, `goods_type_id`, `goods_cat_id`, `active`, `on_hand`, `purchase_point`, `branch_id`, `price`, `cost`, `holes`, `side`, `dia_meter`, `length`, `unit_id`, `purchase_period`, `date_create`, `date_modi`, `date_cancel`, `user_create`, `user_modi`, `user_cancel`) VALUES
+('f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', 'aaa', '5555', '222', '33', '05233f7d-225b-11e7-b800-1c1b0d8ca1a0', '90d1cff8-225c-11e7-b800-1c1b0d8ca1a0', '1', '0.00', '20.00', NULL, '5.00', '44.00', 'a', 'b', 'c', 'd', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '1.00', '2017-04-18 22:16:17', '2017-04-21 21:45:00', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -10519,6 +10521,13 @@ CREATE TABLE `t_goods_draw` (
   `date_cancel` varchar(255) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+--
+-- Dumping data for table `t_goods_draw`
+--
+
+INSERT INTO `t_goods_draw` (`draw_id`, `draw_doc`, `inv_ex`, `description`, `draw_date`, `comp_id`, `vend_id`, `branch_id_draw`, `branch_id_rec`, `remark`, `active`, `status_stock`, `date_create`, `date_modi`, `date_cancel`) VALUES
+('dbf6ede9-769f-4de9-8866-0ed4dda33762', '', NULL, 'ooooo', '20.04.2017', '25fc13b0-20ff-11e7-b800-1c1b0d8ca1a0', NULL, 'c48bf5b8-21b1-11e7-b800-1c1b0d8ca1a0', '', 'uuuuu', '1', '1', '2017-04-21 20:51:50', NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -10541,6 +10550,20 @@ CREATE TABLE `t_goods_draw_detail` (
   `date_modi` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `date_cancel` varchar(255) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `t_goods_draw_detail`
+--
+
+INSERT INTO `t_goods_draw_detail` (`draw_detail_id`, `draw_id`, `goods_id`, `price`, `cost`, `qty`, `amount`, `unit_id`, `remark`, `active`, `status_stock`, `date_create`, `date_modi`, `date_cancel`) VALUES
+('acaf7b40-2699-11e7-8453-4ccc6a2a8cae', 'dbf6ede9-769f-4de9-8866-0ed4dda33762', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '5.00', '5.00', '9.00', '45.00', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '', '3', '0', '2017-04-21 20:51:52', NULL, '2017-04-21 21:12:38'),
+('ab6518fa-2699-11e7-8453-4ccc6a2a8cae', 'dbf6ede9-769f-4de9-8866-0ed4dda33762', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '5.00', '5.00', '9.00', '45.00', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '', '3', '0', '2017-04-21 20:51:50', NULL, '2017-04-21 21:12:58'),
+('aceec11e-2699-11e7-8453-4ccc6a2a8cae', 'dbf6ede9-769f-4de9-8866-0ed4dda33762', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '5.00', '5.00', '9.00', '45.00', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '', '1', '1', '2017-04-21 20:51:53', NULL, NULL),
+('ad083acd-2699-11e7-8453-4ccc6a2a8cae', 'dbf6ede9-769f-4de9-8866-0ed4dda33762', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '5.00', '5.00', '9.00', '45.00', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '', '1', '1', '2017-04-21 20:51:53', NULL, NULL),
+('ad22effc-2699-11e7-8453-4ccc6a2a8cae', 'dbf6ede9-769f-4de9-8866-0ed4dda33762', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '5.00', '5.00', '9.00', '45.00', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '', '1', '1', '2017-04-21 20:51:53', NULL, NULL),
+('ad3cabc1-2699-11e7-8453-4ccc6a2a8cae', 'dbf6ede9-769f-4de9-8866-0ed4dda33762', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '5.00', '5.00', '9.00', '45.00', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '', '1', '1', '2017-04-21 20:51:53', NULL, NULL),
+('ad527bc0-2699-11e7-8453-4ccc6a2a8cae', 'dbf6ede9-769f-4de9-8866-0ed4dda33762', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '5.00', '5.00', '9.00', '45.00', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '', '1', '1', '2017-04-21 20:51:53', NULL, NULL),
+('ad6de772-2699-11e7-8453-4ccc6a2a8cae', 'dbf6ede9-769f-4de9-8866-0ed4dda33762', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '5.00', '5.00', '9.00', '45.00', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '', '1', '1', '2017-04-21 20:51:53', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -10632,7 +10655,19 @@ CREATE TABLE `t_stock` (
 
 INSERT INTO `t_stock` (`stock_id`, `goods_id`, `qty`, `price`, `rec_draw_detail_id`, `status_rec_draw`, `active`, `date_create`, `date_modi`, `date_cancel`) VALUES
 ('d0f20a68-265b-11e7-8453-4ccc6a2a8cae', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '2.00', '5.00', '3e062e03-2632-11e7-8453-4ccc6a2a8cae', '1', '1', '2017-04-21 13:29:04', NULL, NULL),
-('d0f2288f-265b-11e7-8453-4ccc6a2a8cae', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '4.00', '5.00', '3e064040-2632-11e7-8453-4ccc6a2a8cae', '1', '1', '2017-04-21 13:29:04', NULL, NULL);
+('d0f2288f-265b-11e7-8453-4ccc6a2a8cae', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '4.00', '5.00', '3e064040-2632-11e7-8453-4ccc6a2a8cae', '1', '1', '2017-04-21 13:29:04', NULL, NULL),
+('08c0cf62-269f-11e7-8453-4ccc6a2a8cae', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '9.00', '5.00', 'aceec11e-2699-11e7-8453-4ccc6a2a8cae', '2', '1', '2017-04-21 21:30:14', NULL, NULL),
+('08c14103-269f-11e7-8453-4ccc6a2a8cae', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '9.00', '5.00', 'ad083acd-2699-11e7-8453-4ccc6a2a8cae', '2', '1', '2017-04-21 21:30:14', NULL, NULL),
+('08c18f57-269f-11e7-8453-4ccc6a2a8cae', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '9.00', '5.00', 'ad22effc-2699-11e7-8453-4ccc6a2a8cae', '2', '1', '2017-04-21 21:30:14', NULL, NULL),
+('08c1cfdb-269f-11e7-8453-4ccc6a2a8cae', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '9.00', '5.00', 'ad3cabc1-2699-11e7-8453-4ccc6a2a8cae', '2', '1', '2017-04-21 21:30:14', NULL, NULL),
+('08c1f7ef-269f-11e7-8453-4ccc6a2a8cae', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '9.00', '5.00', 'ad527bc0-2699-11e7-8453-4ccc6a2a8cae', '2', '1', '2017-04-21 21:30:14', NULL, NULL),
+('08c22e1b-269f-11e7-8453-4ccc6a2a8cae', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '9.00', '5.00', 'ad6de772-2699-11e7-8453-4ccc6a2a8cae', '2', '1', '2017-04-21 21:30:14', NULL, NULL),
+('3a157927-269f-11e7-8453-4ccc6a2a8cae', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '9.00', '5.00', 'aceec11e-2699-11e7-8453-4ccc6a2a8cae', '2', '1', '2017-04-21 21:31:37', NULL, NULL),
+('3a15a88e-269f-11e7-8453-4ccc6a2a8cae', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '9.00', '5.00', 'ad083acd-2699-11e7-8453-4ccc6a2a8cae', '2', '1', '2017-04-21 21:31:37', NULL, NULL),
+('3a15b737-269f-11e7-8453-4ccc6a2a8cae', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '9.00', '5.00', 'ad22effc-2699-11e7-8453-4ccc6a2a8cae', '2', '1', '2017-04-21 21:31:37', NULL, NULL),
+('3a15c473-269f-11e7-8453-4ccc6a2a8cae', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '9.00', '5.00', 'ad3cabc1-2699-11e7-8453-4ccc6a2a8cae', '2', '1', '2017-04-21 21:31:37', NULL, NULL),
+('3a15d1a0-269f-11e7-8453-4ccc6a2a8cae', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '9.00', '5.00', 'ad527bc0-2699-11e7-8453-4ccc6a2a8cae', '2', '1', '2017-04-21 21:31:37', NULL, NULL),
+('3a15dde8-269f-11e7-8453-4ccc6a2a8cae', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '9.00', '5.00', 'ad6de772-2699-11e7-8453-4ccc6a2a8cae', '2', '1', '2017-04-21 21:31:37', NULL, NULL);
 
 -- --------------------------------------------------------
 
