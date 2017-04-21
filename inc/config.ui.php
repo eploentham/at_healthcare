@@ -608,7 +608,7 @@ $page_nav = array(
             ),
             "drawStock" => array(
                 "title" => "เบิกตัดจ่ายสินค้า",
-                "url" => "ajax/dashboard-social.php"
+                "url" => "goodsDrawView.php"
             ),
             "goods" => array(
                 "title" => "รายการสินค้าทั้งหมด",

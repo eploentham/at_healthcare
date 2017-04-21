@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2017 at 02:47 AM
--- Server version: 10.1.21-MariaDB
--- PHP Version: 5.6.30
+-- Generation Time: Apr 21, 2017 at 01:12 PM
+-- Server version: 10.1.13-MariaDB
+-- PHP Version: 5.6.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -10498,6 +10498,53 @@ INSERT INTO `provinces` (`prov_id`, `prov_code`, `prov_name`, `geo_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `t_goods_draw`
+--
+
+CREATE TABLE `t_goods_draw` (
+  `draw_id` varchar(255) COLLATE utf8_bin NOT NULL,
+  `draw_doc` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `inv_ex` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `description` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `draw_date` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `comp_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `vend_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `branch_id_draw` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `branch_id_rec` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `remark` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `active` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `status_stock` varchar(255) COLLATE utf8_bin DEFAULT '0' COMMENT '0=default, 1=add stock',
+  `date_create` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `date_modi` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `date_cancel` varchar(255) COLLATE utf8_bin DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_goods_draw_detail`
+--
+
+CREATE TABLE `t_goods_draw_detail` (
+  `draw_detail_id` varchar(255) COLLATE utf8_bin NOT NULL,
+  `draw_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `goods_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `price` decimal(17,2) DEFAULT '0.00',
+  `cost` decimal(17,2) DEFAULT '0.00',
+  `qty` decimal(17,2) DEFAULT '0.00',
+  `amount` decimal(17,2) DEFAULT '0.00',
+  `unit_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `remark` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `active` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `status_stock` varchar(255) COLLATE utf8_bin DEFAULT '0' COMMENT '0=default, 1=add stock',
+  `date_create` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `date_modi` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `date_cancel` varchar(255) COLLATE utf8_bin DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `t_goods_rec`
 --
 
@@ -10513,6 +10560,7 @@ CREATE TABLE `t_goods_rec` (
   `branch_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `remark` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `active` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `status_stock` varchar(255) COLLATE utf8_bin DEFAULT '0' COMMENT '0=default, 1=add stock',
   `date_create` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `date_modi` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `date_cancel` varchar(255) COLLATE utf8_bin DEFAULT NULL
@@ -10522,8 +10570,9 @@ CREATE TABLE `t_goods_rec` (
 -- Dumping data for table `t_goods_rec`
 --
 
-INSERT INTO `t_goods_rec` (`rec_id`, `rec_doc`, `inv_ex`, `description`, `rec_date`, `inv_ex_date`, `comp_id`, `vend_id`, `branch_id`, `remark`, `active`, `date_create`, `date_modi`, `date_cancel`) VALUES
-('b48ebc04-6190-41ce-8c02-dda602959368', 'bbb', 'ccc', 'ddd', '20.04.2017', '19.04.2017', '25fc13b0-20ff-11e7-b800-1c1b0d8ca1a0', '0f063b54-21f5-11e7-b800-1c1b0d8ca1a0', 'c48bf5b8-21b1-11e7-b800-1c1b0d8ca1a0', 'eeee', '1', '2017-04-20 07:43:28', NULL, NULL);
+INSERT INTO `t_goods_rec` (`rec_id`, `rec_doc`, `inv_ex`, `description`, `rec_date`, `inv_ex_date`, `comp_id`, `vend_id`, `branch_id`, `remark`, `active`, `status_stock`, `date_create`, `date_modi`, `date_cancel`) VALUES
+('b48ebc04-6190-41ce-8c02-dda602959368', '-', '-', '-', '', '', '', '', '', '', '1', '0', '2017-04-20 07:43:28', '2017-04-20 17:18:30', NULL),
+('a114fe08-d51a-448a-ad43-2f3e82475f6d', 'aaa', 'bbb', 'ccc', '21.04.2017', '20.04.2017', '25fc13b0-20ff-11e7-b800-1c1b0d8ca1a0', '0f063b54-21f5-11e7-b800-1c1b0d8ca1a0', 'c48bf5b8-21b1-11e7-b800-1c1b0d8ca1a0', 'eeee', '1', '1', '2017-04-21 08:31:28', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -10542,6 +10591,7 @@ CREATE TABLE `t_goods_rec_detail` (
   `unit_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `remark` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `active` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `status_stock` varchar(255) COLLATE utf8_bin DEFAULT '0' COMMENT '0=default, 1=add stock',
   `date_create` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `date_modi` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `date_cancel` varchar(255) COLLATE utf8_bin DEFAULT NULL
@@ -10551,9 +10601,38 @@ CREATE TABLE `t_goods_rec_detail` (
 -- Dumping data for table `t_goods_rec_detail`
 --
 
-INSERT INTO `t_goods_rec_detail` (`rec_detail_id`, `rec_id`, `goods_id`, `price`, `cost`, `qty`, `amount`, `unit_id`, `remark`, `active`, `date_create`, `date_modi`, `date_cancel`) VALUES
-('5efeebac-2562-11e7-ae9b-1c1b0d8ca1a0', 'b48ebc04-6190-41ce-8c02-dda602959368', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '5.00', '5.00', '3.00', '15.00', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '', '1', '2017-04-20 07:43:28', NULL, NULL),
-('5efd9879-2562-11e7-ae9b-1c1b0d8ca1a0', 'b48ebc04-6190-41ce-8c02-dda602959368', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '5.00', '5.00', '4.00', '20.00', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '', '1', '2017-04-20 07:43:28', NULL, NULL);
+INSERT INTO `t_goods_rec_detail` (`rec_detail_id`, `rec_id`, `goods_id`, `price`, `cost`, `qty`, `amount`, `unit_id`, `remark`, `active`, `status_stock`, `date_create`, `date_modi`, `date_cancel`) VALUES
+('5efeebac-2562-11e7-ae9b-1c1b0d8ca1a0', 'b48ebc04-6190-41ce-8c02-dda602959368', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '5.00', '5.00', '3.00', '15.00', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '', '1', '0', '2017-04-20 07:43:28', NULL, NULL),
+('5efd9879-2562-11e7-ae9b-1c1b0d8ca1a0', 'b48ebc04-6190-41ce-8c02-dda602959368', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '5.00', '5.00', '4.00', '20.00', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '', '1', '0', '2017-04-20 07:43:28', NULL, NULL),
+('3e062e03-2632-11e7-8453-4ccc6a2a8cae', 'a114fe08-d51a-448a-ad43-2f3e82475f6d', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '5.00', '5.00', '2.00', '10.00', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '', '1', '1', '2017-04-21 08:31:28', NULL, '2017-04-21 09:52:46'),
+('3e064040-2632-11e7-8453-4ccc6a2a8cae', 'a114fe08-d51a-448a-ad43-2f3e82475f6d', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '5.00', '5.00', '4.00', '20.00', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '', '1', '1', '2017-04-21 08:31:28', NULL, '2017-04-21 09:54:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_stock`
+--
+
+CREATE TABLE `t_stock` (
+  `stock_id` varchar(255) COLLATE utf8_bin NOT NULL,
+  `goods_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `qty` decimal(17,2) DEFAULT '0.00',
+  `price` decimal(17,2) DEFAULT '0.00',
+  `rec_draw_detail_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `status_rec_draw` varchar(255) COLLATE utf8_bin DEFAULT '0' COMMENT '0=default;1=rec;2=draw',
+  `active` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `date_create` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `date_modi` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `date_cancel` varchar(255) COLLATE utf8_bin DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `t_stock`
+--
+
+INSERT INTO `t_stock` (`stock_id`, `goods_id`, `qty`, `price`, `rec_draw_detail_id`, `status_rec_draw`, `active`, `date_create`, `date_modi`, `date_cancel`) VALUES
+('d0f20a68-265b-11e7-8453-4ccc6a2a8cae', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '2.00', '5.00', '3e062e03-2632-11e7-8453-4ccc6a2a8cae', '1', '1', '2017-04-21 13:29:04', NULL, NULL),
+('d0f2288f-265b-11e7-8453-4ccc6a2a8cae', 'f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', '4.00', '5.00', '3e064040-2632-11e7-8453-4ccc6a2a8cae', '1', '1', '2017-04-21 13:29:04', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -18124,6 +18203,18 @@ ALTER TABLE `provinces`
   ADD PRIMARY KEY (`prov_id`);
 
 --
+-- Indexes for table `t_goods_draw`
+--
+ALTER TABLE `t_goods_draw`
+  ADD PRIMARY KEY (`draw_id`);
+
+--
+-- Indexes for table `t_goods_draw_detail`
+--
+ALTER TABLE `t_goods_draw_detail`
+  ADD PRIMARY KEY (`draw_detail_id`);
+
+--
 -- Indexes for table `t_goods_rec`
 --
 ALTER TABLE `t_goods_rec`
@@ -18134,6 +18225,12 @@ ALTER TABLE `t_goods_rec`
 --
 ALTER TABLE `t_goods_rec_detail`
   ADD PRIMARY KEY (`rec_detail_id`);
+
+--
+-- Indexes for table `t_stock`
+--
+ALTER TABLE `t_stock`
+  ADD PRIMARY KEY (`stock_id`);
 
 --
 -- Indexes for table `zipcodes`

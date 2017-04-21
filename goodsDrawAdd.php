@@ -2,24 +2,25 @@
 <?php
 include 'UUID.php';
 //echo $userDB;
-$reRecId="-";
+$reDraId="-";
 $reInvEx="";
-$reRecDoc="";
+$reDraDoc="";
 $reDesc="";
-$reRecDate="";
+$reDraDate="";
 $reInvExDate="";
 $compId="";
 $vendId="";
-$branchId="";
+$branchIdDra="";
+$branchIdRec="";
 $reRemark="";
 $reFlagNew="";
 $reStatusStock="";
 if(isset($_GET["recId"])){
-    $reRecId = $_GET["recId"];
+    $reDraId = $_GET["draId"];
     $reFlagNew = "old";
     //$reRecId="aa";
 }else{
-    $reRecId = UUID::v4();
+    $reDraId = UUID::v4();
     $reFlagNew = "new";
 }
 
@@ -27,24 +28,24 @@ if(isset($_GET["recId"])){
 $goodsId="";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
-$sql="Select * From t_goods_rec Where rec_id = '".$reRecId."' ";
+$sql="Select * From t_goods_draw Where draw_id = '".$reDraId."' ";
 //echo "<script> alert('aaaaa'); </script>";
 //$rComp = mysqli_query($conn,"Select * From b_company Where comp_id = '1' ");
 if ($rComp=mysqli_query($conn,$sql)){
     //$aRec = mysqli_fetch_array($rComp);
-    while($aRec = mysqli_fetch_array($rComp)){
-        $reRecId = $aRec["rec_id"];
-        $reRecDoc = ($aRec["rec_doc"]);
-        $reInvEx = ($aRec["inv_ex"]);
-        $reDesc = ($aRec["description"]);
-        $reRecDate = ($aRec["rec_date"]);
-        $reInvExDate = ($aRec["inv_ex_date"]);
-        $reRemark = ($aRec["remark"]);
-        $reStatusStock = ($aRec["status_stock"]);
+    while($aDra = mysqli_fetch_array($rComp)){
+        $reDraId = $aDra["draw_id"];
+        $reDraDoc = ($aDra["draw_doc"]);
+        //$reInvEx = ($aDra["inv_ex"]);
+        $reDesc = ($aDra["description"]);
+        $reDraDate = ($aDra["draw_date"]);
+        //$reInvExDate = ($aDra["inv_ex_date"]);
+        $reRemark = ($aDra["remark"]);
+        $reStatusStock = ($aDra["status_stock"]);
 
-        $compId = ($aRec["comp_id"]);
-        $vendId = ($aRec["vend_id"]);
-        $branchId = ($aRec["branch_id"]);
+        $compId = ($aDra["comp_id"]);
+        $branchIdDra = ($aDra["branch_id_draw"]);
+        $branchIdRec = ($aDra["branch_id_rec"]);
     //    $goLength = strval($aRec["length"]);
     //    $goUnit = strval($aRec["unit_id"]);
     //    $goTypeId = strval($aRec["goods_type_id"]);
@@ -65,28 +66,34 @@ if ($result=mysqli_query($conn,$sql)){
         }
     }
 }
-$sql="Select * From b_vendor Order By vend_name_t";
-//$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
-if ($result=mysqli_query($conn,$sql)){
-    $oVend = "<option value='0' selected='' disabled=''>เลือก Vendor</option>";
-    while($row = mysqli_fetch_array($result)){
-        if($vendId===$row["vend_id"]){
-            $oVend .= '<option selected value='.$row["vend_id"].'>'.$row["vend_name_t"].'</option>';
-        }else{
-            $oVend .= '<option value='.$row["vend_id"].'>'.$row["vend_name_t"].'</option>';
-        }
-        
-    }
-}
+//$sql="Select * From b_vendor Order By vend_name_t";
+////$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
+//if ($result=mysqli_query($conn,$sql)){
+//    $oVend = "<option value='0' selected='' disabled=''>เลือก Vendor</option>";
+//    while($row = mysqli_fetch_array($result)){
+//        if($vendId===$row["vend_id"]){
+//            $oVend .= '<option selected value='.$row["vend_id"].'>'.$row["vend_name_t"].'</option>';
+//        }else{
+//            $oVend .= '<option value='.$row["vend_id"].'>'.$row["vend_name_t"].'</option>';
+//        }
+//        
+//    }
+//}
 $sql="Select * From b_branch Order By branch_name";
 //$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
 if ($result=mysqli_query($conn,$sql)){
-    $oBranch = "<option value='0' selected='' disabled=''>เลือก สาขา</option>";
+    $oBranchD = "<option value='0' selected='' disabled=''>เลือก สาขา</option>";
+    $oBranchR = "<option value='0' selected='' disabled=''>เลือก สาขา</option>";
     while($row = mysqli_fetch_array($result)){
-        if($branchId===$row["branch_id"]){
-            $oBranch .= '<option selected value='.$row["branch_id"].'>'.$row["branch_name"].'</option>';
+        if($branchIdDra===$row["branch_id"]){
+            $oBranchD .= '<option selected value='.$row["branch_id"].'>'.$row["branch_name"].'</option>';
         }else{
-            $oBranch .= '<option value='.$row["branch_id"].'>'.$row["branch_name"].'</option>';
+            $oBranchD .= '<option value='.$row["branch_id"].'>'.$row["branch_name"].'</option>';
+        }
+        if($branchIdRec===$row["branch_id"]){
+            $oBranchR .= '<option selected value='.$row["branch_id"].'>'.$row["branch_name"].'</option>';
+        }else{
+            $oBranchR .= '<option value='.$row["branch_id"].'>'.$row["branch_name"].'</option>';
         }
     }
 }
@@ -104,24 +111,24 @@ if ($result=mysqli_query($conn,$sql)){
     }
 }
 
-$tr1="<table id='trReDetail' class='table table-striped table-bordered table-hover' width='100%'><thead>"
+$tr1="<table id='trDraDetail' class='table table-striped table-bordered table-hover' width='100%'><thead>"
         ."<tr><th data-class='expand'>รหัส</th>"
         ."<th data-class='expand'>ชื่อสินค้า</th>"
         ."<th data-class='expand'>qty</th><th data-class='expand'>ราคา</th>"
         ."<th data-class='expand'>หน่วย</th><th data-class='expand'>รวมราคา</th><th>-</th></tr></thead><tbody>";
-$sql="Select recd.*, g.goods_code, g.goods_name, u.unit_name "
-        ."From t_goods_rec_detail recd "
-        ."Left Join b_goods g on recd.goods_id = g.goods_id "
-        ."Left Join b_unit u on recd.unit_id = u.unit_id "
-        ."Where rec_id = '".$reRecId."' and recd.active = '1' ";
-$reCnt=0;
+$sql="Select drad.*, g.goods_code, g.goods_name, u.unit_name "
+        ."From t_goods_draw_detail drad "
+        ."Left Join b_goods g on drad.goods_id = g.goods_id "
+        ."Left Join b_unit u on drad.unit_id = u.unit_id "
+        ."Where draw_id = '".$reDraId."' and drad.active = '1' ";
+$draCnt=0;
 if ($rDetail=mysqli_query($conn,$sql)){
     while($row = mysqli_fetch_array($rDetail)){
-        $reCnt++;
-        $tr="<input type='hidden' id='reDID".$reCnt."' value='".$row["rec_detail_id"]."'>";
-        $tr1 .= "<tr id='tr".$reCnt."'><td >".$tr.$row["goods_code"]."</td><td>".$row["goods_name"]."</td><td>"
+        $draCnt++;
+        $tr="<input type='hidden' id='draDID".$draCnt."' value='".$row["draw_detail_id"]."'>";
+        $tr1 .= "<tr id='tr".$draCnt."'><td >".$tr.$row["goods_code"]."</td><td>".$row["goods_name"]."</td><td>"
                 .$row["qty"]."</td><td>".$row["price"]."</td><td>"
-                .$row["unit_name"]."</td><td>".$row["amount"]."</td><td id='".$row["rec_detail_id"]."'><button type='button' id='btndel".$reCnt."' class='deleteLink'>del</button></td></tr>";
+                .$row["unit_name"]."</td><td>".$row["amount"]."</td><td id='".$row["draw_detail_id"]."'><button type='button' id='btndel".$draCnt."' class='deleteLink'>del</button></td></tr>";
     }
 }else{
     
@@ -192,7 +199,7 @@ mysqli_close($conn);
                 -->
                 <header>
                     <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-                    <h2>รายการรับเข้า สินค้า </h2>				
+                    <h2>รายการเบิก ตัดจ่าย สินค้า </h2>				
                 </header>
 
                 <!-- widget div-->
@@ -209,16 +216,10 @@ mysqli_close($conn);
                                 <section>
                                     <label class="label">เลขที่เอกสาร</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="text" name="reRecDoc" id="reRecDoc" value="<?php echo $reRecDoc;?>" placeholder="เลขที่เอกสาร">
-                                        <input type="hidden" name="reRecId" id="reRecId" value="<?php echo $reRecId;?>">
+                                        <input type="text" name="reDraDoc" id="reDraDoc" value="<?php echo $reDraDoc;?>" placeholder="เลขที่เอกสาร">
+                                        <input type="hidden" name="reDraId" id="reDraId" value="<?php echo $reDraId;?>">
                                         <input type="hidden" name="reFlagNew" id="reFlagNew" value="<?php echo $reFlagNew;?>">
                                         <input type="hidden" name="reStatusStock" id="reStatusStock" value="<?php echo $reStatusStock;?>">
-                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section>
-                                <section>
-                                    <label class="label">เลขที่ Invoice</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="text" name="reInvEx" id="reInvEx" value="<?php echo $reInvEx;?>" placeholder="เลขที่ Invoice">
                                         <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section>
                                 <section>
@@ -229,15 +230,9 @@ mysqli_close($conn);
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
                                 <section>
-                                    <label class="label">วันที่รับสินค้า</label>
+                                    <label class="label">วันที่เบิกสินค้า</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="reRecDate" id="reRecDate" value="<?php echo $reRecDate;?>" placeholder="วันที่รับสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
-                                        <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
-                                </section>
-                                <section>
-                                    <label class="label">วันที่ใน Invoice</label>
-                                    <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="reInvExDate" id="reInvExDate" value="<?php echo $reInvExDate;?>" placeholder="วันที่ใน Invoice" class="datepicker" data-date-format="dd/mm/yyyy">                                        
+                                        <input type="text" name="reDraDate" id="reDraDate" value="<?php echo $reDraDate;?>" placeholder="วันที่เบิกสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
                                 <section >
@@ -248,17 +243,17 @@ mysqli_close($conn);
                                         </select> <i></i> </label>
                                 </section >
                                 <section >
-                                    <label class="label">Vendor</label>
+                                    <label class="label">เบิก จากสาขา</label>
                                     <label class="select">
-                                        <select name="reVend" id="reVend">
-                                            <?php echo $oVend;?>
+                                        <select name="reBranchD" id="reBranchD">
+                                            <?php echo $oBranchD;?>
                                         </select> <i></i> </label>
                                 </section >
                                 <section >
                                     <label class="label">รับเข้า สาขา</label>
                                     <label class="select">
-                                        <select name="reBranch" id="reBranch">
-                                            <?php echo $oBranch;?>
+                                        <select name="reBranchR" id="reBranchR">
+                                            <?php echo $oBranchR;?>
                                         </select> <i></i> </label>
                                 </section >
                                 <section >
@@ -279,8 +274,8 @@ mysqli_close($conn);
                                     <section class="col col-4">
                                         <label class="label">รหัส</label>
                                         <label class="input"> <i class="icon-prepend fa fa-phone"></i>
-                                                <input type="text" name="reGoCode" id="reGoCode" placeholder="รหัส">
-                                                <input type="hidden" name="reGoId" id="reGoId" placeholder="รหัส">
+                                                <input type="text" name="draGoCode" id="draGoCode" placeholder="รหัส">
+                                                <input type="hidden" name="draGoId" id="draGoId" placeholder="รหัส">
                                         </label>
                                         
                                     </section>
@@ -291,7 +286,7 @@ mysqli_close($conn);
                                     <section class="col col-6">
                                         <label class="label">ชื่อสินค้า</label>
                                         <label class="input"> <i class="icon-prepend fa fa-phone"></i>
-                                                <input type="text" name="reGoName" id="reGoName" placeholder="ชื่อสินค้า">
+                                                <input type="text" name="draGoName" id="draGoName" placeholder="ชื่อสินค้า">
                                         </label>
                                     </section>
                                 </div>
@@ -299,32 +294,32 @@ mysqli_close($conn);
                                     <section class="col col-2">
                                         <label class="label">จำนวน</label>
                                         <label class="input"> <i class="icon-prepend fa fa-phone"></i>
-                                                <input type="text" name="reGoQty" id="reGoQty" placeholder="จำนวน">
+                                                <input type="text" name="draGoQty" id="draGoQty" placeholder="จำนวน">
                                         </label>
                                     </section>
                                     <section class="col col-2">
                                         <label class="label">ราคา</label>
                                         <label class="input"> <i class="icon-prepend fa fa-phone"></i>
-                                                <input type="text" name="reGoPrice" id="reGoPrice" placeholder="ราคา">
+                                                <input type="text" name="draGoPrice" id="draGoPrice" placeholder="ราคา">
                                         </label>
                                     </section>
                                     <section class="col col-2">
                                         <label class="label">Unit</label>
                                         <label class="select">
-                                            <select name="reGoUnit" id="reGoUnit">
+                                            <select name="draGoUnit" id="draGoUnit">
                                                 <?php echo $oUnit;?>
                                             </select> <i></i> </label>
                                     </section>
                                     <section class="col col-2 right-inner">
                                         <label class="label">รวมราคา</label>
                                         <label class="input"> <i class="icon-prepend fa fa-phone"></i>
-                                                <input type="text" name="reGoAmt" id="reGoAmt" placeholder="รวมราคา">
+                                                <input type="text" name="draGoAmt" id="draGoAmt" placeholder="รวมราคา">
                                         </label>
                                     </section>
                                     <section class="col col-2">
                                         <label class="label">&nbsp;&nbsp;</label>
-                                        <button type="button" class="btn btn-primary btn-sm" id="btnReAdd">เพิ่มสินค้า</button>
-                                        <input type="hidden" name="reCnt" id="reCnt" value="<?php echo $reCnt;?>">
+                                        <button type="button" class="btn btn-primary btn-sm" id="btnDraAdd">เพิ่มสินค้า</button>
+                                        <input type="hidden" name="draCnt" id="draCnt" value="<?php echo $draCnt;?>">
                                     </section>
                                 </div>
                             </fieldset>
@@ -338,7 +333,7 @@ mysqli_close($conn);
                                         </button>
                                     </section>
                                     <section class="col col-10 right-inner">
-                                        <button type="button" id="btnReDoc" class="btn btn-primary">
+                                        <button type="button" id="btnDraDoc" class="btn btn-primary">
                                                 ออกเลขที่เอกสาร เพิ่มStock
                                         </button>
                                     </section>
@@ -499,7 +494,7 @@ mysqli_close($conn);
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
         if($("#reFlagNew").val()=="new"){
             //$("#btnReDoc").
-            $("#btnReDoc").prop("disabled", true);
+            $("#btnDraDoc").prop("disabled", true);
         }else if($("#reStatusStock").val()=="1"){
             $("#btnReDoc").prop("disabled", true);
         }
@@ -552,16 +547,16 @@ mysqli_close($conn);
         
         $('#sandbox-container input').datepicker({ });
         $("#btnSave").click(saveRec1);
-        $("#btnReAdd").click(addRow);
+        $("#btnDraAdd").click(addRow);
         $("#btnReGoSearch").click(goSearch);
         $("#btnReDoc").click(genStock);
-        $("#reGoQty").keyup(calAmt);
+        $("#draGoQty").keyup(calAmt);
         function calAmt(){
-            $("#reGoAmt").val($("#reGoQty").val()*$("#reGoPrice").val());
+            $("#draGoAmt").val($("#draGoQty").val()*$("#draGoPrice").val());
         }
         function goSearch(){
             $.ajax({
-                type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', data: { 'goods_code': $("#reGoCode").val(), 'flagPage':"goSearch" }, 
+                type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', data: { 'goods_code': $("#draGoCode").val(), 'flagPage':"goSearch" }, 
                 success: function (data) {
                     //alert('bbbbb');
                     var json_obj = $.parseJSON(data);
@@ -570,17 +565,17 @@ mysqli_close($conn);
                     //$("#cZipcode").val("aaaa");
                     for (var i in json_obj){
                         if(json_obj[i].goods_name!=null) {
-                            $("#reGoName").val(json_obj[i].goods_name);
+                            $("#draGoName").val(json_obj[i].goods_name);
                         }
                         if(json_obj[i].price!=null) {
-                            $("#reGoPrice").val(json_obj[i].price);
+                            $("#draGoPrice").val(json_obj[i].price);
                         }
                         if(json_obj[i].goods_id!=null) {
-                            $("#reGoId").val(json_obj[i].goods_id);
+                            $("#draGoId").val(json_obj[i].goods_id);
                         }
                         if(json_obj[i].unit_id!=null) {
-                            //$("#reGoId").val(json_obj[i].unit_id);
-                            $('#reGoUnit').val(json_obj[i].unit_id);
+                            //$("#draGoId").val(json_obj[i].unit_id);
+                            $('#draGoUnit').val(json_obj[i].unit_id);
                         }
                     }
                 }
@@ -622,37 +617,38 @@ mysqli_close($conn);
         }
         function addRow(){
             
-            var reCnt = $("#reCnt").val();
-            var reGoCode = $("#reGoCode").val();
-            //alert('aaaa '+reGoCode);
-            if(reGoCode==""){
+            var draCnt = $("#draCnt").val();
+            var draGoCode = $("#draGoCode").val();
+            //alert('aaaa '+draGoCode);
+            if(draGoCode==""){
                 return;
             }
-            var reGoId = $("#reGoId").val();
-            var reGoName = $("#reGoName").val();
-            var reGoQty = $("#reGoQty").val();
-            var reGoPrice = $("#reGoPrice").val();
-            var reGoAmt = $("#reGoAmt").val();
-            var reGoUnit = $("#reGoUnit").val();
-            var reGoUnit1 = $("#reGoUnit :selected").text();
+            var draGoId = $("#draGoId").val();
+            var draGoName = $("#draGoName").val();
+            var draGoQty = $("#draGoQty").val();
+            var draGoPrice = $("#draGoPrice").val();
+            var draGoAmt = $("#draGoAmt").val();
+            var draGoUnit = $("#draGoUnit").val();
+            var draGoUnit1 = $("#draGoUnit :selected").text();
             
-            var trId = "<input type='text' id='reRecDId"+reCnt+"' value=''>";
-            var trGoId = "<input type='hidden' id='reGoId"+reCnt+"' value='"+reGoId+"'>";
-            var trCode = "<input type='hidden' id='reGoCode"+reCnt+"' value='"+reGoCode+"'>";
-            var trQty = "<input type='hidden' id='reGoQty"+reCnt+"' value='"+reGoQty+"'>";
-            var trPrice = "<input type='hidden' id='reGoPrice"+reCnt+"' value='"+reGoPrice+"'>";
-            var trAmt = "<input type='hidden' id='reGoAmt"+reCnt+"' value='"+reGoAmt+"'>";
-            var trUnit = "<input type='hidden' id='reGoUnit"+reCnt+"' value='"+reGoUnit+"'>";
+            var trId = "<input type='text' id='draDId"+draCnt+"' value=''>";
+            var trGoId = "<input type='hidden' id='draGoId"+draCnt+"' value='"+draGoId+"'>";
+            var trCode = "<input type='hidden' id='draGoCode"+draCnt+"' value='"+draGoCode+"'>";
+            var trQty = "<input type='hidden' id='draGoQty"+draCnt+"' value='"+draGoQty+"'>";
+            var trPrice = "<input type='hidden' id='draGoPrice"+draCnt+"' value='"+draGoPrice+"'>";
+            var trAmt = "<input type='hidden' id='draGoAmt"+draCnt+"' value='"+draGoAmt+"'>";
+            var trUnit = "<input type='hidden' id='draGoUnit"+draCnt+"' value='"+draGoUnit+"'>";
             
-            if(reGoQty==""){
+            if(draGoQty==""){
                 return;
             }
-            if(reGoAmt==""){
+            if(draGoAmt==""){
                 return;
             }
-            var tr = "<tr class='child'><td>"+reGoCode+trCode+trId+trGoId+"</td><td>"+reGoName+"</td><td>"+reGoQty+trQty+"</td><td>"+reGoPrice+trPrice+"</td><td>"+reGoUnit1+trUnit+"</td><td>"+reGoAmt+trAmt+"</td></tr>";
-            reCnt++;
-            $("#reCnt").val(reCnt);
+            //alert('aaaa '+draGoCode);
+            var tr = "<tr class='child'><td>"+draGoCode+trCode+trId+trGoId+"</td><td>"+draGoName+"</td><td>"+draGoQty+trQty+"</td><td>"+draGoPrice+trPrice+"</td><td>"+draGoUnit1+trUnit+"</td><td>"+draGoAmt+trAmt+"</td></tr>";
+            draCnt++;
+            $("#draCnt").val(draCnt);
             //alert('aaaa');
             $('#trReDetail').append(tr);
             //$('#trReDetail tr:last').after('<tr class="child"><td>blahblah<\/td></tr>');
@@ -721,26 +717,26 @@ mysqli_close($conn);
             for (var i=0;i<cnt;i++){
                 //alert("zzzzzz");
                 //var reRecId = $("#reRecId"+i).val();
-                var reRecDId = $("#reRecDId"+i).val();
-                var reGoId = $("#reGoId"+i).val();
-                //var reGoCode = $("#reGoCode"+i).val();
-                //var reGoName = $("#reGoName"+i).val();
-                var reGoQty = $("#reGoQty"+i).val();
-                var reGoPrice = $("#reGoPrice"+i).val();
-                var reGoAmt = $("#reGoAmt"+i).val();
-                var reGoUnit = $("#reGoUnit"+i).val();
+                var reDraDId = $("#reDraDId"+i).val();
+                var draGoId = $("#draGoId"+i).val();
+                //var draGoCode = $("#draGoCode"+i).val();
+                //var draGoName = $("#draGoName"+i).val();
+                var draGoQty = $("#draGoQty"+i).val();
+                var draGoPrice = $("#draGoPrice"+i).val();
+                var draGoAmt = $("#draGoAmt"+i).val();
+                var draGoUnit = $("#draGoUnit"+i).val();
                 //var reRecId = $("#reRecId").val();
-                //alert("pppppp "+reRecDId);
+                //alert("pppppp "+reDraDId);
                 $.ajax({
                     type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', 
-                    data: { 'rec_detail_id': reRecDId
+                    data: { 'rec_detail_id': reDraDId
                         ,'rec_id': reRecId
-                        ,'goods_id': reGoId
-                        ,'qty': reGoQty
-                        ,'price': reGoPrice
-                        ,'amt': reGoAmt
-                        ,'cost': reGoPrice
-                        ,'unit_id': reGoUnit
+                        ,'goods_id': draGoId
+                        ,'qty': draGoQty
+                        ,'price': draGoPrice
+                        ,'amt': draGoAmt
+                        ,'cost': draGoPrice
+                        ,'unit_id': draGoUnit
                         ,'remark': ''
                         ,'flagPage': "goods_rec_detail"
                     },
