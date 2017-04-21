@@ -76,3 +76,5 @@
 		<!-- SmartChat UI : plugin -->
 		<script src="<?php echo ASSETS_URL; ?>js/smart-chat-ui/smart.chat.ui.min.js"></script>
 		<script src="<?php echo ASSETS_URL; ?>js/smart-chat-ui/smart.chat.manager.min.js"></script>
+                
+                <script src="<?php echo ASSETS_URL; ?>assets/plugins/jquery-confirm/dist/jquery-confirm.min.js"></script>

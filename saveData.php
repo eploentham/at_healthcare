@@ -220,10 +220,10 @@ if($_GET["flagPage"] === "company"){
     if(($_GET["flag_new"]==="-")|| ($_GET["flag_new"]==="new")){
         $sql="Insert Into t_goods_rec(rec_id, rec_doc, inv_ex, description, "
                 ."rec_date, inv_ex_date, comp_id, vend_id, "
-                ."branch_id, remark, active, date_create) "
+                ."branch_id, remark, status_stock, active, date_create) "
                 ."Values('".$rec_id."','".$rec_doc."','".$inv_ex."','".$description."','"
                 .$rec_date."','".$inv_ex_date."','".$comp_id."','".$vend_id."','"
-                .$branch_id."','".$remark."','1',now())";
+                .$branch_id."','".$remark."','0','1',now())";
     }else{
         $sql="Update t_goods_rec "
                 ."Set  "
@@ -252,10 +252,10 @@ if($_GET["flagPage"] === "company"){
     if(($_GET["rec_detail_id"]==="-")|| ($_GET["rec_detail_id"]==="")){
         $sql="Insert Into t_goods_rec_detail(rec_detail_id, rec_id, goods_id, price, "
                 ."cost, qty, amount, unit_id, "
-                ."remark, active, date_create) "
+                ."remark, status_stock, active, date_create) "
                 ."Values(UUID(),'".$rec_id."','".$goods_id."','".$price."','"
                 .$cost."','".$qty."','".$amt."','".$unit_id."','"
-                .$remark."','1',now())";
+                .$remark."','0','1',now())";
 //        $sql="Insert Into t_goods_rec_detail(rec_detail_id, active, date_create) "
 //                ."Values(UUID(),'1',now())";
     }else{
@@ -272,6 +272,16 @@ if($_GET["flagPage"] === "company"){
                 .", date_modi = now() "
                 ."Where rec_detail_id = '".$rec_detail_id."'";
     }
+}else if($_GET["flagPage"] === "rec_detail_void"){
+    $rec_detail_id=$_GET["rec_detail_id"];
+    $sql="Update t_goods_rec_detail "
+                ."Set  "
+                ." active = '3' "
+                .", date_cancel = now() "
+                ."Where rec_detail_id = '".$rec_detail_id."'";
+}else if($_GET["flagPage"] === "aa"){
+    $rec_id=$_GET["rec_id"];
+    
 }
 $response = array();
 $resultArray = array();

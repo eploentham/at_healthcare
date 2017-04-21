@@ -63,7 +63,8 @@
 		<link rel="apple-touch-startup-image" href="<?php echo ASSETS_URL; ?>img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
 		<link rel="apple-touch-startup-image" href="<?php echo ASSETS_URL; ?>img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
 		<link rel="apple-touch-startup-image" href="<?php echo ASSETS_URL; ?>img/splash/iphone.png" media="screen and (max-device-width: 320px)">
-
+                
+                <link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>assets/plugins/jquery-confirm/dist/jquery-confirm.min.css">
 	</head>
 	<body <?php echo implode(' ', array_map(function($prop, $value) {
 			return $prop.'="'.$value.'"';
