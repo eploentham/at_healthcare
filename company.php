@@ -80,7 +80,7 @@ mysqli_close($conn);
 	</div>
 </div>
 
-<div class="alert alert-block alert-success">
+<div class="alert alert-block alert-success" id="alert">
 	<a class="close" data-dismiss="alert" href="#">×</a>
 	<h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
 	<p>
@@ -366,6 +366,7 @@ mysqli_close($conn);
         $("#cAmphur").change(getDistrict);
         $("#cDistrict").change(getZipcode);
         $("#btnSave").click(saveComp);
+        //$("#alert").hide();
 //        function getAmphur(){
 //            alert("aaaa");
 //        }

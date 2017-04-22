@@ -6,7 +6,7 @@
 		<meta charset="utf-8">
 		<!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
 
-		<title> <?php echo $page_title != "" ? $page_title." - " : ""; ?>SmartAdmin1 </title>
+		<title> <?php echo $page_title != "" ? $page_title." - " : ""; ?>At Healthcare </title>
 		<meta name="description" content="">
 		<meta name="author" content="">
 
