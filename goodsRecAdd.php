@@ -299,13 +299,13 @@ mysqli_close($conn);
                                     <section class="col col-2">
                                         <label class="label">จำนวน</label>
                                         <label class="input"> <i class="icon-prepend fa fa-phone"></i>
-                                                <input type="text" name="reGoQty" id="reGoQty" placeholder="จำนวน">
+                                                <input type="number" step=any name="reGoQty" id="reGoQty" placeholder="จำนวน" >
                                         </label>
                                     </section>
                                     <section class="col col-2">
                                         <label class="label">ราคา</label>
                                         <label class="input"> <i class="icon-prepend fa fa-phone"></i>
-                                                <input type="text" name="reGoPrice" id="reGoPrice" placeholder="ราคา">
+                                                <input type="number" name="reGoPrice" id="reGoPrice" placeholder="ราคา" >
                                         </label>
                                     </section>
                                     <section class="col col-2">
@@ -516,7 +516,7 @@ mysqli_close($conn);
             });
         }
         
-        
+        $("#reGoAmt").attr("disabled", "disabled"); 
         $("#trReDetail .deleteLink").on("click",function() {
             
             var td = $(this).parent();
@@ -556,6 +556,26 @@ mysqli_close($conn);
         $("#btnReGoSearch").click(goSearch);
         $("#btnReDoc").click(genStock);
         $("#reGoQty").keyup(calAmt);
+        $("#reGoPrice").keyup(calAmt);
+        function isNumberKey(evt){
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+        function isNumberKey1(evt){
+             $('.number').keypress(function(event) {
+                if(event.which == 8 || event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 46) 
+                     return true;
+                else if((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57))
+                     event.preventDefault();
+           });
+        }
+        function calAmt1(evt){
+            if(isNumberKey1(evt)){
+                $("#reGoAmt").val($("#reGoQty").val()*$("#reGoPrice").val());
+            }
+        }
         function calAmt(){
             $("#reGoAmt").val($("#reGoQty").val()*$("#reGoPrice").val());
         }

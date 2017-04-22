@@ -198,13 +198,13 @@ mysqli_close($conn);
                                 <section >
                                     <label class="label">ราคาซื้อ</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="text" name="goCost" id="goCost" value="<?php echo $goCost;?>" placeholder="ราคาซื้อ">
+                                        <input type="number" name="goCost" id="goCost" value="<?php echo $goCost;?>" placeholder="ราคาซื้อ" data-bind="value:replyNumber">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
                                 <section >
                                     <label class="label">ราคาขาย</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="text" name="goPrice" id="goPrice" value="<?php echo $goPrice;?>" placeholder="ราคาขาย">
+                                        <input type="number" name="goPrice" id="goPrice" value="<?php echo $goPrice;?>" placeholder="ราคาขาย" data-bind="value:replyNumber">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
                                 
@@ -245,13 +245,13 @@ mysqli_close($conn);
                                 <section >
                                     <label class="label">Purchase point</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="text" name="goPup" id="goPup" value="<?php echo $goPup;?>" placeholder="Purchase point">
+                                        <input type="number" name="goPup" id="goPup" value="<?php echo $goPup;?>" placeholder="Purchase point" data-bind="value:replyNumber" onkeypress="return isNumberKey(event)">
                                         <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
                                 <section >
                                     <label class="label">Purchase Period</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="text" name="goPuPer" id="goPuPer" value="<?php echo $goPuPer;?>" placeholder="Purchase Period">
+                                        <input type="number" name="goPuPer" id="goPuPer" value="<?php echo $goPuPer;?>" placeholder="Purchase Period" data-bind="value:replyNumber" onkeypress="return isNumberKey(event)">
                                         <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
                             </fieldset>
@@ -417,10 +417,14 @@ mysqli_close($conn);
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
         
-
         $("#btnSave").click(saveGoods);
         
-        
+        function isNumberKey(evt){
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
         function saveGoods(){
             //alert('aaaaa');
             $.ajax({ 
