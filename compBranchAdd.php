@@ -301,10 +301,14 @@ mysqli_close($conn);
                     ,'tele': $("#brTele").val()
                     ,'flagPage': "branch" }, 
                 success: function (data) {
-                    alert('bbbbb'+data);
+                    //alert('bbbbb'+data);
                     var json_obj = $.parseJSON(data);
                     for (var i in json_obj){
-                        alert("aaaa "+json_obj[i].success);
+                        //alert("aaaa "+json_obj[i].success);
+                        $.alert({
+                            title: 'Save Data',
+                            content: 'บันทึกข้อมูลเรียบร้อย',
+                        });
                     }
 //                    alert('bbbbb '+json_obj.length);
 //                    alert('ccccc '+$("#cDistrict").val());

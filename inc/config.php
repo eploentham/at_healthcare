@@ -7,9 +7,9 @@ $hostDB="localhost";
 $userDB="root";
 $passDB="";
 
-//$userDB="athealtcare";
-//$passDB="Srb!g302";
-//$hostDB="mysql-5.5.chaiyohosting.com";
+$userDB="athealtcare";
+$passDB="Srb!g302";
+$hostDB="mysql-5.5.chaiyohosting.com";
 $acompType = array();
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
@@ -85,7 +85,5 @@ SmartUI::register('nav', 'Nav');
 
 require_once("class.html-indent.php");
 require_once("class.parsedown.php");
-
-
 
 ?>
