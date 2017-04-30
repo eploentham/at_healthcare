@@ -22,13 +22,13 @@ require_once("inc/init.php");
                             <section>
                                 <label class="label">E-mail</label>
                                 <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="loUser">
+                                        <input type="text" name="loUser" id="loUser">
                                         <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter email address/username</b></label>
                             </section>
                             <section>
                                 <label class="label">Password</label>
                                 <label class="input"> <i class="icon-append fa fa-lock"></i>
-                                        <input type="password" name="loPassword">
+                                        <input type="password" name="loPassword" id="loPassword">
                                         <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter your password</b> </label>
                                 <div class="note">
                                         <a href="<?php echo APP_URL; ?>/forgotpassword.php">Forgot password?</a>
@@ -57,6 +57,7 @@ require_once("inc/init.php");
 <script type="text/javascript">
     $("#btnLogin").click(checkLogin);
     function checkLogin(){
+        //alert("aaa");
         $.ajax({ 
                 type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', 
                 data: { 'user_name': $("#loUser").val()
@@ -66,11 +67,14 @@ require_once("inc/init.php");
                     //alert('bbbbb'+data);
                     var json_obj = $.parseJSON(data);
                     for (var i in json_obj){
+                        window.location.assign('#login.php');
+                        //json_obj[i].success)
+                        //$.session.set('at_user',json_obj[i].staff_name_t+' '+json_obj[i].staff_lastname_t);
                         //alert("aaaa "+json_obj[i].success);
-                            $.alert({
-                                title: 'Save Data',
-                                content: 'บันทึกข้อมูลเรียบร้อย',
-                            });
+//                            $.alert({
+//                                title: 'Save Data',
+//                                content: 'บันทึกข้อมูลเรียบร้อย',
+//                            });
                     }
 //                    alert('bbbbb '+json_obj.length);
 //                    alert('ccccc '+$("#cDistrict").val());

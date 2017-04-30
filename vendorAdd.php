@@ -1,5 +1,9 @@
 <?php require_once("inc/init.php"); ?>
 <?php
+if (!isset($_SESSION['at_user_staff_name']) || empty($_SESSION['at_user_staff_name'])) {
+    //header("location: #login.php");
+    echo "<script>window.location.assign('#login.php');</script>";
+}
 //echo $userDB;
 $veId="";
 $veCode="";

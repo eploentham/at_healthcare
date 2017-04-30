@@ -115,29 +115,42 @@ if($_GET['flagPage']=="amphur"){
         $result->free();
     }
 }else if($_GET['flagPage']=="login"){
-    $sql="Select * From b_staff go Where staff_username = '".$_GET['user_name']."' and active = '1' and staff_password = '".$_GET['password']."' ";
-    if ($result=mysqli_query($conn,$sql)){
+    //$sql="Select * From b_staff Where staff_username = '".$_GET['user_name']."' and active = '1' and staff_password = '".$_GET['password']."' ";
+    $sql="Select * From b_staff  ";
+    //$result = mysqli_query($con, $SQL)or die(mysqli_error($connection));
+    //$result = mysqli_query($con,$Query) or die(mysqli_error());  
+    if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
         if(!$result){
             $ok="0";
             $err= mysqli_error();
             $tmp = array();
             $tmp["error"] = $err;
             $tmp["sql"] = $sql;
+            $tmp["success"] = $ok;
             array_push($resultArray,$tmp);
         }else{
             $ok="1";
             $tmp = array();
             $tmp["sql"] = $sql;
+            $tmp["success"] = $ok;
+            $num_rows = mysqli_num_rows($result);
+            $tmp["rows"] = $num_rows;
+            //$tmp["database"] = $databaseName;
+            //$tmp["host"] = $hostDB;
             array_push($resultArray,$tmp);
             while($row = mysqli_fetch_array($result)){
                 $tmp["staff_name_t"] = $row["staff_name_t"];
                 $tmp["staff_lastname_t"] = $row["staff_lastname_t"];
+                $_SESSION['at_user_staff_name'] = $tmp["staff_name_t"]."".$tmp["staff_lastname_t"];
+                //$_SESSION['at_user'] = "";
                 //$tmp["price"] = $row["price"];
                 //$tmp["unit_id"] = $row["unit_id"];
                 array_push($resultArray,$tmp);
             }
         }
         $result->free();
+    }else{
+        //echo($query.' '.mysqli_error()
     }
 }
 
