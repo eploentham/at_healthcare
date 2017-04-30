@@ -114,8 +114,32 @@ if($_GET['flagPage']=="amphur"){
         }
         $result->free();
     }
+}else if($_GET['flagPage']=="login"){
+    $sql="Select * From b_staff go Where staff_username = '".$_GET['user_name']."' and active = '1' and staff_password = '".$_GET['password']."' ";
+    if ($result=mysqli_query($conn,$sql)){
+        if(!$result){
+            $ok="0";
+            $err= mysqli_error();
+            $tmp = array();
+            $tmp["error"] = $err;
+            $tmp["sql"] = $sql;
+            array_push($resultArray,$tmp);
+        }else{
+            $ok="1";
+            $tmp = array();
+            $tmp["sql"] = $sql;
+            array_push($resultArray,$tmp);
+            while($row = mysqli_fetch_array($result)){
+                $tmp["staff_name_t"] = $row["staff_name_t"];
+                $tmp["staff_lastname_t"] = $row["staff_lastname_t"];
+                //$tmp["price"] = $row["price"];
+                //$tmp["unit_id"] = $row["unit_id"];
+                array_push($resultArray,$tmp);
+            }
+        }
+        $result->free();
+    }
 }
-
 
 mysqli_close($conn);
 
