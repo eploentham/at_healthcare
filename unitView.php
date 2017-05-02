@@ -2,6 +2,7 @@
 <?php
 if (!isset($_SESSION['at_user_staff_name']) || empty($_SESSION['at_user_staff_name'])) {
     //header("location: #login.php");
+    $_SESSION['at_page'] ="unitView.php";
     echo "<script>window.location.assign('#login.php');</script>";
 }
 $trCust="";

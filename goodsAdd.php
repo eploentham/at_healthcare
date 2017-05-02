@@ -2,6 +2,7 @@
 <?php
 if (!isset($_SESSION['at_user_staff_name']) || empty($_SESSION['at_user_staff_name'])) {
     //header("location: #login.php");
+    $_SESSION['at_page'] ="goodsAdd.php";
     echo "<script>window.location.assign('#login.php');</script>";
 }
 //echo $userDB;
@@ -45,7 +46,7 @@ if ($rComp=mysqli_query($conn,$sql)){
 }else{
     $goId = $goodsId;
 }
-$sql="Select * From b_goods_type Order By goods_type_name";
+$sql="Select * From b_goods_type Order By sort1, goods_type_name";
 //$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
 if ($result=mysqli_query($conn,$sql)){
     $oType = "<option value='0' selected='' disabled=''>เลือก ประะเภทสินค้า</option>";
@@ -211,7 +212,7 @@ mysqli_close($conn);
                                         <input type="number" name="goPrice" id="goPrice" value="<?php echo $goPrice;?>" placeholder="ราคาขาย" data-bind="value:replyNumber">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
-                                
+                                <?php if($goTypeId=="05233f7d-225b-11e7-b800-1c1b0d8ca1a0"){?>
                                 <section >
                                     <label class="label">Holes</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
@@ -225,7 +226,7 @@ mysqli_close($conn);
                                         <input type="text" name="goSide" id="goSide" value="<?php echo $goSide;?>" placeholder="Side">
                                         <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
-
+                                <?php }else if($goTypeId=="2595c85d-225b-11e7-b800-1c1b0d8ca1a0"){ ?>
                                 <section >
                                     <label class="label">Diameter</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
@@ -239,6 +240,7 @@ mysqli_close($conn);
                                         <input type="text" name="goLength" id="goLength" value="<?php echo $goLength;?>" placeholder="Length">
                                         <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
+                                <?php }?>
                                 <section>
                                     <label class="label">Unit</label>
                                     <label class="select">
@@ -422,6 +424,14 @@ mysqli_close($conn);
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
         
         $("#btnSave").click(saveGoods);
+        $( ".select" ).change(function() {
+            //var name = $('select[name="dept"]').val('3');
+            if($('select[name="goType"]').val()=="05233f7d-225b-11e7-b800-1c1b0d8ca1a0"){
+                //alert( "Handler for .change() called." );
+                
+            }
+            //alert( "Handler for .change() called." );
+        });
         
         function isNumberKey(evt){
             var charCode = (evt.which) ? evt.which : event.keyCode

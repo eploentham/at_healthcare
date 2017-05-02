@@ -64,11 +64,12 @@ require_once("inc/init.php");
                     ,'password': $("#loPassword").val()
                     ,'flagPage': "login" }, 
                 success: function (data) {
-                    alert('bbbbb'+data+" ");
+                    //alert('bbbbb'+data+" ");
                     var json_obj = $.parseJSON(data);
                     for (var i in json_obj){
-                        var page = $.session.get('at_page');
-                        alert('page '+page);
+                        var page = "<?php echo $_SESSION['at_page'] ?>";
+                        //var page = $.session.get('at_page');
+                        //alert('page '+page);
                         window.location.assign('#'+page);
                         //json_obj[i].success)
                         //$.session.set('at_user',json_obj[i].staff_name_t+' '+json_obj[i].staff_lastname_t);

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 21, 2017 at 05:05 PM
--- Server version: 10.1.13-MariaDB
--- PHP Version: 5.6.23
+-- Generation Time: May 02, 2017 at 02:38 AM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -1061,7 +1061,7 @@ CREATE TABLE `b_branch` (
 --
 
 INSERT INTO `b_branch` (`branch_id`, `branch_code`, `branch_name`, `branch_address`, `tele`, `active`, `date_create`, `date_modi`, `date_cancel`) VALUES
-('e9ea4c55-2192-11e7-b800-1c1b0d8ca1a0', '001', 'โรงพยาบาล บางนา2', '1302', '(662) 746-8630', '1', '2017-04-15 11:20:53', '2017-04-19 09:40:56', NULL),
+('e9ea4c55-2192-11e7-b800-1c1b0d8ca1a0', '001', 'โรงพยาบาล บางนา2', '9/9', '(662) 746-8630', '1', '2017-04-15 11:20:53', '2017-04-21 22:46:22', NULL),
 ('c48bf5b8-21b1-11e7-b800-1c1b0d8ca1a0', '000', 'สำนักงานใหญ่ บางนา1', '44', '(662) 999-9999', '1', '2017-04-15 15:01:44', '2017-04-19 09:41:12', NULL);
 
 -- --------------------------------------------------------
@@ -1113,7 +1113,7 @@ CREATE TABLE `b_company` (
 --
 
 INSERT INTO `b_company` (`comp_id`, `comp_code`, `comp_name_t`, `comp_type_id`, `comp_address`, `comp_name_e`, `comp_address_e`, `comp_address_t`, `addr`, `amphur_id`, `district_id`, `prov_id`, `zipcode`, `tele`, `fax`, `email`, `website`, `logo`, `tax_id`, `vat`, `spec1`, `date_create`, `date_modi`, `date_cancel`, `user_create`, `user_modi`, `user_cancel`, `qu_line1`, `qu_line2`, `qu_line3`, `qu_line4`, `qu_line5`, `qu_line6`, `invoice_due_period`, `qu_due_period`) VALUES
-('25fc13b0-20ff-11e7-b800-1c1b0d8ca1a0', '100', 'At-Healtcare', NULL, NULL, NULL, NULL, 'wwwwww', 'bbbbbbbbb', '139', '1119', '11', '20150', '(222) 222-2222', NULL, 'aaa', NULL, NULL, 'asdfasdf', NULL, NULL, '2017-04-14 17:43:08', '2017-04-19 09:40:10', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+('25fc13b0-20ff-11e7-b800-1c1b0d8ca1a0', '100', 'At-Healtcare', NULL, NULL, NULL, NULL, 'wwwwww', 'bbbbbbbbb', '', '', '11', '20150', '(222) 222-2222', NULL, 'aaa', NULL, NULL, 'asdfasdf', NULL, NULL, '2017-04-14 17:43:08', '2017-04-21 23:06:10', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1211,7 +1211,8 @@ CREATE TABLE `b_goods` (
 --
 
 INSERT INTO `b_goods` (`goods_id`, `goods_code`, `goods_code_ex`, `goods_name`, `goods_name_ex`, `goods_type_id`, `goods_cat_id`, `active`, `on_hand`, `purchase_point`, `branch_id`, `price`, `cost`, `holes`, `side`, `dia_meter`, `length`, `unit_id`, `purchase_period`, `date_create`, `date_modi`, `date_cancel`, `user_create`, `user_modi`, `user_cancel`) VALUES
-('f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', 'aaa', '5555', '222', '33', '05233f7d-225b-11e7-b800-1c1b0d8ca1a0', '90d1cff8-225c-11e7-b800-1c1b0d8ca1a0', '1', '0.00', '20.00', NULL, '5.00', '44.00', 'a', 'b', 'c', 'd', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '1.00', '2017-04-18 22:16:17', '2017-04-21 21:45:00', NULL, NULL, NULL, NULL);
+('f848db7e-2449-11e7-b5ec-1c1b0d8ca1a0', 'aaa', '5555', '222', '33', '05233f7d-225b-11e7-b800-1c1b0d8ca1a0', '90d1cff8-225c-11e7-b800-1c1b0d8ca1a0', '1', '0.00', '20.00', NULL, '5.00', '44.00', 'a', 'b', 'c', 'd', 'f5422d98-2285-11e7-b800-1c1b0d8ca1a0', '10.00', '2017-04-18 22:16:17', '2017-04-21 22:51:12', NULL, NULL, NULL, NULL),
+('faefc404-26f6-11e7-a03f-461d33a65261', 'Test', 'Test ex', 'ทดสอบ', 'ทดสอบ android', '05233f7d-225b-11e7-b800-1c1b0d8ca1a0', '90d1cff8-225c-11e7-b800-1c1b0d8ca1a0', '1', '0.00', '3.00', NULL, '100.00', '200.00', '', '', '', '', '', '15.00', '2017-04-22 07:59:47', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1222,6 +1223,7 @@ INSERT INTO `b_goods` (`goods_id`, `goods_code`, `goods_code_ex`, `goods_name`, 
 CREATE TABLE `b_goods_catagory` (
   `goods_cat_id` varchar(255) COLLATE utf8_bin NOT NULL,
   `goods_cat_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `sort1` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `active` varchar(255) COLLATE utf8_bin NOT NULL,
   `date_create` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `date_modi` varchar(255) COLLATE utf8_bin DEFAULT NULL,
@@ -1232,8 +1234,8 @@ CREATE TABLE `b_goods_catagory` (
 -- Dumping data for table `b_goods_catagory`
 --
 
-INSERT INTO `b_goods_catagory` (`goods_cat_id`, `goods_cat_name`, `active`, `date_create`, `date_modi`, `date_cancel`) VALUES
-('90d1cff8-225c-11e7-b800-1c1b0d8ca1a0', 'zzzzzzzzzzzzqqqq', '1', '2017-04-16 11:24:22', '2017-04-16 11:26:10', NULL);
+INSERT INTO `b_goods_catagory` (`goods_cat_id`, `goods_cat_name`, `sort1`, `active`, `date_create`, `date_modi`, `date_cancel`) VALUES
+('90d1cff8-225c-11e7-b800-1c1b0d8ca1a0', 'zzzzzzzzzzzzqqqqa', NULL, '1', '2017-04-16 11:24:22', '2017-04-21 22:54:18', NULL);
 
 -- --------------------------------------------------------
 
@@ -1244,6 +1246,7 @@ INSERT INTO `b_goods_catagory` (`goods_cat_id`, `goods_cat_name`, `active`, `dat
 CREATE TABLE `b_goods_type` (
   `goods_type_id` varchar(255) COLLATE utf8_bin NOT NULL,
   `goods_type_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `sort1` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `active` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `date_create` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `date_modi` varchar(255) COLLATE utf8_bin DEFAULT NULL,
@@ -1254,10 +1257,10 @@ CREATE TABLE `b_goods_type` (
 -- Dumping data for table `b_goods_type`
 --
 
-INSERT INTO `b_goods_type` (`goods_type_id`, `goods_type_name`, `active`, `date_create`, `date_modi`, `date_cancel`) VALUES
-('05233f7d-225b-11e7-b800-1c1b0d8ca1a0', 'Plates', '1', '2017-04-16 11:13:18', '2017-04-16 16:07:41', NULL),
-('2595c85d-225b-11e7-b800-1c1b0d8ca1a0', 'Screws', '1', '2017-04-16 11:14:12', '2017-04-16 16:07:34', NULL),
-('68fbd0a5-225c-11e7-b800-1c1b0d8ca1a0', 'Other', '1', '2017-04-16 11:23:15', '2017-04-16 16:07:50', NULL);
+INSERT INTO `b_goods_type` (`goods_type_id`, `goods_type_name`, `sort1`, `active`, `date_create`, `date_modi`, `date_cancel`) VALUES
+('05233f7d-225b-11e7-b800-1c1b0d8ca1a0', 'Plates', '1000', '1', '2017-04-16 11:13:18', '2017-04-16 16:07:41', NULL),
+('2595c85d-225b-11e7-b800-1c1b0d8ca1a0', 'Screws', '1001', '1', '2017-04-16 11:14:12', '2017-04-16 16:07:34', NULL),
+('68fbd0a5-225c-11e7-b800-1c1b0d8ca1a0', 'Other', '9999', '1', '2017-04-16 11:23:15', '2017-04-21 22:49:53', NULL);
 
 -- --------------------------------------------------------
 
@@ -1269,8 +1272,10 @@ CREATE TABLE `b_staff` (
   `staff_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `staff_username` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `prefix_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `user_login` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `staff_name_t` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `staff_name_e` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `staff_lastname_t` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `staff_password` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `active` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `remark` varchar(255) COLLATE utf8_bin DEFAULT NULL,
@@ -1303,6 +1308,13 @@ CREATE TABLE `b_staff` (
   `comp_id` varchar(255) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='staff of company';
 
+--
+-- Dumping data for table `b_staff`
+--
+
+INSERT INTO `b_staff` (`staff_id`, `staff_username`, `prefix_id`, `user_login`, `staff_name_t`, `staff_name_e`, `staff_lastname_t`, `staff_password`, `active`, `remark`, `priority`, `tele`, `mobile`, `fax`, `email`, `dep_id`, `posi_id`, `date_create`, `date_modi`, `date_cancel`, `user_create`, `user_modi`, `user_cancel`, `sex`, `address_t`, `address_e`, `addr`, `amphur_id`, `district_id`, `prov_id`, `zipcode`, `tax_id`, `contact_name1`, `contact_name2`, `contact_name1_tel`, `contact_name2_tel`, `comp_id`) VALUES
+('fd7415c6-2dc2-11e7-8644-461d33a65261', 'pop', NULL, 'pop', 'Ekapop', NULL, 'Ploentham', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-04-30 23:35:15', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -1324,7 +1336,7 @@ CREATE TABLE `b_unit` (
 --
 
 INSERT INTO `b_unit` (`unit_id`, `unit_code`, `unit_name`, `active`, `date_create`, `date_modi`, `date_cancel`) VALUES
-('f5422d98-2285-11e7-b800-1c1b0d8ca1a0', NULL, 'pcs', '1', '2017-04-16 16:20:39', NULL, NULL);
+('f5422d98-2285-11e7-b800-1c1b0d8ca1a0', NULL, 'pcs', '1', '2017-04-16 16:20:39', '2017-04-21 22:54:09', NULL);
 
 -- --------------------------------------------------------
 
@@ -1381,7 +1393,8 @@ CREATE TABLE `b_vendor` (
 --
 
 INSERT INTO `b_vendor` (`vend_id`, `vend_code`, `vend_name_t`, `vend_lastname_t`, `vend_name_e`, `comp_type_id`, `active`, `vend_address`, `vend_address_t`, `vend_address_e`, `addr`, `amphur_id`, `district_id`, `prov_id`, `zipcode`, `staff_id`, `staff_name_t`, `fax`, `tele`, `email`, `tax_id`, `remark`, `contact_name1`, `contact_name2`, `contact_name1_tel`, `contact_name2_tel`, `status_vendor`, `date_create`, `date_modi`, `date_cancel`, `user_create`, `user_modi`, `user_cancel`, `remark2`, `po_due_period`, `mobile`, `invoice_due_period`, `status_buddhist`, `status_regis`, `password`, `user_login`) VALUES
-('0f063b54-21f5-11e7-b800-1c1b0d8ca1a0', '100', 'aaaaaaaa', NULL, NULL, NULL, '1', NULL, '3333333333333333', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '(444) 444-4444', '4555555', '1111111111111', NULL, NULL, NULL, NULL, NULL, NULL, '2017-04-15 23:03:26', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+('0f063b54-21f5-11e7-b800-1c1b0d8ca1a0', '100', 'aaaaaaaa', NULL, NULL, NULL, '1', NULL, '3333333333333333', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '(444) 444-4444', '4555555', '1111111111111', NULL, NULL, NULL, NULL, NULL, NULL, '2017-04-15 23:03:26', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('d7864977-26aa-11e7-a03f-461d33a65261', '100', 'aaaaaaaa', NULL, NULL, NULL, '1', NULL, '3333333333333333', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '(444) 444-4444', '4555555', '1111111111111', NULL, NULL, NULL, NULL, NULL, NULL, '2017-04-21 22:54:46', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
