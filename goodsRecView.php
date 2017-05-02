@@ -16,7 +16,12 @@ $sql="Select rec.rec_id, ifnull(rec.description,'-') as description, ifnull(rec.
         ."Left Join b_vendor vend On rec.vend_id = vend.vend_id "
         ."Left Join b_branch br On rec.branch_id = br.branch_id "
         ."Where rec.active = '1' ";
-$result = mysqli_query($conn,$sql);
+//$result = mysqli_query($conn,$sql);
+if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
+    
+}else{
+    echo mysqli_error($conn);
+}
 if($result){
     while($row = mysqli_fetch_array($result)){
         $brName="<a href='#goodsRecAdd.php?recId=".$row["rec_id"]."'>".$row["description"]."</a>";
