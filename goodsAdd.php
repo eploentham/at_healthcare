@@ -43,6 +43,13 @@ if ($rComp=mysqli_query($conn,$sql)){
     $goCatId = ($aGoods["goods_cat_id"]);
     $goPup = ($aGoods["purchase_point"]);
     $goPuPer = ($aGoods["purchase_period"]);
+    if($goTypeId=="05233f7d-225b-11e7-b800-1c1b0d8ca1a0"){
+        echo '<script type="text/javascript">alert("aaaaaaa");</script>';
+    }else if($goTypeId=="2595c85d-225b-11e7-b800-1c1b0d8ca1a0"){
+        echo '<script type="text/javascript">hideHole();</script>';
+    }else{
+        //echo '<script type="text/javascript">alert('.$goTypeId.');</script>';
+    }
 }else{
     $goId = $goodsId;
 }
@@ -115,10 +122,10 @@ mysqli_close($conn);
 	</div>
 </div>
 
-<div class="alert alert-block alert-success">
+<div class="alert alert-block alert-success" id="goAlert">
 	<a class="close" data-dismiss="alert" href="#">×</a>
 	<h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
-	<p>
+	<p id="goVali">
 		You may also check the form validation by clicking on the form action button. Please try and see the results below!
 	</p>
 </div>
@@ -160,33 +167,46 @@ mysqli_close($conn);
                     <div class="widget-body no-padding">
                         <form action="" id="smart-form-register" class="smart-form">                            
                             <fieldset>
-                                <section>
-                                    <label class="label">ประเภทสินค้า</label>
-                                    <label class="select">
-                                        <select name="goType" id="goType">
-                                            <?php echo $oType;?>
-                                        </select> <i></i> </label>
-                                </section>
-                                <section>
-                                    <label class="label">ชนิดสินค้า</label>
-                                    <label class="select">
-                                        <select name="goCat" id="goCat">
-                                            <?php echo $oCat;?>
-                                        </select> <i></i> </label>
-                                </section>
-                                <section>
-                                    <label class="label">code</label>
-                                    <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="goCode" id="goCode" value="<?php echo $goCode;?>" placeholder="code สินค้า">
-                                        <input type="hidden" name="goId" id="goId" value="<?php echo $goId;?>">
-                                        <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
-                                </section>
-                                <section>
-                                    <label class="label">code ex</label>
-                                    <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="goCodeEx" id="goCodeEx" value="<?php echo $goCodeEx;?>" placeholder="code ex สินค้า">
-                                        <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
-                                </section>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">ประเภทสินค้า</label>
+                                        <label class="select">
+                                            <select name="goType" id="goType">
+                                                <?php echo $oType;?>
+                                            </select> <i></i> </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">ชนิดสินค้า</label>
+                                        <label class="select">
+                                            <select name="goCat" id="goCat">
+                                                <?php echo $oCat;?>
+                                            </select> <i></i> </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-5">
+                                        <label class="label">code</label>
+                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                            <input type="text" name="goCode" id="goCode" value="<?php echo $goCode;?>" placeholder="code สินค้า">
+                                            <input type="hidden" name="goId" id="goId" value="<?php echo $goId;?>">
+                                            <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
+                                    </section>
+                                    <section class="col col-1">
+                                        <label class="label">.</label>
+                                        <a class="btn btn-success pull-right  hidden-mobile" id="goCodeCopy">
+                                            <i class="fa fa-circle-arrow-up fa-lg"></i><<<</a>
+                                    </section>
+                                    
+                                    <section class="col col-6">
+                                        <label class="label">code ex</label>
+                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                            <input type="text" name="goCodeEx" id="goCodeEx" value="<?php echo $goCodeEx;?>" placeholder="code ex สินค้า">
+                                            <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
+                                    </section>
+                                </div>
+                                
+                                
+                                
                                 <section>
                                     <label class="label">ชื่อ สินค้า</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
@@ -199,67 +219,77 @@ mysqli_close($conn);
                                         <input type="text" name="goNameEx" id="goNameEx" value="<?php echo $goNameEx;?>" placeholder="ชื่อ สินค้า ex">
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
-
-                                <section >
-                                    <label class="label">ราคาซื้อ</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="number" name="goCost" id="goCost" value="<?php echo $goCost;?>" placeholder="ราคาซื้อ" data-bind="value:replyNumber">
-                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section >
-                                <section >
-                                    <label class="label">ราคาขาย</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="number" name="goPrice" id="goPrice" value="<?php echo $goPrice;?>" placeholder="ราคาขาย" data-bind="value:replyNumber">
-                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section >
-                                <?php if($goTypeId=="05233f7d-225b-11e7-b800-1c1b0d8ca1a0"){?>
-                                <section >
-                                    <label class="label">Holes</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="text" name="goHoles" id="goHoles" value="<?php echo $goHoles;?>" placeholder="Holes">
-                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section >
+                                <div class="row">
+                                    <section  class="col col-6">
+                                        <label class="label">ราคาซื้อ</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="number" name="goCost" id="goCost" value="<?php echo $goCost;?>" placeholder="ราคาซื้อ" data-bind="value:replyNumber">
+                                                <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section >
+                                    <section  class="col col-6">
+                                        <label class="label">ราคาขาย</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="number" name="goPrice" id="goPrice" value="<?php echo $goPrice;?>" placeholder="ราคาขาย" data-bind="value:replyNumber">
+                                                <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section >
+                                </div>
                                 
-                                <section >
-                                    <label class="label">Side</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="text" name="goSide" id="goSide" value="<?php echo $goSide;?>" placeholder="Side">
-                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section >
-                                <?php }else if($goTypeId=="2595c85d-225b-11e7-b800-1c1b0d8ca1a0"){ ?>
-                                <section >
-                                    <label class="label">Diameter</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="text" name="goDiameter" id="goDiameter" value="<?php echo $goDiameter;?>" placeholder="Diameter">
-                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section >
+                                
+                                <div class="row" id="divHole">
+                                    <section  class="col col-6">
+                                        <label class="label">Holes</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="text" name="goHoles" id="goHoles" value="<?php echo $goHoles;?>" placeholder="Holes">
+                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section >
 
-                                <section >
-                                    <label class="label">Length</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="text" name="goLength" id="goLength" value="<?php echo $goLength;?>" placeholder="Length">
-                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section >
-                                <?php }?>
-                                <section>
+                                    <section  class="col col-6">
+                                        <label class="label">Side</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="text" name="goSide" id="goSide" value="<?php echo $goSide;?>" placeholder="Side">
+                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section >
+                                </div>
+                                <div class="row" id="divDiameter">
+                                    <section  class="col col-6">
+                                        <label class="label">Diameter</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="text" name="goDiameter" id="goDiameter" value="<?php echo $goDiameter;?>" placeholder="Diameter">
+                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section >
+
+                                    <section  class="col col-6">
+                                        <label class="label">Length</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="text" name="goLength" id="goLength" value="<?php echo $goLength;?>" placeholder="Length">
+                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section >
+                                </div>
+                                
+                                
+                                
+                                <div class="row">
+                                    <section class="col col-4">
                                     <label class="label">Unit</label>
                                     <label class="select">
                                         <select name="goUnit" id="goUnit">
                                             <?php echo $oUnit;?>
                                         </select> <i></i> </label>
-                                </section>
-                                <section >
-                                    <label class="label">Purchase point</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="number" name="goPup" id="goPup" value="<?php echo $goPup;?>" placeholder="Purchase point" data-bind="value:replyNumber" onkeypress="return isNumberKey(event)">
-                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section >
-                                <section >
-                                    <label class="label">Purchase Period</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="number" name="goPuPer" id="goPuPer" value="<?php echo $goPuPer;?>" placeholder="Purchase Period" data-bind="value:replyNumber" onkeypress="return isNumberKey(event)">
-                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section >
+                                    </section>
+                                    <section  class="col col-4">
+                                        <label class="label">Purchase point</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="number" name="goPup" id="goPup" value="<?php echo $goPup;?>" placeholder="Purchase point" data-bind="value:replyNumber" onkeypress="return isNumberKey(event)">
+                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section >
+                                    <section  class="col col-4">
+                                        <label class="label">Purchase Period</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="number" name="goPuPer" id="goPuPer" value="<?php echo $goPuPer;?>" placeholder="Purchase Period" data-bind="value:replyNumber" onkeypress="return isNumberKey(event)">
+                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section >
+                                </div>
+                                
                             </fieldset>
                             
                             <footer>
@@ -422,7 +452,8 @@ mysqli_close($conn);
 	
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
-        
+        $("#goAlert").hide();
+        $("#goCodeCopy").click(codeCopy);
         $("#btnSave").click(saveGoods);
         $( ".select" ).change(function() {
             //var name = $('select[name="dept"]').val('3');
@@ -432,7 +463,24 @@ mysqli_close($conn);
             }
             //alert( "Handler for .change() called." );
         });
-        
+        function codeCopy(){
+            $("#goCode").val($("#goCodeEx").val());
+        }
+        function showHole(){
+//            $("#divHole").show();
+//            $("#divDiameter").hide();
+//            alert("aaa");
+        }
+        function hideHole(){
+//            $("#divHole").hide();
+//            $("#divDiameter").show();
+        }
+//        function hideDiameter(){
+//            $("#divDiameter").hide();
+//        }
+//        function showDiameter(){
+//            $("#divDiameter").show();
+//        }
         function isNumberKey(evt){
             var charCode = (evt.which) ? evt.which : event.keyCode
             if (charCode > 31 && (charCode < 48 || charCode > 57))

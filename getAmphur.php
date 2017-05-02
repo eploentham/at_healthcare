@@ -108,6 +108,7 @@ if($_GET['flagPage']=="amphur"){
                 $tmp["goods_name"] = $row["goods_name"];
                 $tmp["goods_id"] = $row["goods_id"];
                 $tmp["price"] = $row["price"];
+                $tmp["cost"] = $row["cost"];
                 $tmp["unit_id"] = $row["unit_id"];
                 array_push($resultArray,$tmp);
             }

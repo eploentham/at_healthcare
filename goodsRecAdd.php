@@ -23,11 +23,11 @@ if(isset($_GET["recId"])){
     $reRecId = $_GET["recId"];
     $reFlagNew = "old";
     //$reRecId="aa";
-    $backColor="style='background-color:Black; color:Lime;'";
+    $backColor="style='background-color:white; '";
 }else{
     $reRecId = UUID::v4();
     $reFlagNew = "new";
-    $backColor="style='background-color:yellow; color:Lime;'";
+    $backColor="style='background-color:yellow; '";
 }
 
 //$reRecId="aa";
@@ -168,10 +168,10 @@ mysqli_close($conn);
 	</div>
 </div>
 
-<div class="alert alert-block alert-success">
+<div class="alert alert-block alert-success" id="reAlert">
 	<a class="close" data-dismiss="alert" href="#">×</a>
 	<h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
-	<p>
+	<p id="reVali">
 		You may also check the form validation by clicking on the form action button. Please try and see the results below!
 	</p>
 </div>
@@ -214,7 +214,7 @@ mysqli_close($conn);
                         <form action="" id="smart-form-register" class="smart-form">                            
                             <fieldset>
                                 <div class="row">
-                                    <section class="col col-6">
+                                    <section class="col col-3">
                                         <section>
                                             <label class="label">เลขที่เอกสาร</label>
                                             <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
@@ -225,12 +225,28 @@ mysqli_close($conn);
                                                 <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                         </section>
                                     </section>
-                                    <section class="col col-6">
+                                    <section class="col col-3">
                                         <section>
                                             <label class="label">เลขที่ Invoice</label>
                                             <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
                                                 <input type="text" name="reInvEx" id="reInvEx" value="<?php echo $reInvEx;?>" placeholder="เลขที่ Invoice">
                                                 <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                        </section>
+                                    </section>
+                                    <section class="col col-3">
+                                        <section>
+                                            <label class="label">วันที่รับสินค้า</label>
+                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                <input type="text" name="reRecDate" id="reRecDate" value="<?php echo $reRecDate;?>" placeholder="วันที่รับสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
+                                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
+                                        </section>
+                                    </section>
+                                    <section class="col col-3">
+                                        <section>
+                                            <label class="label">วันที่ใน Invoice</label>
+                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                <input type="text" name="reInvExDate" id="reInvExDate" value="<?php echo $reInvExDate;?>" placeholder="วันที่ใน Invoice1" class="datepicker" data-date-format="dd/mm/yyyy">                                        
+                                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                         </section>
                                     </section>
                                 </div>
@@ -245,25 +261,11 @@ mysqli_close($conn);
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
                                 <div class="row">
-                                    <section class="col col-6">
-                                        <section>
-                                            <label class="label">วันที่รับสินค้า</label>
-                                            <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                <input type="text" name="reRecDate" id="reRecDate" value="<?php echo $reRecDate;?>" placeholder="วันที่รับสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
-                                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
-                                        </section>
-                                    </section>
-                                    <section class="col col-6">
-                                        <section>
-                                            <label class="label">วันที่ใน Invoice</label>
-                                            <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                <input type="text" name="reInvExDate" id="reInvExDate" value="<?php echo $reInvExDate;?>" placeholder="วันที่ใน Invoice" class="datepicker" data-date-format="dd/mm/yyyy">                                        
-                                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
-                                        </section>
-                                    </section>
+                                    
+                                    
                                 </div>
                                 <div class="row">
-                                    <section class="col col-6">
+                                    <section class="col col-4">
                                         <section >
                                             <label class="label">รับเข้าบริษัท</label>
                                             <label class="select">
@@ -272,7 +274,16 @@ mysqli_close($conn);
                                                 </select> <i></i> </label>
                                         </section >
                                     </section>
-                                    <section class="col col-6">
+                                    <section class="col col-4">
+                                        <section >
+                                            <label class="label">รับเข้า สาขา</label>
+                                            <label class="select">
+                                            <select name="reBranch" id="reBranch">
+                                                <?php echo $oBranch;?>
+                                            </select> <i></i> </label>
+                                        </section>
+                                    </section >
+                                    <section class="col col-4">
                                         <section >
                                             <label class="label">Vendor</label>
                                             <label class="select">
@@ -285,13 +296,7 @@ mysqli_close($conn);
                                 
                                 
                                 
-                                <section >
-                                    <label class="label">รับเข้า สาขา</label>
-                                    <label class="select">
-                                        <select name="reBranch" id="reBranch">
-                                            <?php echo $oBranch;?>
-                                        </select> <i></i> </label>
-                                </section >
+                                
                                 <section >
                                     <label class="label">หมายเหตุ</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
@@ -334,7 +339,7 @@ mysqli_close($conn);
                                         </label>
                                     </section>
                                     <section class="col col-2">
-                                        <label class="label">ราคา</label>
+                                        <label class="label">ราคาทุน</label>
                                         <label class="input"> <i class="icon-prepend fa fa-phone"></i>
                                                 <input type="number" name="reGoPrice" id="reGoPrice" placeholder="ราคา" >
                                         </label>
@@ -363,12 +368,12 @@ mysqli_close($conn);
                             <div id="divView"><?php echo $tr1?></div>
                             <footer>
                                 <div class="row">
-                                    <section class="col col-2 left-inner">
+                                    <section class="col col-3 left">
                                         <button type="button" id="btnSave" class="btn btn-primary">
                                                 บันทึกข้อมูล
                                         </button>
                                     </section>
-                                    <section class="col col-10 right-inner">
+                                    <section class="col col-9 right-inner">
                                         <button type="button" id="btnReDoc" class="btn btn-primary">
                                                 ออกเลขที่เอกสาร เพิ่มStock
                                         </button>
@@ -580,7 +585,7 @@ mysqli_close($conn);
             
         });
         
-        
+        $("#reAlert").hide();
         $('#sandbox-container input').datepicker({ });
         $("#btnSave").click(saveRec1);
         $("#btnReAdd").click(addRow);
@@ -624,7 +629,7 @@ mysqli_close($conn);
                             $("#reGoName").val(json_obj[i].goods_name);
                         }
                         if(json_obj[i].price!=null) {
-                            $("#reGoPrice").val(json_obj[i].price);
+                            $("#reGoPrice").val(json_obj[i].cost);
                         }
                         if(json_obj[i].goods_id!=null) {
                             $("#reGoId").val(json_obj[i].goods_id);
@@ -802,9 +807,9 @@ mysqli_close($conn);
                             //alert("mmmmm "+json_obj[i].success);
                             if(json_obj[i].success=="1"){
                                 $.alert({
-                                title: 'Save Data',
-                                content: 'บันทึกข้อมูลเรียบร้อย',
-                            });
+                                    title: 'Save Data',
+                                    content: 'บันทึกข้อมูลเรียบร้อย',
+                                });
                             }
                         }
                     }
