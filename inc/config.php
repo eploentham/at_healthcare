@@ -7,7 +7,7 @@ $hostDB="localhost";
 $userDB="root";
 $passDB="";
 session_start();
-ob_start();
+//ob_start();
 //$_SESSION['at_healthcare.user']="";
 
 //$userDB="athealtcare";

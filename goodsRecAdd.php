@@ -1,10 +1,10 @@
 <?php require_once("inc/init.php"); ?>
 <?php
-if (!isset($_SESSION['at_user_staff_name']) || empty($_SESSION['at_user_staff_name'])) {
-    //header("location: #login.php");
-    $_SESSION['at_page'] ="goodsRecAdd.php";
-    echo "<script>window.location.assign('#login.php');</script>";
-}
+//if (!isset($_SESSION['at_user_staff_name']) || empty($_SESSION['at_user_staff_name'])) {
+//    //header("location: #login.php");
+//    $_SESSION['at_page'] ="goodsRecAdd.php";
+//    echo "<script>window.location.assign('#login.php');</script>";
+//}
 include 'UUID.php';
 //echo $userDB;
 $reRecId="-";
@@ -23,9 +23,11 @@ if(isset($_GET["recId"])){
     $reRecId = $_GET["recId"];
     $reFlagNew = "old";
     //$reRecId="aa";
+    $backColor="style='background-color:Black; color:Lime;'";
 }else{
     $reRecId = UUID::v4();
     $reFlagNew = "new";
+    $backColor="style='background-color:yellow; color:Lime;'";
 }
 
 //$reRecId="aa";
@@ -211,21 +213,30 @@ mysqli_close($conn);
                     <div class="widget-body no-padding">
                         <form action="" id="smart-form-register" class="smart-form">                            
                             <fieldset>
-                                <section>
-                                    <label class="label">เลขที่เอกสาร</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="text" name="reRecDoc" id="reRecDoc" value="<?php echo $reRecDoc;?>" placeholder="เลขที่เอกสาร">
-                                        <input type="hidden" name="reRecId" id="reRecId" value="<?php echo $reRecId;?>">
-                                        <input type="hidden" name="reFlagNew" id="reFlagNew" value="<?php echo $reFlagNew;?>">
-                                        <input type="hidden" name="reStatusStock" id="reStatusStock" value="<?php echo $reStatusStock;?>">
-                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section>
-                                <section>
-                                    <label class="label">เลขที่ Invoice</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="text" name="reInvEx" id="reInvEx" value="<?php echo $reInvEx;?>" placeholder="เลขที่ Invoice">
-                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <section>
+                                            <label class="label">เลขที่เอกสาร</label>
+                                            <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                                <input type="text" name="reRecDoc" id="reRecDoc" value="<?php echo $reRecDoc;?>" placeholder="เลขที่เอกสาร" <?php echo $backColor;?>>
+                                                <input type="hidden" name="reRecId" id="reRecId" value="<?php echo $reRecId;?>">
+                                                <input type="hidden" name="reFlagNew" id="reFlagNew" value="<?php echo $reFlagNew;?>">
+                                                <input type="hidden" name="reStatusStock" id="reStatusStock" value="<?php echo $reStatusStock;?>">
+                                                <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                        </section>
+                                    </section>
+                                    <section class="col col-6">
+                                        <section>
+                                            <label class="label">เลขที่ Invoice</label>
+                                            <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                                <input type="text" name="reInvEx" id="reInvEx" value="<?php echo $reInvEx;?>" placeholder="เลขที่ Invoice">
+                                                <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                        </section>
+                                    </section>
+                                </div>
+                                
+                                
+                                
                                 <section>
                                     <label class="label">รายละเอียด</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
@@ -233,32 +244,47 @@ mysqli_close($conn);
                                         
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
-                                <section>
-                                    <label class="label">วันที่รับสินค้า</label>
-                                    <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="reRecDate" id="reRecDate" value="<?php echo $reRecDate;?>" placeholder="วันที่รับสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
-                                        <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
-                                </section>
-                                <section>
-                                    <label class="label">วันที่ใน Invoice</label>
-                                    <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="reInvExDate" id="reInvExDate" value="<?php echo $reInvExDate;?>" placeholder="วันที่ใน Invoice" class="datepicker" data-date-format="dd/mm/yyyy">                                        
-                                        <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
-                                </section>
-                                <section >
-                                    <label class="label">รับเข้าบริษัท</label>
-                                    <label class="select">
-                                        <select name="reComp" id="reComp">
-                                            <?php echo $oComp1;?>
-                                        </select> <i></i> </label>
-                                </section >
-                                <section >
-                                    <label class="label">Vendor</label>
-                                    <label class="select">
-                                        <select name="reVend" id="reVend">
-                                            <?php echo $oVend;?>
-                                        </select> <i></i> </label>
-                                </section >
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <section>
+                                            <label class="label">วันที่รับสินค้า</label>
+                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                <input type="text" name="reRecDate" id="reRecDate" value="<?php echo $reRecDate;?>" placeholder="วันที่รับสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
+                                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
+                                        </section>
+                                    </section>
+                                    <section class="col col-6">
+                                        <section>
+                                            <label class="label">วันที่ใน Invoice</label>
+                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                <input type="text" name="reInvExDate" id="reInvExDate" value="<?php echo $reInvExDate;?>" placeholder="วันที่ใน Invoice" class="datepicker" data-date-format="dd/mm/yyyy">                                        
+                                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
+                                        </section>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <section >
+                                            <label class="label">รับเข้าบริษัท</label>
+                                            <label class="select">
+                                                <select name="reComp" id="reComp">
+                                                    <?php echo $oComp1;?>
+                                                </select> <i></i> </label>
+                                        </section >
+                                    </section>
+                                    <section class="col col-6">
+                                        <section >
+                                            <label class="label">Vendor</label>
+                                            <label class="select">
+                                                <select name="reVend" id="reVend">
+                                                    <?php echo $oVend;?>
+                                                </select> <i></i> </label>
+                                        </section >
+                                    </section>
+                                </div>
+                                
+                                
+                                
                                 <section >
                                     <label class="label">รับเข้า สาขา</label>
                                     <label class="select">
@@ -773,7 +799,13 @@ mysqli_close($conn);
                         var json_obj = $.parseJSON(data);
 
                         for (var i in json_obj){
-                            alert("mmmmm "+json_obj[i].success);
+                            //alert("mmmmm "+json_obj[i].success);
+                            if(json_obj[i].success=="1"){
+                                $.alert({
+                                title: 'Save Data',
+                                content: 'บันทึกข้อมูลเรียบร้อย',
+                            });
+                            }
                         }
                     }
                 });

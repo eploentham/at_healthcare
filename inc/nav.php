@@ -9,7 +9,7 @@
                             <a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
                                     <img src="<?php echo ASSETS_URL; ?>img/avatars/3818_p.png" alt="me" class="online" />
                                     <span>
-                                            Laddanwan Sri.
+                                          <?php echo $_SESSION['at_user_staff_name'];?>
                                     </span>
                                     <i class="fa fa-angle-down"></i>
                             </a>
