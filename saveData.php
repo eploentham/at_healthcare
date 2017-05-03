@@ -187,7 +187,7 @@ if($_GET["flagPage"] === "company"){
                 ."Values(UUID(),'".$goods_code."','".$goods_name."','".$goods_name_ex."','"
                 .$price."','".$cost."','".$holes."','".$side."','"
                 .$dia_meter."','".$length."','".$unit_id."','".$goods_type_id."','"
-                .$goods_cat_id."','".$goods_code_ex."',".$purchase_point."',".$purchase_period.",'1',now())";
+                .$goods_cat_id."','".$goods_code_ex."',".$purchase_point.",".$purchase_period.",'1',now())";
     }else{
         $sql="Update b_goods "
                 ."Set  "
@@ -366,19 +366,19 @@ $response = array();
 $resultArray = array();
 $err = "";
 
-$result = mysqli_query($conn,$sql);
+//$result = mysqli_query($conn,$sql);
 header('Content-Type: application/json');
-if(!$result){
-    $response["success"] = 0;
+if ($result=mysqli_query($conn,$sql) or die(mysqli_error($conn))){
+    $response["success"] = 1;
     $response["message"] = "insert Order success";
-    $response["error"] = mysqli_error();
+    $response["error"] = $err;
     $response["sql"] = $sql;
     array_push($resultArray,$response);
     echo json_encode($resultArray);
 }else{
-    $response["success"] = 1;
+    $response["success"] = 0;
     $response["message"] = "insert Order success";
-    $response["error"] = $err;
+    $response["error"] = mysqli_error($conn);
     $response["sql"] = $sql;
     array_push($resultArray,$response);
     echo json_encode($resultArray);

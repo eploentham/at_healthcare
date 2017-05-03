@@ -43,13 +43,13 @@ if ($rComp=mysqli_query($conn,$sql)){
     $goCatId = ($aGoods["goods_cat_id"]);
     $goPup = ($aGoods["purchase_point"]);
     $goPuPer = ($aGoods["purchase_period"]);
-    if($goTypeId=="05233f7d-225b-11e7-b800-1c1b0d8ca1a0"){
-        echo '<script type="text/javascript">alert("aaaaaaa");</script>';
-    }else if($goTypeId=="2595c85d-225b-11e7-b800-1c1b0d8ca1a0"){
-        echo '<script type="text/javascript">hideHole();</script>';
-    }else{
-        //echo '<script type="text/javascript">alert('.$goTypeId.');</script>';
-    }
+//    if($goTypeId=="05233f7d-225b-11e7-b800-1c1b0d8ca1a0"){
+//        echo '<script type="text/javascript">showHole();</script>';
+//    }else if($goTypeId=="2595c85d-225b-11e7-b800-1c1b0d8ca1a0"){
+//        echo '<script type="text/javascript">hideHole();</script>';
+//    }else{
+//        //echo '<script type="text/javascript">alert('.$goTypeId.');</script>';
+//    }
 }else{
     $goId = $goodsId;
 }
@@ -359,7 +359,7 @@ mysqli_close($conn);
 
 			// Rules for form validation
 			rules : {
-				compName : {
+				goDiameter : {
 					required : true
 				},
 				email : {
@@ -393,7 +393,7 @@ mysqli_close($conn);
 
 			// Messages for form validation
 			messages : {
-				login : {
+				goDiameter : {
 					required : 'Please enter your login'
 				},
 				email : {
@@ -455,6 +455,8 @@ mysqli_close($conn);
         $("#goAlert").hide();
         $("#goCodeCopy").click(codeCopy);
         $("#btnSave").click(saveGoods);
+        $("#goType").change(checkHole);
+        checkHole();
         $( ".select" ).change(function() {
             //var name = $('select[name="dept"]').val('3');
             if($('select[name="goType"]').val()=="05233f7d-225b-11e7-b800-1c1b0d8ca1a0"){
@@ -466,14 +468,27 @@ mysqli_close($conn);
         function codeCopy(){
             $("#goCode").val($("#goCodeEx").val());
         }
+        function checkHole(){
+            if($("#goType").val()=="05233f7d-225b-11e7-b800-1c1b0d8ca1a0"){
+                showHole();
+            }else if($("#goType").val()=="2595c85d-225b-11e7-b800-1c1b0d8ca1a0"){
+                showDiameter();
+            }else{
+                showHoleDiameter();
+            }
+        }
         function showHole(){
-//            $("#divHole").show();
-//            $("#divDiameter").hide();
+            $("#divHole").show();
+            $("#divDiameter").hide();
 //            alert("aaa");
         }
-        function hideHole(){
-//            $("#divHole").hide();
-//            $("#divDiameter").show();
+        function showDiameter(){
+            $("#divHole").hide();
+            $("#divDiameter").show();
+        }
+        function showHoleDiameter(){
+            $("#divHole").show();
+            $("#divDiameter").show();
         }
 //        function hideDiameter(){
 //            $("#divDiameter").hide();
@@ -488,7 +503,9 @@ mysqli_close($conn);
             return true;
         }
         function saveGoods(){
-            //alert('aaaaa');
+            $("#goAlert").show();
+            //alert("aaaa");
+            //$("#goAlert").show();
             $.ajax({ 
                 type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', 
                 data: { 'goods_id': $("#goId").val()
@@ -510,13 +527,26 @@ mysqli_close($conn);
                     ,'flagPage': "goods" }, 
                 success: function (data) {
                     //alert('bbbbb'+data);
+//                    $.alert({
+//                        title: 'Save Data',
+//                        content: data,
+//                    });
                     var json_obj = $.parseJSON(data);
                     for (var i in json_obj){
                         //alert("aaaa "+json_obj[i].success);
+                        if(json_obj[i].success=="1"){
+                            
+                            $("#goVali").empty();
+                            $("#goVali").append(json_obj[i].sql);
                             $.alert({
                                 title: 'Save Data',
                                 content: 'บันทึกข้อมูลเรียบร้อย',
                             });
+                        }else{
+//                            $("#goAlert").show();
+//                            $("#goVali").val(json_obj[i].error);
+                        }
+                            
                     }
 //                    alert('bbbbb '+json_obj.length);
 //                    alert('ccccc '+$("#cDistrict").val());

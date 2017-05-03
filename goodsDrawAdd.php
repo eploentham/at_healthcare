@@ -173,10 +173,10 @@ mysqli_close($conn);
 	</div>
 </div>
 
-<div class="alert alert-block alert-success">
+<div class="alert alert-block alert-success" id="draAlert">
 	<a class="close" data-dismiss="alert" href="#">×</a>
 	<h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
-	<p>
+	<p id="draVali">
 		You may also check the form validation by clicking on the form action button. Please try and see the results below!
 	</p>
 </div>
@@ -218,49 +218,56 @@ mysqli_close($conn);
                     <div class="widget-body no-padding">
                         <form action="" id="smart-form-register" class="smart-form">                            
                             <fieldset>
-                                <section>
-                                    <label class="label">เลขที่เอกสาร</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="text" name="draDoc" id="draDoc" value="<?php echo $draDoc;?>" placeholder="เลขที่เอกสาร">
-                                        <input type="hidden" name="draId" id="draId" value="<?php echo $draId;?>">
-                                        <input type="hidden" name="draFlagNew" id="draFlagNew" value="<?php echo $draFlagNew;?>">
-                                        <input type="hidden" name="reStatusStock" id="reStatusStock" value="<?php echo $reStatusStock;?>">
-                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section>
-                                <section>
-                                    <label class="label">รายละเอียด</label>
-                                    <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="draDesc" id="draDesc" value="<?php echo $draDesc;?>" placeholder="รายละเอียด">
-                                        
-                                        <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
-                                </section>
-                                <section>
-                                    <label class="label">วันที่เบิกสินค้า</label>
-                                    <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="draDate" id="draDate" value="<?php echo $draDate;?>" placeholder="วันที่เบิกสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
-                                        <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
-                                </section>
-                                <section >
-                                    <label class="label">รับเข้าบริษัท</label>
-                                    <label class="select">
-                                        <select name="draComp" id="draComp">
-                                            <?php echo $oComp1;?>
-                                        </select> <i></i> </label>
-                                </section >
-                                <section >
-                                    <label class="label">เบิก จากสาขา</label>
-                                    <label class="select">
-                                        <select name="draBranchD" id="draBranchD">
-                                            <?php echo $oBranchD;?>
-                                        </select> <i></i> </label>
-                                </section >
-                                <section >
-                                    <label class="label">รับเข้า สาขา</label>
-                                    <label class="select">
-                                        <select name="draBranchR" id="draBranchR">
-                                            <?php echo $oBranchR;?>
-                                        </select> <i></i> </label>
-                                </section >
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="label">เลขที่เอกสาร</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="text" name="draDoc" id="draDoc" value="<?php echo $draDoc;?>" placeholder="เลขที่เอกสาร">
+                                            <input type="hidden" name="draId" id="draId" value="<?php echo $draId;?>">
+                                            <input type="hidden" name="draFlagNew" id="draFlagNew" value="<?php echo $draFlagNew;?>">
+                                            <input type="hidden" name="reStatusStock" id="reStatusStock" value="<?php echo $reStatusStock;?>">
+                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">รายละเอียด</label>
+                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                            <input type="text" name="draDesc" id="draDesc" value="<?php echo $draDesc;?>" placeholder="รายละเอียด">
+
+                                            <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">วันที่เบิกสินค้า</label>
+                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                            <input type="text" name="draDate" id="draDate" value="<?php echo $draDate;?>" placeholder="วันที่เบิกสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
+                                            <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section  class="col col-4">
+                                        <label class="label">รับเข้าบริษัท</label>
+                                        <label class="select">
+                                            <select name="draComp" id="draComp">
+                                                <?php echo $oComp1;?>
+                                            </select> <i></i> </label>
+                                    </section >
+                                    <section  class="col col-4">
+                                        <label class="label">เบิก จากสาขา</label>
+                                        <label class="select">
+                                            <select name="draBranchD" id="draBranchD">
+                                                <?php echo $oBranchD;?>
+                                            </select> <i></i> </label>
+                                    </section >
+                                    <section  class="col col-4">
+                                        <label class="label">รับเข้า สาขา</label>
+                                        <label class="select">
+                                            <select name="draBranchR" id="draBranchR">
+                                                <?php echo $oBranchR;?>
+                                            </select> <i></i> </label>
+                                    </section >
+                                </div>
+                                
+                                
+                                
                                 <section >
                                     <label class="label">หมายเหตุ</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
@@ -497,6 +504,7 @@ mysqli_close($conn);
 	
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
+        $("#draAlert").hide();
         if($("#draFlagNew").val()=="new"){
             //$("#btnDraDoc").
             $("#btnDraDoc").prop("disabled", true);
@@ -703,7 +711,7 @@ mysqli_close($conn);
                 success: function (data) {
                     //var rec_id = $("#draId").val();
                     saveDetail();
-                    //alert('bbbbb'+data);
+                    alert('bbbbb'+data);
                     var json_obj = $.parseJSON(data);
                     for (var i in json_obj){
                         alert("aaaa "+json_obj[i].success);

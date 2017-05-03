@@ -215,7 +215,7 @@ mysqli_close($conn);
                             <fieldset>
                                 <div class="row">
                                     <section class="col col-3">
-                                        <section>
+                                        
                                             <label class="label">เลขที่เอกสาร</label>
                                             <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
                                                 <input type="text" name="reRecDoc" id="reRecDoc" value="<?php echo $reRecDoc;?>" placeholder="เลขที่เอกสาร" <?php echo $backColor;?>>
@@ -223,31 +223,31 @@ mysqli_close($conn);
                                                 <input type="hidden" name="reFlagNew" id="reFlagNew" value="<?php echo $reFlagNew;?>">
                                                 <input type="hidden" name="reStatusStock" id="reStatusStock" value="<?php echo $reStatusStock;?>">
                                                 <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                        </section>
+                                        
                                     </section>
                                     <section class="col col-3">
-                                        <section>
+                                        
                                             <label class="label">เลขที่ Invoice</label>
                                             <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
                                                 <input type="text" name="reInvEx" id="reInvEx" value="<?php echo $reInvEx;?>" placeholder="เลขที่ Invoice">
                                                 <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                        </section>
+                                        
                                     </section>
                                     <section class="col col-3">
-                                        <section>
+                                        
                                             <label class="label">วันที่รับสินค้า</label>
                                             <label class="input"> <i class="icon-append fa fa-user"></i>
                                                 <input type="text" name="reRecDate" id="reRecDate" value="<?php echo $reRecDate;?>" placeholder="วันที่รับสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
                                                 <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
-                                        </section>
+                                        
                                     </section>
                                     <section class="col col-3">
-                                        <section>
+                                        
                                             <label class="label">วันที่ใน Invoice</label>
                                             <label class="input"> <i class="icon-append fa fa-user"></i>
                                                 <input type="text" name="reInvExDate" id="reInvExDate" value="<?php echo $reInvExDate;?>" placeholder="วันที่ใน Invoice1" class="datepicker" data-date-format="dd/mm/yyyy">                                        
                                                 <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
-                                        </section>
+                                        
                                     </section>
                                 </div>
                                 
@@ -739,6 +739,7 @@ mysqli_close($conn);
         }
 
         function saveRec(){
+            $("#reAlert").show();
             //alert('aaaaa '+$("#reRecDate").val());
             var reRecId = $("#reRecId").val();
 
@@ -762,7 +763,15 @@ mysqli_close($conn);
                     //alert('bbbbb'+data);
                     var json_obj = $.parseJSON(data);
                     for (var i in json_obj){
-                        alert("aaaa "+json_obj[i].success);
+                        //alert("aaaa "+json_obj[i].success);
+                        if(json_obj[i].success=="1"){
+                            $("#reVali").empty();
+                            $("#reVali").append(json_obj[i].sql);
+                            $.alert({
+                                title: 'Save Data',
+                                content: 'บันทึกข้อมูลเรียบร้อย',
+                            });
+                        }
                     }
 //                    alert('bbbbb '+json_obj.length);
 //                    alert('ccccc '+$("#cDistrict").val());
@@ -802,7 +811,6 @@ mysqli_close($conn);
                     },
                     success: function (data) {
                         var json_obj = $.parseJSON(data);
-
                         for (var i in json_obj){
                             //alert("mmmmm "+json_obj[i].success);
                             if(json_obj[i].success=="1"){
