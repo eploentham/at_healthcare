@@ -582,7 +582,7 @@ mysqli_close($conn);
             
         });
         
-        
+        $("#draDoc").prop("disabled", true);
         $('#sandbox-container input').datepicker({ });
         $("#btnSave").click(saveDra1);
         $("#btnDraAdd").click(addRow);

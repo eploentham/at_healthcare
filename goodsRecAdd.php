@@ -542,6 +542,7 @@ mysqli_close($conn);
 	
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
+        $("#reRecDoc").prop("disabled", true);
         if($("#reFlagNew").val()=="new"){
             //$("#btnReDoc").
             $("#btnReDoc").prop("disabled", true);
@@ -602,6 +603,20 @@ mysqli_close($conn);
         $("#btnReDoc").click(genStock);
         $("#reGoQty").keyup(calAmt);
         $("#reGoPrice").keyup(calAmt);
+//        $("#reRecDoc").click(genRec);
+        function genRec(){
+            alert("aaa");
+            $.ajax({
+                type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', data: {'flagPage':"gen_rec" }, 
+                success: function (data) {
+                    //alert('bbbbb'+data);
+                    var json_obj = $.parseJSON(data);
+                    for (var i in json_obj){
+                        $("#reRecDoc").val(json_obj[i].doc);
+                    }
+                }
+            });
+        }
         function isNumberKey(evt){
             var charCode = (evt.which) ? evt.which : event.keyCode
             if (charCode > 31 && (charCode < 48 || charCode > 57))
@@ -707,7 +722,7 @@ mysqli_close($conn);
             var reGoUnit = $("#reGoUnit").val();
             var reGoUnit1 = $("#reGoUnit :selected").text();
             
-            var trId = "<input type='text' id='reRecDId"+reCnt+"' value=''>";
+            var trId = "<input type='hidden' id='reRecDId"+reCnt+"' value=''>";
             var trGoId = "<input type='hidden' id='reGoId"+reCnt+"' value='"+reGoId+"'>";
             var trCode = "<input type='hidden' id='reGoCode"+reCnt+"' value='"+reGoCode+"'>";
             var trQty = "<input type='hidden' id='reGoQty"+reCnt+"' value='"+reGoQty+"'>";
@@ -721,7 +736,7 @@ mysqli_close($conn);
             if(reGoAmt==""){
                 return;
             }
-            var tr = "<tr class='child'><td>"+reGoCode+trCode+trId+trGoId+"</td><td>"+reGoName+"</td><td>"+reGoQty+trQty+"</td><td>"+reGoPrice+trPrice+"</td><td>"+reGoUnit1+trUnit+"</td><td>"+reGoAmt+trAmt+"</td></tr>";
+            var tr = "<tr class='child'><td>"+reGoCode+trCode+trId+trGoId+"</td><td>"+reGoName+"</td><td>"+reGoQty+trQty+"</td><td>"+reGoPrice+trPrice+"</td><td>"+reGoUnit1+trUnit+"</td><td>"+reGoAmt+trAmt+"</td><td></td></tr>";
             reCnt++;
             $("#reCnt").val(reCnt);
             //alert('aaaa');
@@ -754,6 +769,12 @@ mysqli_close($conn);
         }
 
         function saveRec(){
+//            if($("#reDesc").val()==""){
+//                $("#reAlert").show();
+//                $("#reVali").empty();
+//                $("#reVali").append("รายละเอียด ไม่สามารถว่างได้");
+//                return;
+//            }
             $("#reAlert").show();
             //alert('aaaaa '+$("#reRecDate").val());
             var reRecId = $("#reRecId").val();
@@ -830,10 +851,10 @@ mysqli_close($conn);
                         for (var i in json_obj){
                             //alert("mmmmm "+json_obj[i].success);
                             if(json_obj[i].success=="1"){
-                                $.alert({
-                                    title: 'Save Data',
-                                    content: 'บันทึกข้อมูลเรียบร้อย Detail',
-                                });
+//                                $.alert({
+//                                    title: 'Save Data',
+//                                    content: 'บันทึกข้อมูลเรียบร้อย Detail',
+//                                });
                             }
                         }
                     }

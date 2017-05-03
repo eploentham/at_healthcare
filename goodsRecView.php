@@ -24,8 +24,8 @@ if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
 }
 if($result){
     while($row = mysqli_fetch_array($result)){
-        $brName="<a href='#goodsRecAdd.php?recId=".$row["rec_id"]."'>".$row["description"]."</a>";
-        $trCust .= "<tr><td>".$row["rec_doc"]."</td><td>".$row["inv_ex"]."</td><td>".$brName."</td><td>"
+        $brName="<a href='#goodsRecAdd.php?recId=".$row["rec_id"]."'>".$row["rec_doc"]."</a>";
+        $trCust .= "<tr><td>".$brName."</td><td>".$row["inv_ex"]."</td><td>".$row["description"]."</td><td>"
                 .$row["rec_date"]."</td><td>".$row["inv_ex_date"]."</td><td>".$row["comp_name_t"]."</td><td>".$row["vend_name_t"]."</td><td>".$row["branch_name"]."</td>";
     }
 }else{

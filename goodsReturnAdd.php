@@ -599,19 +599,7 @@ mysqli_close($conn);
 //                    alert('ccccc '+$("#cDistrict").val());
                     //$("#cZipcode").val("aaaa");
                     for (var i in json_obj){
-                        if(json_obj[i].goods_name!=null) {
-                            $("#reGoName").val(json_obj[i].goods_name);
-                        }
-                        if(json_obj[i].price!=null) {
-                            $("#reGoPrice").val(json_obj[i].cost);
-                        }
-                        if(json_obj[i].goods_id!=null) {
-                            $("#reGoId").val(json_obj[i].goods_id);
-                        }
-                        if(json_obj[i].unit_id!=null) {
-                            //$("#reGoId").val(json_obj[i].unit_id);
-                            $('#reGoUnit').val(json_obj[i].unit_id);
-                        }
+                        
                     }
                 }
             });

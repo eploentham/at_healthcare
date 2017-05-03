@@ -153,6 +153,68 @@ if($_GET['flagPage']=="amphur"){
     }else{
         //echo($query.' '.mysqli_error()
     }
+}else if($_GET['flagPage']=="amphur"){
+    $sql="Select * From t_goods_draw Where draw_date >= '".$_GET['retDraDate1']."' and draw_date <= '".$_GET['retDraDate2']."'  Order By amphur_code";
+    if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
+        $ok="";
+        $err="";
+        if(!$result){
+            $ok="0";
+            $err= mysql_error();
+            $tmp = array();
+            $tmp["error"] = $err;
+            $tmp["sql"] = $sql;
+            array_push($resultArray,$tmp);
+        }else{
+            $ok="1";
+            $tmp = array();
+            $tmp["sql"] = $sql;
+            array_push($resultArray,$tmp);
+            while($row = mysqli_fetch_array($result)){        
+                $tmp["amphur_id"] = $row["amphur_id"];
+                $tmp["amphur_name"] = $row["amphur_name"];
+                array_push($resultArray,$tmp);
+            }
+        }
+        $result->free();
+    }else{
+        
+    }
+}else if($_GET['flagPage']=="gen_rec"){
+    $sql = "Select count(1) as cnt From t_goods_rec ";
+    if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
+        $ok="";
+        $err="";
+        if(!$result){
+            $ok="0";
+            $err= mysql_error();
+            $tmp = array();
+            $tmp["error"] = $err;
+            $tmp["sql"] = $sql;
+            array_push($resultArray,$tmp);
+        }else{
+            $year = date("Y");
+            $year = substr($year, 2);
+            $ok="1";
+            $tmp = array();
+            $tmp["sql"] = $sql;
+            $cnt="";
+            array_push($resultArray,$tmp);
+            while($row = mysqli_fetch_array($result)){
+                if(is_null($row["cnt"])){
+                    $cnt = "0";
+                }else{
+                    $cnt = $row["cnt"];
+                }
+                $cnt = intval($cnt)+1;
+                $cnt = "00000".$cnt;
+            }
+            $doc = "RE".$year. substr($cnt, strlen($cnt)-5);
+            $tmp["doc"] = $doc;
+            array_push($resultArray,$tmp);
+        }
+        $result->free();
+    }
 }
 
 mysqli_close($conn);
