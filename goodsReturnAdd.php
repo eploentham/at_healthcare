@@ -21,8 +21,8 @@ $retFlagNew="";
 $retStatusStock="";
 $oCust="";
 $retCustId="";
-if(isset($_GET["recId"])){
-    $retRetId = $_GET["recId"];
+if(isset($_GET["retId"])){
+    $retRetId = $_GET["retId"];
     $retFlagNew = "old";
     //$retRetId="aa";
     $backColor="style='background-color:white; '";

@@ -24,9 +24,9 @@ if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
 }
 if($result){
     while($row = mysqli_fetch_array($result)){
-        $brName="<a href='#goodsReturnAdd.php?retId=".$row["ret_id"]."'>".$row["description"]."</a>";
+        $brName="<a href='#goodsReturnAdd.php?retId=".$row["return_id"]."'>".$row["description"]."</a>";
         $trCust .= "<tr><td>".$row["ret_doc"]."</td><td>".$brName."</td><td>"
-                .$row["ret_date"]."</td><td>".$row["comp_name_t"]."</td>";
+                .$row["return_date"]."</td><td>".$row["comp_name_t"]."</td>";
     }
 }else{
     echo mysqli_error($conn);
