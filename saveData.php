@@ -179,15 +179,18 @@ if($_GET["flagPage"] === "company"){
     $unit_id=$_GET["unit_id"];
     $purchase_point=$_GET["purchase_point"];
     $purchase_period=$_GET["purchase_period"];
+    $barcode=$_GET["barcode"];
     if(($_GET["goods_id"]==="-")|| ($_GET["goods_id"]==="")){
         $sql="Insert Into b_goods(goods_id, goods_code, goods_name, goods_name_ex, "
                 ."price, cost, holes, side, "
                 ."dia_meter, length, unit_id, goods_type_id, "
-                ."goods_cat_id, goods_code_ex, purchase_point, purchase_period, active, date_create) "
+                ."goods_cat_id, goods_code_ex, purchase_point, purchase_period, "
+                ."barcode, active, date_create) "
                 ."Values(UUID(),'".$goods_code."','".$goods_name."','".$goods_name_ex."','"
                 .$price."','".$cost."','".$holes."','".$side."','"
                 .$dia_meter."','".$length."','".$unit_id."','".$goods_type_id."','"
-                .$goods_cat_id."','".$goods_code_ex."',".$purchase_point.",".$purchase_period.",'1',now())";
+                .$goods_cat_id."','".$goods_code_ex."',".$purchase_point.",".$purchase_period.",'"
+                .$barcode."','1',now())";
     }else{
         $sql="Update b_goods "
                 ."Set  "
@@ -206,6 +209,7 @@ if($_GET["flagPage"] === "company"){
                 .", unit_id = '".$unit_id."' "
                 .", purchase_point = ".$purchase_point." "
                 .", purchase_period = ".$purchase_period." "
+                .", barcode = '".$barcode."' "
                 .", date_modi = now() "
                 ."Where goods_id = '".$goods_id."'";
     }
@@ -287,6 +291,7 @@ if($_GET["flagPage"] === "company"){
     $rec_id=$_GET["rec_id"];
     
 }else if($_GET["flagPage"] === "goods_draw"){
+    $draw_doc="";
     $draw_id=$_GET["draw_id"];
     $draw_doc=$_GET["draw_doc"];
     //$inv_ex=$_GET["inv_ex"];
@@ -296,27 +301,27 @@ if($_GET["flagPage"] === "company"){
     $comp_id=$_GET["comp_id"];
     //$vend_id=$_GET["vend_id"];
     $branch_id_draw=$_GET["branch_id_draw"];
-    $branch_id_rec=$_GET["branch_id_rec"];
+    $cust_id_rec=$_GET["cust_id_rec"];
     $remark=$_GET["remark"];
     $flag_new=$_GET["flag_new"];
     if(($_GET["flag_new"]==="-")|| ($_GET["flag_new"]==="new")){
         $sql="Insert Into t_goods_draw(draw_id, draw_doc, description, "
                 ."draw_date, comp_id, branch_id_draw, "
-                ."branch_id_rec, remark, status_stock, active, date_create) "
+                ."cust_id_rec, remark, status_stock, active, date_create) "
                 ."Values('".$draw_id."','".$draw_doc."','".$description."','"
                 .$draw_date."','".$comp_id."','".$branch_id_draw."','"
-                .$branch_id."','".$remark."','0','1',now())";
+                .$cust_id_rec."','".$remark."','0','1',now())";
     }else{
         $sql="Update t_goods_draw "
                 ."Set  "
-                ." rec_doc = '".$draw_doc."' "
+                ." draw_doc = '".$draw_doc."' "
                 //.", inv_ex = '".$inv_ex."' "
                 .", description = '".$description."' "
                 .", draw_date = '".$draw_date."' "
                 //.", inv_ex_date = '".$inv_ex_date."' "
                 .", comp_id = '".$comp_id."' "
                 .", branch_id_draw = '".$branch_id_draw."' "
-                .", branch_id_rec = '".$branch_id_rec."' "
+                .", cust_id_rec = '".$cust_id_rec."' "
                 .", remark = '".$remark."' "
                 .", date_modi = now() "
                 ."Where draw_id = '".$draw_id."'";
@@ -331,13 +336,14 @@ if($_GET["flagPage"] === "company"){
     $cost=$_GET["cost"];
     $amt=$_GET["amt"];
     $unit_id=$_GET["unit_id"];
+    $hn=$_GET["hn"];
     if(($_GET["draw_detail_id"]==="-")|| ($_GET["draw_detail_id"]==="")){
         $sql="Insert Into t_goods_draw_detail(draw_detail_id, draw_id, goods_id, price, "
                 ."cost, qty, amount, unit_id, "
-                ."remark, status_stock, active, date_create) "
+                ."remark, hn, status_stock, active, date_create) "
                 ."Values(UUID(),'".$draw_id."','".$goods_id."','".$price."','"
                 .$cost."','".$qty."','".$amt."','".$unit_id."','"
-                .$remark."','0','1',now())";
+                .$remark."','".$hn."','0','1',now())";
 //        $sql="Insert Into t_goods_rec_detail(rec_detail_id, active, date_create) "
 //                ."Values(UUID(),'1',now())";
     }else{
@@ -351,6 +357,7 @@ if($_GET["flagPage"] === "company"){
                 .", amount = '".$amount."' "
                 .", unit_id = '".$unit_id."' "
                 .", remark = '".$remark."' "
+                .", hn = '".$hn."' "
                 .", date_modi = now() "
                 ."Where draw_detail_id = '".$draw_detail_id."'";
     }
@@ -361,6 +368,40 @@ if($_GET["flagPage"] === "company"){
                 ." active = '3' "
                 .", date_cancel = now() "
                 ."Where draw_detail_id = '".$draw_detail_id."'";
+}else if($_GET["flagPage"] === "goods_return"){
+    $return_id=$_GET["return_id"];
+    $return_doc=$_GET["return_doc"];
+    //$inv_ex=$_GET["inv_ex"];
+    $description=$_GET["description"];
+    $return_date=$_GET["return_date"];
+    //$inv_ex_date=$_GET["inv_ex_date"];
+    $comp_id=$_GET["comp_id"];
+    $cust_id=$_GET["cust_id"];
+    $branch_id=$_GET["branch_id"];
+    $remark=$_GET["remark"];
+    $flag_new=$_GET["flag_new"];
+    if(($_GET["flag_new"]==="-")|| ($_GET["flag_new"]==="new")){
+        $sql="Insert Into t_goods_return(return_id, return_doc, description, "
+                ."return_date, comp_id, cust_id_return, "
+                ."branch_id, remark, status_stock, active, date_create) "
+                ."Values('".$return_id."','".$return_doc."','".$description."','"
+                .$return_date."','".$comp_id."','".$cust_id."','"
+                .$branch_id."','".$remark."','0','1',now())";
+    }else{
+        $sql="Update t_goods_return "
+                ."Set  "
+                ." return_doc = '".$return_doc."' "
+                //.", inv_ex = '".$inv_ex."' "
+                .", description = '".$description."' "
+                .", return_date = '".$return_date."' "
+                //.", inv_ex_date = '".$inv_ex_date."' "
+                .", comp_id = '".$comp_id."' "
+                .", cust_id = '".$cust_id."' "
+                .", branch_id = '".$branch_id."' "
+                .", remark = '".$remark."' "
+                .", date_modi = now() "
+                ."Where return_id = '".$return_id."'";
+    }
 }
 $response = array();
 $resultArray = array();
@@ -370,14 +411,14 @@ $err = "";
 header('Content-Type: application/json');
 if ($result=mysqli_query($conn,$sql) or die(mysqli_error($conn))){
     $response["success"] = 1;
-    $response["message"] = "insert Order success";
+    $response["message"] = "Success";
     $response["error"] = $err;
     $response["sql"] = $sql;
     array_push($resultArray,$response);
     echo json_encode($resultArray);
 }else{
     $response["success"] = 0;
-    $response["message"] = "insert Order success";
+    $response["message"] = "Error";
     $response["error"] = mysqli_error($conn);
     $response["sql"] = $sql;
     array_push($resultArray,$response);

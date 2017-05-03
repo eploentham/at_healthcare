@@ -610,6 +610,10 @@ $page_nav = array(
                 "title" => "เบิกตัดจ่ายสินค้า",
                 "url" => "goodsDrawView.php"
             ),
+            "returnStock" => array(
+                "title" => "คืนสินค้า",
+                "url" => "goodsReturnView.php"
+            ),
             "goods" => array(
                 "title" => "รายการสินค้าทั้งหมด",
                 "url" => "goodsView.php"

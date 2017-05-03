@@ -8,15 +8,15 @@
 include 'UUID.php';
 //echo $userDB;
 $reRecId="-";
-$reInvEx="";
+$retDraId="";
 $reRecDoc="";
-$reDesc="";
-$reRecDate="";
+$retDesc="";
+$retRetDate="";
 $reInvExDate="";
 $compId="";
 $vendId="";
 $branchId="";
-$reRemark="";
+$retRemark="";
 $reFlagNew="";
 $reStatusStock="";
 if(isset($_GET["recId"])){
@@ -42,11 +42,11 @@ if ($rComp=mysqli_query($conn,$sql)){
     while($aRec = mysqli_fetch_array($rComp)){
         $reRecId = $aRec["rec_id"];
         $reRecDoc = ($aRec["rec_doc"]);
-        $reInvEx = ($aRec["inv_ex"]);
-        $reDesc = ($aRec["description"]);
-        $reRecDate = ($aRec["rec_date"]);
+        $retDraId = ($aRec["inv_ex"]);
+        $retDesc = ($aRec["description"]);
+        $retRetDate = ($aRec["rec_date"]);
         $reInvExDate = ($aRec["inv_ex_date"]);
-        $reRemark = ($aRec["remark"]);
+        $retRemark = ($aRec["remark"]);
         $reStatusStock = ($aRec["status_stock"]);
 
         $compId = ($aRec["comp_id"]);
@@ -65,11 +65,20 @@ $sql="Select * From b_company Order By comp_name_t";
 if ($result=mysqli_query($conn,$sql)){
     $oComp1 = "<option value='0' selected='' disabled=''>เลือก บริษัท</option>";
     while($row = mysqli_fetch_array($result)){
-        if($compId===$row["comp_id"]){
-            $oComp1 .= '<option selected value='.$row["comp_id"].'>'.$row["comp_name_t"].'</option>';
+        if($reFlagNew=="old"){
+            if($compId===$row["comp_id"]){
+                $oComp1 .= '<option selected value='.$row["comp_id"].'>'.$row["comp_name_t"].'</option>';
+            }else{
+                $oComp1 .= '<option value='.$row["comp_id"].'>'.$row["comp_name_t"].'</option>';
+            }
         }else{
-            $oComp1 .= '<option value='.$row["comp_id"].'>'.$row["comp_name_t"].'</option>';
+            if($row["status_default"]==="1"){
+                $oComp1 .= '<option selected value='.$row["comp_id"].'>'.$row["comp_name_t"].'</option>';
+            }else{
+                $oComp1 .= '<option value='.$row["comp_id"].'>'.$row["comp_name_t"].'</option>';
+            }
         }
+        
     }
 }
 $sql="Select * From b_vendor Order By vend_name_t";
@@ -229,7 +238,7 @@ mysqli_close($conn);
                                         
                                             <label class="label">เลขที่ Invoice</label>
                                             <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                                <input type="text" name="reInvEx" id="reInvEx" value="<?php echo $reInvEx;?>" placeholder="เลขที่ Invoice">
+                                                <input type="text" name="reInvEx" id="reInvEx" value="<?php echo $retDraId;?>" placeholder="เลขที่ Invoice">
                                                 <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                         
                                     </section>
@@ -237,7 +246,7 @@ mysqli_close($conn);
                                         
                                             <label class="label">วันที่รับสินค้า</label>
                                             <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                <input type="text" name="reRecDate" id="reRecDate" value="<?php echo $reRecDate;?>" placeholder="วันที่รับสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
+                                                <input type="text" name="reRecDate" id="reRecDate" value="<?php echo $retRetDate;?>" placeholder="วันที่รับสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
                                                 <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                         
                                     </section>
@@ -256,7 +265,7 @@ mysqli_close($conn);
                                 <section>
                                     <label class="label">รายละเอียด</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="reDesc" id="reDesc" value="<?php echo $reDesc;?>" placeholder="รายละเอียด">
+                                        <input type="text" name="reDesc" id="reDesc" value="<?php echo $retDesc;?>" placeholder="รายละเอียด">
                                         
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
@@ -300,7 +309,7 @@ mysqli_close($conn);
                                 <section >
                                     <label class="label">หมายเหตุ</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="text" name="reRemark" id="reRemark" value="<?php echo $reRemark;?>" placeholder="หมายเหตุ">
+                                            <input type="text" name="reRemark" id="reRemark" value="<?php echo $retRemark;?>" placeholder="หมายเหตุ">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
                             </fieldset>
@@ -658,9 +667,15 @@ mysqli_close($conn);
                             success: function (data) {
                                 //var rec_id = $("#reRecId").val();
                                 //saveDetail();
-                                alert('bbbbb'+data);
+                                //alert('bbbbb'+data);
                                 var json_obj = $.parseJSON(data);
                                 $("#btnReDoc").prop("disabled", true);
+                                $.alert({
+                                    title: 'Save Data',
+                                    content: 'gen Stock เรียบร้อย',
+                                });
+                                $("#reVali").empty();
+                                $("#reVali").append("gen Stock เรียบร้อย");
                                 //for (var i in json_obj){
                                 //    alert("aaaa "+json_obj[i].success);
                                 //}
@@ -765,12 +780,13 @@ mysqli_close($conn);
                     for (var i in json_obj){
                         //alert("aaaa "+json_obj[i].success);
                         if(json_obj[i].success=="1"){
-                            $("#reVali").empty();
-                            $("#reVali").append(json_obj[i].sql);
+                            $("#btnSave").prop("disabled", true);
                             $.alert({
                                 title: 'Save Data',
                                 content: 'บันทึกข้อมูลเรียบร้อย',
                             });
+                            $("#reVali").empty();
+                            $("#reVali").append(json_obj[i].sql);
                         }
                     }
 //                    alert('bbbbb '+json_obj.length);
@@ -816,7 +832,7 @@ mysqli_close($conn);
                             if(json_obj[i].success=="1"){
                                 $.alert({
                                     title: 'Save Data',
-                                    content: 'บันทึกข้อมูลเรียบร้อย',
+                                    content: 'บันทึกข้อมูลเรียบร้อย Detail',
                                 });
                             }
                         }

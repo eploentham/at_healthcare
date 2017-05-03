@@ -2,27 +2,31 @@
 <?php
 //if (!isset($_SESSION['at_user_staff_name']) || empty($_SESSION['at_user_staff_name'])) {
 //    //header("location: #login.php");
-//    $_SESSION['at_page'] ="goodsDrawView.php";
+//    $_SESSION['at_page'] ="goodsRecView.php";
 //    echo "<script>window.location.assign('#login.php');</script>";
 //}
 $trCust="";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
-$sql="Select dra.draw_id, ifnull(dra.description,'-') as description, ifnull(dra.draw_doc,'-') as draw_doc, ifnull(dra.inv_ex,'-') as inv_ex, ifnull(dra.draw_date,'-') as draw_date "
-        .", ifnull(comp.comp_name_t,'') as comp_name_t, ifnull(brd.branch_name,'') as branch_name_d, ifnull(cus.cust_name_t,'') as cust_name_t "
-        ."From t_goods_draw dra "
+$sql="Select ret.return_id, ifnull(ret.description,'-') as description, ifnull(ret.return_doc,'-') as ret_doc, ifnull(ret.return_date,'-') as return_date "
+        .", ifnull(comp.comp_name_t,'') as comp_name_t "
+        ."From t_goods_return ret "
         //."Left Join t_goods_rec_detail recd On rec.rec_id = recd.rec_id "
-        ."Left Join b_company comp On dra.comp_id = comp.comp_id "
+        ."Left Join b_company comp On ret.comp_id = comp.comp_id "
 //        ."Left Join b_vendor vend On rec.vend_id = vend.vend_id "
-        ."Left Join b_branch brd On dra.branch_id_draw = brd.branch_id "
-        ."Left Join b_customer cus On dra.cust_id_rec = cus.cust_id "
-        ."Where dra.active = '1' ";
-$result = mysqli_query($conn,$sql);
+//        ."Left Join b_branch br On rec.branch_id = br.branch_id "
+        ."Where ret.active = '1' ";
+//$result = mysqli_query($conn,$sql);
+if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
+    
+}else{
+    echo mysqli_error($conn);
+}
 if($result){
     while($row = mysqli_fetch_array($result)){
-        $brName="<a href='#goodsDrawAdd.php?draId=".$row["draw_id"]."'>".$row["description"]."</a>";
-        $trCust .= "<tr><td>".$row["draw_doc"]."</td><td>".$brName."</td><td>"
-                .$row["draw_date"]."</td><td>".$row["comp_name_t"]."</td><td>".$row["branch_name_d"]."</td><td>".$row["cust_name_t"]."</td>";
+        $brName="<a href='#goodsReturnAdd.php?retId=".$row["ret_id"]."'>".$row["description"]."</a>";
+        $trCust .= "<tr><td>".$row["ret_doc"]."</td><td>".$brName."</td><td>"
+                .$row["ret_date"]."</td><td>".$row["comp_name_t"]."</td>";
     }
 }else{
     echo mysqli_error($conn);
@@ -108,13 +112,11 @@ mysqli_close($conn);
                                     <thead>
                                         <tr>
                                             <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>เลขที่เอกสาร</th>
-                                            
                                             <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> รายละเอียด</th>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> วันที่เบิกสินค้า</th>
+                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> วันที่รับสินค้า</th>                                            
+                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> รับเข้าบริษัท</th>
                                             
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> เบิกจากบริษัท</th>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> เบิกจาก สาขา</th>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> รับเข้า สาขา</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -128,8 +130,8 @@ mysqli_close($conn);
                     </div>
 			<!-- end widget -->
                     <footer>
-                        <button type="button" class="btn btn-primary" id="btnGoodsDrawAdd">
-                                    เบิก สินค้า
+                        <button type="button" class="btn btn-primary" id="btnGoodsRetAdd">
+                                    คืนสินค้า
                         </button>
                     </footer>
 		</article>
@@ -360,10 +362,10 @@ mysqli_close($conn);
 			});
 		});
 	});
-        $("#btnGoodsDrawAdd").click(showGoodsDrawAdd);
-        function showGoodsDrawAdd(){
+        $("#btnGoodsRetAdd").click(showGoodsRetAdd);
+        function showGoodsRetAdd(){
             //alert("aaaa");
-            window.location.assign("#goodsDrawAdd.php");
+            window.location.assign("#goodsReturnAdd.php");
         }
 
 </script>

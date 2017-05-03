@@ -15,6 +15,7 @@ $goTypeId="";
 $goCatId="";
 $goPup="";
 $goPuPer="";
+$goBarcode="";
 if(isset($_GET["goodsId"])){
     $goId = $_GET["goodsId"];
 }else{
@@ -43,6 +44,7 @@ if ($rComp=mysqli_query($conn,$sql)){
     $goCatId = ($aGoods["goods_cat_id"]);
     $goPup = ($aGoods["purchase_point"]);
     $goPuPer = ($aGoods["purchase_period"]);
+    $goBarcode = $aGoods["barcode"];
 //    if($goTypeId=="05233f7d-225b-11e7-b800-1c1b0d8ca1a0"){
 //        echo '<script type="text/javascript">showHole();</script>';
 //    }else if($goTypeId=="2595c85d-225b-11e7-b800-1c1b0d8ca1a0"){
@@ -191,10 +193,10 @@ mysqli_close($conn);
                                             <input type="hidden" name="goId" id="goId" value="<?php echo $goId;?>">
                                             <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                     </section>
+
                                     <section class="col col-1">
-                                        <label class="label">.</label>
-                                        <a class="btn btn-success pull-right  hidden-mobile" id="goCodeCopy">
-                                            <i class="fa fa-circle-arrow-up fa-lg"></i><<<</a>
+                                        <label class="label">&nbsp;&nbsp;</label>
+                                        <button type="button" id="goCodeCopy" class="btn btn-primary btn-sm"><<<</button>
                                     </section>
                                     
                                     <section class="col col-6">
@@ -220,16 +222,22 @@ mysqli_close($conn);
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
                                 <div class="row">
-                                    <section  class="col col-6">
+                                    <section  class="col col-4">
                                         <label class="label">ราคาซื้อ</label>
                                         <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
                                             <input type="number" name="goCost" id="goCost" value="<?php echo $goCost;?>" placeholder="ราคาซื้อ" data-bind="value:replyNumber">
                                                 <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                     </section >
-                                    <section  class="col col-6">
+                                    <section  class="col col-4">
                                         <label class="label">ราคาขาย</label>
                                         <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
                                             <input type="number" name="goPrice" id="goPrice" value="<?php echo $goPrice;?>" placeholder="ราคาขาย" data-bind="value:replyNumber">
+                                                <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section >
+                                    <section  class="col col-4">
+                                        <label class="label">barcode</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="text" name="goBarcode" id="goBarcode" value="<?php echo $goBarcode;?>" placeholder="barcode">
                                                 <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                     </section >
                                 </div>
@@ -524,6 +532,7 @@ mysqli_close($conn);
                     ,'unit_id': $("#goUnit").val()
                     ,'purchase_point': $("#goPup").val()
                     ,'purchase_period': $("#goPuPer").val()
+                    ,'barcode': $("#goBarcode").val()
                     ,'flagPage': "goods" }, 
                 success: function (data) {
                     //alert('bbbbb'+data);
