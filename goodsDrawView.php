@@ -16,12 +16,12 @@ $sql="Select dra.draw_id, ifnull(dra.description,'-') as description, ifnull(dra
 //        ."Left Join b_vendor vend On rec.vend_id = vend.vend_id "
         ."Left Join b_branch brd On dra.branch_id_draw = brd.branch_id "
         ."Left Join b_customer cus On dra.cust_id_rec = cus.cust_id "
-        ."Where dra.active = '1' ";
+        ."Where dra.active = '1' Order By draw_doc";
 $result = mysqli_query($conn,$sql);
 if($result){
     while($row = mysqli_fetch_array($result)){
-        $brName="<a href='#goodsDrawAdd.php?draId=".$row["draw_id"]."'>".$row["description"]."</a>";
-        $trCust .= "<tr><td>".$row["draw_doc"]."</td><td>".$brName."</td><td>"
+        $brName="<a href='#goodsDrawAdd.php?draId=".$row["draw_id"]."'>".$row["draw_doc"]."</a>";
+        $trCust .= "<tr><td>".$brName."</td><td>".$row["description"]."</td><td>"
                 .$row["draw_date"]."</td><td>".$row["comp_name_t"]."</td><td>".$row["branch_name_d"]."</td><td>".$row["cust_name_t"]."</td>";
     }
 }else{

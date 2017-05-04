@@ -8,14 +8,14 @@
 $trCust="";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
-$sql="Select ret.return_id, ifnull(ret.description,'-') as description, ifnull(ret.return_doc,'-') as ret_doc, ifnull(ret.return_date,'-') as return_date "
+$sql="Select ret.return_id, ifnull(ret.description,'-') as description, ifnull(ret.return_doc,'-') as return_doc, ifnull(ret.return_date,'-') as return_date "
         .", ifnull(comp.comp_name_t,'') as comp_name_t "
         ."From t_goods_return ret "
         //."Left Join t_goods_rec_detail recd On rec.rec_id = recd.rec_id "
         ."Left Join b_company comp On ret.comp_id = comp.comp_id "
 //        ."Left Join b_vendor vend On rec.vend_id = vend.vend_id "
 //        ."Left Join b_branch br On rec.branch_id = br.branch_id "
-        ."Where ret.active = '1' ";
+        ."Where ret.active = '1' Order By return_doc";
 //$result = mysqli_query($conn,$sql);
 if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
     
@@ -24,8 +24,8 @@ if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
 }
 if($result){
     while($row = mysqli_fetch_array($result)){
-        $brName="<a href='#goodsReturnAdd.php?retId=".$row["return_id"]."'>".$row["description"]."</a>";
-        $trCust .= "<tr><td>".$row["ret_doc"]."</td><td>".$brName."</td><td>"
+        $brName="<a href='#goodsReturnAdd.php?retId=".$row["return_id"]."'>".$row["return_doc"]."</a>";
+        $trCust .= "<tr><td>".$brName."</td><td>".$row["description"]."</td><td>"
                 .$row["return_date"]."</td><td>".$row["comp_name_t"]."</td>";
     }
 }else{

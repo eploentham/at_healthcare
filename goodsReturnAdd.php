@@ -21,6 +21,7 @@ $retFlagNew="";
 $retStatusStock="";
 $oCust="";
 $retCustId="";
+$oDrawDoc="";
 if(isset($_GET["retId"])){
     $retRetId = $_GET["retId"];
     $retFlagNew = "old";
@@ -36,7 +37,7 @@ if(isset($_GET["retId"])){
 $goodsId="";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
-$sql="Select * From t_goods_return Where ret_id = '".$retRetId."' ";
+$sql="Select * From t_goods_return Where return_id = '".$retRetId."' ";
 //echo "<script> alert('aaaaa'); </script>";
 //$rComp = mysqli_query($conn,"Select * From b_company Where comp_id = '1' ");
 if ($rComp=mysqli_query($conn,$sql)){
@@ -52,8 +53,9 @@ if ($rComp=mysqli_query($conn,$sql)){
         $retStatusStock = ($aRec["status_stock"]);
 
         $compId = ($aRec["comp_id"]);
-        $retCustId = ($aRec["cust_id"]);
-//        $branchId = ($aRec["branch_id"]);
+        $retCustId = ($aRec["cust_id_return"]);
+        $retRetDate = substr($retRetDate,strlen($retRetDate)-2)."-".substr($retRetDate,5,2)."-".substr($retRetDate,0,4);
+        $branchId = ($aRec["branch_id"]);
     //    $goLength = strval($aRec["length"]);
     //    $goUnit = strval($aRec["unit_id"]);
     //    $goTypeId = strval($aRec["goods_type_id"]);
@@ -62,6 +64,20 @@ if ($rComp=mysqli_query($conn,$sql)){
 }else{
     $goId = $goodsId;
 }
+if($retFlagNew=="old"){
+    $sql="Select * From t_goods_draw Where draw_id = '".$retDraId."' Order By draw_doc";
+    if ($result=mysqli_query($conn,$sql)){
+        $oDrawDoc = "<option value='0' selected='' disabled=''>เลือก เลขที่ เบิกสินค้า</option>";
+        while($row = mysqli_fetch_array($result)){
+            if($retDraId===$row["draw_id"]){
+                $oDrawDoc .= '<option selected value='.$row["draw_id"].'>'.$row["draw_doc"].'</option>';
+            }else{
+                $oDrawDoc .= '<option value='.$row["draw_id"].'>'.$row["draw_doc"].'</option>';
+            }
+        }
+    }
+}
+
 $sql="Select * From b_company Order By comp_name_t";
 //$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
 if ($result=mysqli_query($conn,$sql)){
@@ -258,7 +274,7 @@ mysqli_close($conn);
                                         <label class="label">เลขที่ เบิกสินค้า</label>
                                         <label class="select">
                                             <select name="retDraId" id="retDraId">
-                                                <?php echo $oDraw;?>
+                                                <?php echo $oDrawDoc;?>
                                             </select> <i></i> </label>
                                     </section>
                                     <section class="col col-3">
@@ -589,18 +605,21 @@ mysqli_close($conn);
         $("#reGoPrice").keyup(calAmt);
         $("#retDrawSearch").click(searchDraw);
         function searchDraw(){
-            
+            //alert("aaaa");
             $.ajax({
                 type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', data: { 'draw_date1': $("#retDraDate1").val(),'draw_date2': $("#retDraDate2").val(), 'flagPage':"drawSearch" }, 
                 success: function (data) {
-                    //alert('bbbbb');
+                    //alert('bbbbb'+data);
                     var json_obj = $.parseJSON(data);
-//                    alert('bbbbb '+json_obj.length);
+                    //alert('bbbbb '+json_obj.draw_doc);
 //                    alert('ccccc '+$("#cDistrict").val());
                     //$("#cZipcode").val("aaaa");
+                    toAppend = "<option value='0' selected='' disabled=''>เลือก เลขที่ เบิกสินค้า</option>";
                     for (var i in json_obj){
-                        
+                        toAppend += '<option value="'+json_obj[i].draw_id+'">'+json_obj[i].draw_doc+json_obj[i].description+'</option>';
                     }
+                    $("#retDraId").append(toAppend);
+                    $("#retDraId").selectpicker('refresh');
                 }
             });
         }
@@ -777,8 +796,8 @@ mysqli_close($conn);
                     ,'flagPage': "goods_return" }, 
                 success: function (data) {
                     //var rec_id = $("#retRetId").val();
-                    //saveDetail();
-                    alert('bbbbb'+data);
+                    saveDetail();
+                    //alert('bbbbb'+data);
                     var json_obj = $.parseJSON(data);
                     for (var i in json_obj){
                         //alert("aaaa "+json_obj[i].success);
@@ -801,7 +820,7 @@ mysqli_close($conn);
         function saveDetail(){
             var cnt = $("#reCnt").val();
             var retRetId = $("#retRetId").val();
-            //alert('saveDetail ');
+            //alert('saveDetail '+cnt);
             for (var i=0;i<cnt;i++){
                 //alert("zzzzzz");
                 //var retRetId = $("#retRetId"+i).val();
@@ -817,7 +836,7 @@ mysqli_close($conn);
                 //alert("pppppp "+reRetDId);
                 $.ajax({
                     type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', 
-                    data: { 'rec_detail_id': reRetDId
+                    data: { 'ret_detail_id': reRetDId
                         ,'ret_id': retRetId
                         ,'goods_id': reGoId
                         ,'qty': reGoQty
@@ -829,6 +848,7 @@ mysqli_close($conn);
                         ,'flagPage': "goods_return_detail"
                     },
                     success: function (data) {
+                        alert("mmmmm "+data);
                         var json_obj = $.parseJSON(data);
                         for (var i in json_obj){
                             //alert("mmmmm "+json_obj[i].success);

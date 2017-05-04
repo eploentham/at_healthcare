@@ -56,6 +56,7 @@ if ($rComp=mysqli_query($conn,$sql)){
         $branchIdDra = ($aDra["branch_id_draw"]);
         $custIdRec = ($aDra["cust_id_rec"]);
         $draCustId = $aDra["cust_id_rec"];
+        $draDate = substr($draDate,strlen($draDate)-2)."-".substr($draDate,5,2)."-".substr($draDate,0,4);
     //    $goUnit = strval($aRec["unit_id"]);
     //    $goTypeId = strval($aRec["goods_type_id"]);
     //    $goCatId = strval($aRec["goods_cat_id"]);
@@ -355,7 +356,7 @@ mysqli_close($conn);
                                     </section>
                                     <section class="col col-2">
                                         <label class="label">&nbsp;&nbsp;</label>
-                                        <button type="button" class="btn btn-primary btn-sm" id="btnDraAdd">เพิ่มสินค้า</button>
+                                        <button type="button" class="btn btn-primary btn-sm" id="btnDraAdd">เบิกสินค้า</button>
                                         <input type="hidden" name="draCnt" id="draCnt" value="<?php echo $draCnt;?>">
                                     </section>
                                 </div>
@@ -672,7 +673,7 @@ mysqli_close($conn);
             var draGoUnit = $("#draGoUnit").val();
             var draGoUnit1 = $("#draGoUnit :selected").text();
             
-            var trId = "<input type='text' id='draDId"+draCnt+"' value=''>";
+            var trId = "<input type='hidden' id='draDId"+draCnt+"' value=''>";
             var trGoId = "<input type='hidden' id='draGoId"+draCnt+"' value='"+draGoId+"'>";
             var trCode = "<input type='hidden' id='draGoCode"+draCnt+"' value='"+draGoCode+"'>";
             var trQty = "<input type='hidden' id='draGoQty"+draCnt+"' value='"+draGoQty+"'>";

@@ -15,7 +15,7 @@ $sql="Select rec.rec_id, ifnull(rec.description,'-') as description, ifnull(rec.
         ."Left Join b_company comp On rec.comp_id = comp.comp_id "
         ."Left Join b_vendor vend On rec.vend_id = vend.vend_id "
         ."Left Join b_branch br On rec.branch_id = br.branch_id "
-        ."Where rec.active = '1' ";
+        ."Where rec.active = '1' Order By rec_doc";
 //$result = mysqli_query($conn,$sql);
 if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
     

@@ -153,8 +153,10 @@ if($_GET['flagPage']=="amphur"){
     }else{
         //echo($query.' '.mysqli_error()
     }
-}else if($_GET['flagPage']=="amphur"){
-    $sql="Select * From t_goods_draw Where draw_date >= '".$_GET['retDraDate1']."' and draw_date <= '".$_GET['retDraDate2']."'  Order By amphur_code";
+}else if($_GET['flagPage']=="drawSearch"){
+    $draDate1=substr($_GET["draw_date1"],strlen($_GET["draw_date1"])-4)."-".substr($_GET["draw_date1"],3,2)."-".substr($_GET["draw_date1"],0,2);
+    $draDate2=substr($_GET["draw_date2"],strlen($_GET["draw_date2"])-4)."-".substr($_GET["draw_date2"],3,2)."-".substr($_GET["draw_date2"],0,2);
+    $sql="Select draw_id,draw_doc, ifnull(description,'-') as description From t_goods_draw Where draw_date >= '".$draDate1."' and draw_date <= '".$draDate2."'  Order By draw_doc";
     if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
         $ok="";
         $err="";
@@ -168,11 +170,12 @@ if($_GET['flagPage']=="amphur"){
         }else{
             $ok="1";
             $tmp = array();
-            $tmp["sql"] = $sql;
-            array_push($resultArray,$tmp);
-            while($row = mysqli_fetch_array($result)){        
-                $tmp["amphur_id"] = $row["amphur_id"];
-                $tmp["amphur_name"] = $row["amphur_name"];
+            //$tmp["sql"] = $sql;
+            //array_push($resultArray,$tmp);
+            while($row = mysqli_fetch_array($result)){   
+                $tmp["draw_id"] = $row["draw_id"];
+                $tmp["draw_doc"] = $row["draw_doc"];
+                $tmp["description"] = $row["description"];
                 array_push($resultArray,$tmp);
             }
         }

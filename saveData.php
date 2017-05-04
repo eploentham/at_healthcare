@@ -235,7 +235,7 @@ if($_GET["flagPage"] === "company"){
             $tmp = array();
             $tmp["sql"] = $sql;
             $cnt="";
-            array_push($resultArray,$tmp);
+            //array_push($resultArray,$tmp);
             while($row = mysqli_fetch_array($result)){
                 if(is_null($row["cnt"])){
                     $cnt = "0";
@@ -334,7 +334,7 @@ if($_GET["flagPage"] === "company"){
             $tmp = array();
             $tmp["sql"] = $sql;
             $cnt="";
-            array_push($resultArray,$tmp);
+            //array_push($resultArray,$tmp);
             while($row = mysqli_fetch_array($result)){
                 if(is_null($row["cnt"])){
                     $cnt = "0";
@@ -415,14 +415,14 @@ if($_GET["flagPage"] === "company"){
     //$inv_ex=$_GET["inv_ex"];
     $description=$_GET["description"];
     $return_date=substr($_GET["return_date"],strlen($_GET["return_date"])-4)."-".substr($_GET["return_date"],3,2)."-".substr($_GET["return_date"],0,2);
-    //$inv_ex_date=$_GET["inv_ex_date"];
+    $draw_id=$_GET["draw_id"];
     $comp_id=$_GET["comp_id"];
     $cust_id=$_GET["cust_id"];
     $branch_id=$_GET["branch_id"];
     $remark=$_GET["remark"];
     $flag_new=$_GET["flag_new"];
     if(($_GET["flag_new"]==="-")|| ($_GET["flag_new"]==="new")){
-        $sql = "Select count(1) as cnt From t_goods_draw ";
+        $sql = "Select count(1) as cnt From t_goods_return ";
         if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
             $year = date("Y");
             $year = substr($year, 2);
@@ -430,7 +430,7 @@ if($_GET["flagPage"] === "company"){
             $tmp = array();
             $tmp["sql"] = $sql;
             $cnt="";
-            array_push($resultArray,$tmp);
+            //array_push($resultArray,$tmp);
             while($row = mysqli_fetch_array($result)){
                 if(is_null($row["cnt"])){
                     $cnt = "0";
@@ -442,10 +442,10 @@ if($_GET["flagPage"] === "company"){
             }
             $doc = "RT".$year. substr($cnt, strlen($cnt)-5);
         }
-        $sql="Insert Into t_goods_return(return_id, return_doc, description, "
+        $sql="Insert Into t_goods_return(return_id, return_doc, description,draw_id, "
                 ."return_date, comp_id, cust_id_return, "
                 ."branch_id, remark, status_stock, active, date_create) "
-                ."Values('".$return_id."','".$doc."','".$description."','"
+                ."Values('".$return_id."','".$doc."','".$description."','".$draw_id."','"
                 .$return_date."','".$comp_id."','".$cust_id."','"
                 .$branch_id."','".$remark."','0','1',now())";
     }else{
@@ -453,15 +453,42 @@ if($_GET["flagPage"] === "company"){
                 ."Set  "
                 //.", inv_ex = '".$inv_ex."' "
                 ." description = '".$description."' "
-//                .", return_doc = '".$return_doc."' "
+                .", draw_id = '".$draw_id."' "
                 .", return_date = '".$return_date."' "
                 //.", inv_ex_date = '".$inv_ex_date."' "
                 .", comp_id = '".$comp_id."' "
-                .", cust_id = '".$cust_id."' "
+                .", cust_id_return = '".$cust_id."' "
                 .", branch_id = '".$branch_id."' "
                 .", remark = '".$remark."' "
                 .", date_modi = now() "
                 ."Where return_id = '".$return_id."'";
+    }
+}else if($_GET["flagPage"] === "goods_return_detail"){
+    $ret_detail_id=$_GET["ret_detail_id"];
+    $draw_id="";
+    $ret_id=$_GET["ret_id"];
+    $goods_id=$_GET["goods_id"];
+    $qty=$_GET["qty"];
+//    $price=$_GET["price"];
+//    $cost=$_GET["cost"];
+//    $amt=$_GET["amt"];
+//    $unit_id=$_GET["unit_id"];
+    $hn=$_GET["hn"];
+    if(($_GET["ret_detail_id"]==="-")|| ($_GET["ret_detail_id"]==="")){
+        $sql="Insert Into t_goods_return_detail(return_detail_id, return_id, goods_id, "
+                ." qty, active, date_create) "
+                ."Values(UUID(),'".$ret_id."','".$goods_id."','"
+                .$qty."','1',now())";
+//        $sql="Insert Into t_goods_rec_detail(rec_detail_id, active, date_create) "
+//                ."Values(UUID(),'1',now())";
+    }else{
+        $sql="Update t_goods_return_detail "
+                ."Set  "
+                ." return_id = '".$ret_id."' "
+                .", goods_id = '".$goods_id."' "                
+                .", qty = '".$qty."' "                
+                .", date_modi = now() "
+                ."Where return_detail_id = '".$ret_detail_id."'";
     }
 }
 $response = array();
