@@ -271,10 +271,7 @@ mysqli_close($conn);
                                         
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                 </section>
-                                <div class="row">
-                                    
-                                    
-                                </div>
+                                
                                 <div class="row">
                                     <section class="col col-4">
                                         <section >
@@ -305,15 +302,23 @@ mysqli_close($conn);
                                     </section>
                                 </div>
                                 
+                                <div class="row">
+                                    <section class="col col-8">
+                                        <label class="label">หมายเหตุ</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                                <input type="text" name="reRemark" id="reRemark" value="<?php echo $retRemark;?>" placeholder="หมายเหตุ">
+                                                <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section >
+                                    <section class="col col-2">    
+                                        <label class="label">&nbsp;</label>
+                                        <label class="toggle state-error"><input type="checkbox" name="chkReVoid" checked="true" id="chkReVoid"><i data-swchon-text="ใช้งาน" data-swchoff-text="ยกเลิก"></i>สถานะ</label>
+                                    </section>
+                                    <section class="col col-2" >    
+                                        <label class="label">&nbsp;&nbsp;</label>
+                                        <button type="button" id="btnReVoid" class="btn btn-primary btn-sm">ต้องการยกเลิก</button>
+                                    </section>
+                                </div>
                                 
-                                
-                                
-                                <section >
-                                    <label class="label">หมายเหตุ</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="text" name="reRemark" id="reRemark" value="<?php echo $retRemark;?>" placeholder="หมายเหตุ">
-                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section >
                             </fieldset>
                             
                             <header>
@@ -545,6 +550,7 @@ mysqli_close($conn);
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
         $("#reRecDoc").prop("disabled", true);
+        
         if($("#reFlagNew").val()=="new"){
             //$("#btnReDoc").
             $("#btnReDoc").prop("disabled", true);
@@ -596,7 +602,7 @@ mysqli_close($conn);
             //change the background color to red before removing
             
         });
-        
+        hideBtnVoid();
         $("#reAlert").hide();
         $('#sandbox-container input').datepicker({ });
         $("#btnSave").click(saveRec1);
@@ -605,7 +611,19 @@ mysqli_close($conn);
         $("#btnReDoc").click(genStock);
         $("#reGoQty").keyup(calAmt);
         $("#reGoPrice").keyup(calAmt);
+        $("#chkReVoid").click(checkBtnVoid);
+        
 //        $("#reRecDoc").click(genRec);
+        function checkBtnVoid(){
+            if($("#chkReVoid").is(':checked'))
+                $("#btnReVoid").hide();  // checked
+            else
+                $("#btnReVoid").show();  // unchecked
+//            $("#btnReVoid").show();
+        }
+        function hideBtnVoid(){
+            $("#btnReVoid").hide();
+        }
         function genRec(){
             alert("aaa");
             $.ajax({

@@ -286,14 +286,23 @@ mysqli_close($conn);
                                     </section >
                                 </div>
                                 
+                                <div class="row">
+                                    <section  class="col col-8">
+                                        <label class="label">หมายเหตุ</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                                <input type="text" name="draRemark" id="draRemark" value="<?php echo $draRemark;?>" placeholder="หมายเหตุ">
+                                                <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section >
+                                    <section class="col col-2">    
+                                        <label class="label">&nbsp;</label>
+                                        <label class="toggle state-error"><input type="checkbox" name="chkDraVoid" checked="true" id="chkDraVoid"><i data-swchon-text="ใช้งาน" data-swchoff-text="ยกเลิก"></i>สถานะ</label>
+                                    </section>
+                                    <section class="col col-2" >    
+                                        <label class="label">&nbsp;&nbsp;</label>
+                                        <button type="button" id="btnDraVoid" class="btn btn-primary btn-sm">ต้องการยกเลิก</button>
+                                    </section>
+                                </div>
                                 
-                                
-                                <section >
-                                    <label class="label">หมายเหตุ</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="text" name="draRemark" id="draRemark" value="<?php echo $draRemark;?>" placeholder="หมายเหตุ">
-                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section >
                             </fieldset>
                             
                             <header>
@@ -582,7 +591,7 @@ mysqli_close($conn);
             //change the background color to red before removing
             
         });
-        
+        hideBtnVoid();
         $("#draDoc").prop("disabled", true);
         $('#sandbox-container input').datepicker({ });
         $("#btnSave").click(saveDra1);
@@ -590,6 +599,17 @@ mysqli_close($conn);
         $("#btnReGoSearch").click(goSearch);
         $("#btnDraDoc").click(genStock);
         $("#draGoQty").keyup(calAmt);
+        $("#chkDraVoid").click(checkBtnVoid);
+        function checkBtnVoid(){
+            if($("#chkDraVoid").is(':checked'))
+                $("#btnDraVoid").hide();  // checked
+            else
+                $("#btnDraVoid").show();  // unchecked
+//            $("#btnReVoid").show();
+        }
+        function hideBtnVoid(){
+            $("#btnDraVoid").hide();
+        }
         function calAmt(){
             $("#draGoAmt").val($("#draGoQty").val()*$("#draGoPrice").val());
         }

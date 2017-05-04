@@ -304,10 +304,10 @@ if($_GET["flagPage"] === "company"){
 }else if($_GET["flagPage"] === "rec_detail_void"){
     $rec_detail_id=$_GET["rec_detail_id"];
     $sql="Update t_goods_rec_detail "
-                ."Set  "
-                ." active = '3' "
-                .", date_cancel = now() "
-                ."Where rec_detail_id = '".$rec_detail_id."'";
+        ."Set  "
+        ." active = '3' "
+        .", date_cancel = now() "
+        ."Where rec_detail_id = '".$rec_detail_id."'";
 }else if($_GET["flagPage"] === "aa"){
     $rec_id=$_GET["rec_id"];
     
@@ -380,35 +380,42 @@ if($_GET["flagPage"] === "company"){
     $hn=$_GET["hn"];
     if(($_GET["draw_detail_id"]==="-")|| ($_GET["draw_detail_id"]==="")){
         $sql="Insert Into t_goods_draw_detail(draw_detail_id, draw_id, goods_id, price, "
-                ."cost, qty, amount, unit_id, "
-                ."remark, hn, status_stock, active, date_create) "
-                ."Values(UUID(),'".$draw_id."','".$goods_id."','".$price."','"
-                .$cost."','".$qty."','".$amt."','".$unit_id."','"
-                .$remark."','".$hn."','0','1',now())";
+            ."cost, qty, amount, unit_id, "
+            ."remark, hn, status_stock, active, date_create) "
+            ."Values(UUID(),'".$draw_id."','".$goods_id."','".$price."','"
+            .$cost."','".$qty."','".$amt."','".$unit_id."','"
+            .$remark."','".$hn."','0','1',now())";
 //        $sql="Insert Into t_goods_rec_detail(rec_detail_id, active, date_create) "
 //                ."Values(UUID(),'1',now())";
     }else{
         $sql="Update t_goods_draw_detail "
-                ."Set  "
-                ." draw_id = '".$draw_id."' "
-                .", goods_id = '".$goods_id."' "
-                .", price = '".$price."' "
-                .", cost = '".$cost."' "
-                .", qty = '".$qty."' "
-                .", amount = '".$amount."' "
-                .", unit_id = '".$unit_id."' "
-                .", remark = '".$remark."' "
-                .", hn = '".$hn."' "
-                .", date_modi = now() "
-                ."Where draw_detail_id = '".$draw_detail_id."'";
+            ."Set  "
+            ." draw_id = '".$draw_id."' "
+            .", goods_id = '".$goods_id."' "
+            .", price = '".$price."' "
+            .", cost = '".$cost."' "
+            .", qty = '".$qty."' "
+            .", amount = '".$amount."' "
+            .", unit_id = '".$unit_id."' "
+            .", remark = '".$remark."' "
+            .", hn = '".$hn."' "
+            .", date_modi = now() "
+            ."Where draw_detail_id = '".$draw_detail_id."'";
     }
 }else if($_GET["flagPage"] === "draw_detail_void"){
     $draw_detail_id=$_GET["draw_detail_id"];
     $sql="Update t_goods_draw_detail "
-                ."Set  "
-                ." active = '3' "
-                .", date_cancel = now() "
-                ."Where draw_detail_id = '".$draw_detail_id."'";
+            ."Set  "
+            ." active = '3' "
+            .", date_cancel = now() "
+            ."Where draw_detail_id = '".$draw_detail_id."'";
+}else if($_GET["flagPage"] === "return_detail_void"){
+    $ret_detail_id=$_GET["ret_detail_id"];
+    $sql="Update t_goods_return_detail "
+            ."Set  "
+            ." active = '3' "
+            .", date_cancel = now() "
+            ."Where return_detail_id = '".$ret_detail_id."'";
 }else if($_GET["flagPage"] === "goods_return"){
     $return_id=$_GET["return_id"];
     $return_doc=$_GET["return_doc"];
@@ -473,7 +480,7 @@ if($_GET["flagPage"] === "company"){
 //    $cost=$_GET["cost"];
 //    $amt=$_GET["amt"];
 //    $unit_id=$_GET["unit_id"];
-    $hn=$_GET["hn"];
+//    $hn=$_GET["hn"];
     if(($_GET["ret_detail_id"]==="-")|| ($_GET["ret_detail_id"]==="")){
         $sql="Insert Into t_goods_return_detail(return_detail_id, return_id, goods_id, "
                 ." qty, active, date_create) "

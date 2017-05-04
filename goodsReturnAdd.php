@@ -164,7 +164,7 @@ $reCnt=0;
 if ($rDetail=mysqli_query($conn,$sql)){
     while($row = mysqli_fetch_array($rDetail)){
         $reCnt++;
-        $tr="<input type='hidden' id='reDID".$reCnt."' value='".$row["rec_detail_id"]."'>";
+        $tr="<input type='hidden' id='reDID".$reCnt."' value='".$row["return_detail_id"]."'>";
         $tr1 .= "<tr id='tr".$reCnt."'><td >".$tr.$row["goods_code"]."</td><td>".$row["goods_name"]."</td><td>"
                 .$row["qty"]."</td><td id='".$row["return_detail_id"]."'><button type='button' id='btndel".$reCnt."' class='deleteLink'>del</button></td></tr>";
     }
@@ -252,7 +252,7 @@ mysqli_close($conn);
                         <form action="" id="smart-form-register" class="smart-form">                            
                             <fieldset>
                                 <div class="row">
-                                    <section class="col col-6">
+                                    <section class="col col-4">
                                         <label class="label">เลขที่เอกสาร</label>
                                         <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
                                             <input type="text" name="reRetDoc" id="reRetDoc" value="<?php echo $retRetDoc;?>" placeholder="เลขที่เอกสาร" <?php echo $backColor;?>>
@@ -261,12 +261,19 @@ mysqli_close($conn);
                                             <input type="hidden" name="retStatusStock" id="retStatusStock" value="<?php echo $retStatusStock;?>">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                     </section>
-                                    <section class="col col-6">
+                                    <section class="col col-4">
                                         <label class="label">วันที่คืนสินค้า</label>
                                         <label class="input"> <i class="icon-append fa fa-user"></i>
                                             <input type="text" name="reRetDate" id="reRetDate" value="<?php echo $retRetDate;?>" placeholder="วันที่คืนสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
                                             <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
-                                        
+                                    </section>
+                                    <section class="col col-2">    
+                                        <label class="label">&nbsp;</label>
+                                        <label class="toggle state-error"><input type="checkbox" name="chkRetVoid" checked="true" id="chkRetVoid"><i data-swchon-text="ใช้งาน" data-swchoff-text="ยกเลิก"></i>สถานะ</label>
+                                    </section>
+                                    <section class="col col-2" >    
+                                        <label class="label">&nbsp;&nbsp;</label>
+                                        <button type="button" id="btnRetVoid" class="btn btn-primary btn-sm">ต้องการยกเลิก</button>
                                     </section>
                                 </div>
                                 <div class="row">
@@ -332,7 +339,6 @@ mysqli_close($conn);
                                                 <input type="text" name="reRemark" id="reRemark" value="<?php echo $retRemark;?>" placeholder="หมายเหตุ">
                                                 <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                     </section >
-                                    
                                 </div>
                                 
                                 
@@ -594,7 +600,7 @@ mysqli_close($conn);
             //change the background color to red before removing
             
         });
-        
+        hideBtnVoid();
         $("#retAlert").hide();
         $('#sandbox-container input').datepicker({ });
         $("#btnSave").click(saveRec1);
@@ -604,6 +610,17 @@ mysqli_close($conn);
         $("#reGoQty").keyup(calAmt);
         $("#reGoPrice").keyup(calAmt);
         $("#retDrawSearch").click(searchDraw);
+        $("#chkRetVoid").click(checkBtnVoid);
+        function checkBtnVoid(){
+            if($("#chkRetVoid").is(':checked'))
+                $("#btnRetVoid").hide();  // checked
+            else
+                $("#btnRetVoid").show();  // unchecked
+//            $("#btnReVoid").show();
+        }
+        function hideBtnVoid(){
+            $("#btnRetVoid").hide();
+        }
         function searchDraw(){
             //alert("aaaa");
             $.ajax({
@@ -684,7 +701,7 @@ mysqli_close($conn);
                         $.ajax({
                             type: 'GET', url: 'genStock.php', contentType: "application/json", dataType: 'text', 
                             data: { 'ret_id': retRetId
-                                ,'flagPage': "gen_stock_ret" }, 
+                                ,'flagPage': "gen_stock_return" }, 
                             success: function (data) {
                                 //var rec_id = $("#retRetId").val();
                                 //saveDetail();
@@ -848,16 +865,16 @@ mysqli_close($conn);
                         ,'flagPage': "goods_return_detail"
                     },
                     success: function (data) {
-                        alert("mmmmm "+data);
+//                        alert("mmmmm "+data);
                         var json_obj = $.parseJSON(data);
                         for (var i in json_obj){
                             //alert("mmmmm "+json_obj[i].success);
-                            if(json_obj[i].success=="1"){
-                                $.alert({
-                                    title: 'Save Data',
-                                    content: 'บันทึกข้อมูลเรียบร้อย Detail',
-                                });
-                            }
+//                            if(json_obj[i].success=="1"){
+//                                $.alert({
+//                                    title: 'Save Data',
+//                                    content: 'บันทึกข้อมูลเรียบร้อย Detail',
+//                                });
+//                            }
                         }
                     }
                 });

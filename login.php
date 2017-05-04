@@ -59,30 +59,30 @@ require_once("inc/init.php");
     function checkLogin(){
         //alert("aaa");
         $.ajax({ 
-                type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', 
-                data: { 'user_name': $("#loUser").val()
-                    ,'password': $("#loPassword").val()
-                    ,'flagPage': "login" }, 
-                success: function (data) {
-                    //alert('bbbbb'+data+" ");
-                    var json_obj = $.parseJSON(data);
-                    for (var i in json_obj){
-                        var page = "<?php echo $_SESSION['at_page']; ?>";
-                        //var page = $.session.get('at_page');
-                        alert('page '+page+" nums "+json_obj[i].rows);
-                        window.location.assign('#'+page);
-                        //json_obj[i].success)
-                        //$.session.set('at_user',json_obj[i].staff_name_t+' '+json_obj[i].staff_lastname_t);
-                        //alert("aaaa "+json_obj[i].success);
+            type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', 
+            data: { 'user_name': $("#loUser").val()
+                ,'password': $("#loPassword").val()
+                ,'flagPage': "login" }, 
+            success: function (data) {
+                //alert('bbbbb'+data+" ");
+                var json_obj = $.parseJSON(data);
+                for (var i in json_obj){
+                    var page = "<?php echo $_SESSION['at_page']; ?>";
+                    //var page = $.session.get('at_page');
+                    //alert('page '+page+" nums "+json_obj[i].rows);
+                    window.location.assign('#'+page);
+                    //json_obj[i].success)
+                    //$.session.set('at_user',json_obj[i].staff_name_t+' '+json_obj[i].staff_lastname_t);
+                    //alert("aaaa "+json_obj[i].success);
 //                            $.alert({
 //                                title: 'Save Data',
 //                                content: 'บันทึกข้อมูลเรียบร้อย',
 //                            });
-                    }
+                }
 //                    alert('bbbbb '+json_obj.length);
 //                    alert('ccccc '+$("#cDistrict").val());
-                    //$("#cZipcode").val("aaaa");
-                }
-            });
+                //$("#cZipcode").val("aaaa");
+            }
+        });
     }
 </script>

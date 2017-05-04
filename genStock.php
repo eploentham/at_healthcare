@@ -58,6 +58,30 @@ if($_GET["flagPage"] === "gen_stock_rec"){
         $sql="Update t_goods_draw Set status_stock = '1' Where draw_id = '".$rec_id."'";
         mysqli_query($conn,$sql);
     }
+}else if($_GET["flagPage"] === "gen_stock_return"){
+    $ret_id=$_GET["ret_id"];
+    $sql="Select * From t_goods_return_detail Where return_id = '".$ret_id."' and active = '1' and status_stock = '0' " ;
+    if ($result=mysqli_query($conn,$sql)){
+        while($row = mysqli_fetch_array($result)){
+            //$rocId = $row["rec_id"];
+            $retDId = $row["return_detail_id"];
+            $goodsId = $row["goods_id"];
+//            $price = $row["price"];
+            $qty = $row["qty"];
+            if($qty===""){
+                return;
+            }
+            $sql="Insert Into t_stock(stock_id, goods_id, qty, price, rec_draw_detail_id, status_rec_draw, active, date_create) "
+                    ."Values(UUID(),'".$goodsId."',".$qty.",0,'".$retDId."','3','1', now())";
+            mysqli_query($conn,$sql);
+            $sql="Update t_goods_return_detail Set status_stock = '1' Where rec_detail_id = '".$retDId."'";
+            mysqli_query($conn,$sql);
+            $sql="Update b_goods Set on_hand = on_hand+".$qty." Where goods_id = '".$goodsId."'";
+            mysqli_query($conn,$sql);
+        }
+        $sql="Update t_goods_reurn Set status_stock = '1' Where return_id = '".$ret_id."'";
+        mysqli_query($conn,$sql);
+    }
 }
 
 $response = array();
