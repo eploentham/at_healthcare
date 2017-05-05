@@ -1,10 +1,10 @@
 <?php require_once("inc/init.php"); ?>
 <?php
-if (!isset($_SESSION['at_user_staff_name']) || empty($_SESSION['at_user_staff_name'])) {
-    //header("location: #login.php");
-    $_SESSION['at_page'] ="vendorView.php";
-    echo "<script>window.location.assign('#login.php');</script>";
-}
+//if (!isset($_SESSION['at_user_staff_name']) || empty($_SESSION['at_user_staff_name'])) {
+//    //header("location: #login.php");
+//    $_SESSION['at_page'] ="vendorView.php";
+//    echo "<script>window.location.assign('#login.php');</script>";
+//}
 $trVend="";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
@@ -350,7 +350,7 @@ mysqli_close($conn);
 	});
         $("#btnVendAdd").click(showVendAdd);
         function showVendAdd(){
-            alert("aaaa");
+//            alert("aaaa");
             window.location.assign('#vendorAdd.php');
         }
 

@@ -1,18 +1,23 @@
 <?php require_once("inc/init.php"); ?>
 <?php
-if (!isset($_SESSION['at_user_staff_name']) || empty($_SESSION['at_user_staff_name'])) {
-    //header("location: #login.php");
-    $_SESSION['at_page'] ="vendorAdd.php";
-    echo "<script>window.location.assign('#login.php');</script>";
-}
+//if (!isset($_SESSION['at_user_staff_name']) || empty($_SESSION['at_user_staff_name'])) {
+//    //header("location: #login.php");
+//    $_SESSION['at_page'] ="vendorAdd.php";
+//    echo "<script>window.location.assign('#login.php');</script>";
+//}
 //echo $userDB;
 $veId="";
 $veCode="";
 if(isset($_GET["vendId"])){
     $veId = $_GET["vendId"];
+    $reFlagNew = "old";
+    $backColor="style='background-color:white; '";
 }else{
     $veId="";
+    $reFlagNew = "new";
+    $backColor="style='background-color:yellow; '";
 }
+
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
 $sql="Select * From b_vendor Where vend_id = '".$veId."' ";
@@ -20,7 +25,7 @@ $sql="Select * From b_vendor Where vend_id = '".$veId."' ";
 //$rComp = mysqli_query($conn,"Select * From b_company Where comp_id = '1' ");
 if ($rComp=mysqli_query($conn,$sql)){
     $aVend = mysqli_fetch_array($rComp);
-    $veId = $aVend["cust_id"];
+    $veId = $aVend["vend_id"];
     $veCode = strval($aVend["vend_code"]);
     $veNameT = strval($aVend["vend_name_t"]);
     $veAddress = strval($aVend["vend_address_t"]);
@@ -94,7 +99,7 @@ mysqli_close($conn);
                 -->
                 <header>
                     <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-                    <h2>รายละเอียด ลูกค้า </h2>				
+                    <h2>รายละเอียด Vendor </h2>				
 
                 </header>
 
@@ -114,7 +119,7 @@ mysqli_close($conn);
                             
                             <fieldset>
                                 <section>
-                                    <label class="label">ประเภทลูกค้า</label>
+                                    <label class="label">ประเภท Vendor</label>
                                     <label class="select">
                                         <select name="vendType" id="vendType">
                                             <?php echo $oComp;?>
@@ -123,7 +128,8 @@ mysqli_close($conn);
                                 <section>
                                     <label class="label">ชื่อVendor</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="veNameT" id="veNameT" value="<?php echo $veNameT;?>" placeholder="ชื่อVendor">
+                                        <input type="text" name="veNameT" id="veNameT" value="<?php echo $veNameT;?>" placeholder="ชื่อVendor" <?php echo $backColor;?>>
+                                        <input type="hidden" name="reFlagNew" id="reFlagNew" value="<?php echo $reFlagNew;?>">
                                         <input type="hidden" name="veId" id="veId" value="<?php echo $veId;?>">
                                         <input type="hidden" name="veCode" id="veCode" value="<?php echo $veCode;?>">
                                         <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
@@ -432,6 +438,7 @@ mysqli_close($conn);
                     ,'amphur_id': $("#veAmphur").val()
                     ,'district_id': $("#veDistrict").val()
                     ,'zipcode': $("#veZipcode").val()
+                    ,'flag_new': $("#reFlagNew").val()
                     ,'flagPage': "vendor" }, 
                 success: function (data) {
                     //alert('bbbbb'+data);

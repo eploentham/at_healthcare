@@ -103,7 +103,8 @@ if($_GET["flagPage"] === "company"){
     $amphur_id=$_GET["amphur_id"];
     $district_id=$_GET["district_id"];
     $zipcode=$_GET["zipcode"];
-    if(($_GET["vend_id"]==="-")|| ($_GET["vend_id"]==="")){
+    if(($_GET["flag_new"]==="-")|| ($_GET["flag_new"]==="new")){
+//    if(($_GET["vend_id"]==="-")|| ($_GET["vend_id"]==="")){
         $sql="Insert Into b_vendor(vend_id, vend_code, vend_name_t, vend_address_t, tele, email, tax_id, active, date_create) "
                 ."Values(UUID(),'".$vend_code."','".$vend_name_t."','".$vend_address_t."','".$tele."','".$email."','".$tax_id."','1',now())";
     }else{

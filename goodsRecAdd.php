@@ -234,7 +234,6 @@ mysqli_close($conn);
                                                 <input type="hidden" name="reFlagNew" id="reFlagNew" value="<?php echo $reFlagNew;?>">
                                                 <input type="hidden" name="reStatusStock" id="reStatusStock" value="<?php echo $reStatusStock;?>">
                                                 <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                        
                                     </section>
                                     <section class="col col-3">
                                         
@@ -242,27 +241,22 @@ mysqli_close($conn);
                                             <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
                                                 <input type="text" name="reInvEx" id="reInvEx" value="<?php echo $retDraId;?>" placeholder="เลขที่ Invoice">
                                                 <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                        
                                     </section>
                                     <section class="col col-3">
                                         
                                             <label class="label">วันที่รับสินค้า</label>
                                             <label class="input"> <i class="icon-append fa fa-user"></i>
                                                 <input type="text" name="reRecDate" id="reRecDate" value="<?php echo $retRetDate;?>" placeholder="วันที่รับสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
-                                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
-                                        
+                                                <!--<b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>-->
                                     </section>
                                     <section class="col col-3">
                                         
                                             <label class="label">วันที่ใน Invoice</label>
                                             <label class="input"> <i class="icon-append fa fa-user"></i>
                                                 <input type="text" name="reInvExDate" id="reInvExDate" value="<?php echo $reInvExDate;?>" placeholder="วันที่ใน Invoice1" class="datepicker" data-date-format="dd/mm/yyyy">                                        
-                                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
-                                        
+                                                <!--<b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>-->
                                     </section>
                                 </div>
-                                
-                                
                                 
                                 <section>
                                     <label class="label">รายละเอียด</label>
