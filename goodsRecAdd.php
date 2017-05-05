@@ -625,7 +625,7 @@ mysqli_close($conn);
             $("#btnReVoid").hide();
         }
         function genRec(){
-            alert("aaa");
+            //alert("aaa");
             $.ajax({
                 type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', data: {'flagPage':"gen_rec" }, 
                 success: function (data) {
