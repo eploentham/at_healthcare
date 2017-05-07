@@ -50,6 +50,20 @@ if($_GET["flagPage"] === "company"){
     $branch_address=$_GET["branch_address"];
     $tele=$_GET["tele"];
     if(($_GET["branch_id"]==="-") || ($_GET["branch_id"]==="")){
+        $sql = "Select count(1) as cnt From b_branch ";
+        if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
+            $ok="1";
+            while($row = mysqli_fetch_array($result)){
+                if(is_null($row["cnt"])){
+                    $cnt = "0";
+                }else{
+                    $cnt = $row["cnt"];
+                }
+                $cnt = intval($cnt)+1;
+                $cnt = "000".$cnt;
+            }
+            $doc = "B".$year. substr($cnt, strlen($cnt)-3);
+        }
         $sql="Insert Into b_branch(branch_id, branch_code, branch_name, branch_address, tele, active, date_create) "
                 ."Values(UUID(),'".$branch_code."','".$branch_name."','".$branch_address."','".$tele."','1',now())";
     }else{
@@ -74,6 +88,20 @@ if($_GET["flagPage"] === "company"){
     $district_id=$_GET["district_id"];
     $zipcode=$_GET["zipcode"];
     if(($_GET["cust_id"]==="-")|| ($_GET["cust_id"]==="")){
+        $sql = "Select count(1) as cnt From b_customer ";
+        if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
+            $ok="1";
+            while($row = mysqli_fetch_array($result)){
+                if(is_null($row["cnt"])){
+                    $cnt = "0";
+                }else{
+                    $cnt = $row["cnt"];
+                }
+                $cnt = intval($cnt)+1;
+                $cnt = "000".$cnt;
+            }
+            $doc = "C".$year. substr($cnt, strlen($cnt)-3);
+        }
         $sql="Insert Into b_customer(cust_id, cust_code, cust_name_t, cust_address_t, tele, email, tax_id, active, date_create) "
                 ."Values(UUID(),'".$cust_code."','".$cust_name_t."','".$cust_address_t."','".$tele."','".$email."','".$tax_id."','1',now())";
     }else{
@@ -104,9 +132,23 @@ if($_GET["flagPage"] === "company"){
     $district_id=$_GET["district_id"];
     $zipcode=$_GET["zipcode"];
     if(($_GET["flag_new"]==="-")|| ($_GET["flag_new"]==="new")){
+        $sql = "Select count(1) as cnt From b_vendor ";
+        if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
+            $ok="1";
+            while($row = mysqli_fetch_array($result)){
+                if(is_null($row["cnt"])){
+                    $cnt = "0";
+                }else{
+                    $cnt = $row["cnt"];
+                }
+                $cnt = intval($cnt)+1;
+                $cnt = "000".$cnt;
+            }
+            $doc = "V".$year. substr($cnt, strlen($cnt)-3);
+        }
 //    if(($_GET["vend_id"]==="-")|| ($_GET["vend_id"]==="")){
         $sql="Insert Into b_vendor(vend_id, vend_code, vend_name_t, vend_address_t, tele, email, tax_id, active, date_create) "
-                ."Values(UUID(),'".$vend_code."','".$vend_name_t."','".$vend_address_t."','".$tele."','".$email."','".$tax_id."','1',now())";
+                ."Values(UUID(),'".$doc."','".$vend_name_t."','".$vend_address_t."','".$tele."','".$email."','".$tax_id."','1',now())";
     }else{
         $sql="Update b_vendor "
                 ."Set vend_code = '".$vend_code."' "
@@ -309,6 +351,41 @@ if($_GET["flagPage"] === "company"){
         ." active = '3' "
         .", date_cancel = now() "
         ."Where rec_detail_id = '".$rec_detail_id."'";
+}else if($_GET["flagPage"] === "void_vendor"){
+    $vend_id=$_GET["vend_id"];
+    $sql="Update b_vendor "
+        ."Set  "
+        ." active = '3' "
+        .", date_cancel = now() "
+        ."Where vend_id = '".$vend_id."'";
+}else if($_GET["flagPage"] === "void_unit"){
+    $unit_id=$_GET["vendor_id"];
+    $sql="Update b_unit "
+        ."Set  "
+        ." active = '3' "
+        .", date_cancel = now() "
+        ."Where unit_id = '".$unit_id."'";
+}else if($_GET["flagPage"] === "void_goods_type"){
+    $type_id=$_GET["type_id"];
+    $sql="Update b_goods_type "
+        ."Set  "
+        ." active = '3' "
+        .", date_cancel = now() "
+        ."Where goods_type_id = '".$type_id."'";
+}else if($_GET["flagPage"] === "void_goods_cat"){
+    $cat_id=$_GET["cat_id"];
+    $sql="Update b_goods_cat "
+        ."Set  "
+        ." active = '3' "
+        .", date_cancel = now() "
+        ."Where goods_cat_id = '".$cat_id."'";
+}else if($_GET["flagPage"] === "void_goods_rec"){
+    $goods_rec_id=$_GET["goods_rec_id"];
+    $sql="Update t_goods_rec "
+        ."Set  "
+        ." active = '3' "
+        .", date_cancel = now() "
+        ."Where goods_rec_id = '".$goods_rec_id."'";
 }else if($_GET["flagPage"] === "aa"){
     $rec_id=$_GET["rec_id"];
     

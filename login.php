@@ -1,6 +1,8 @@
 <?php
 //initilize the page
+session_start();
 require_once("inc/init.php");
+$page = $_SESSION["at_page"];
 ?>
 <!-- ==========================CONTENT STARTS HERE ========================== -->
 <!-- possible classes: minified, no-right-panel, fixed-ribbon, fixed-header, fixed-width-->
@@ -23,7 +25,7 @@ require_once("inc/init.php");
                                 <label class="label">E-mail</label>
                                 <label class="input"> <i class="icon-append fa fa-user"></i>
                                         <input type="text" name="loUser" id="loUser">
-                                        <input type="text" name="loPage" id="loPage" value="<?php echo $_GET["page"]?>">
+                                        <input type="hidden" name="loPage" id="loPage" value="<?php echo $page?>">
                                         <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter email address/username</b></label>
                             </section>
                             <section>
@@ -53,23 +55,25 @@ require_once("inc/init.php");
             </div>
         </div>
     </div>
-
 </div>
 <script type="text/javascript">
     $("#btnLogin").click(checkLogin);
     function checkLogin(){
         //alert("aaa");
         $.ajax({
-                type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', data: {'user_name': $("#loUser").val(),'password': $("#loPassword").val(), 'flagPage':"login" }, 
-                success: function (data) {
-                    alert('bbbbb'+data+$("#loPage").val());
-                    var json_obj = $.parseJSON(data);
-                    for (var i in json_obj){
-                        //$("#reRecDoc").val(json_obj[i].doc);
-                        //alert('page '+page);
-                        window.location.assign('#'+$("#loPage").val());
-                    }
+            type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', 
+            data: { 'flagPage':"login" }, 
+            success: function (data) {
+                var page = '<?php echo $_SESSION["at_page"]; ?>';
+                //alert('bbbbb'+data+page);
+                var json_obj = $.parseJSON(data);
+                for (var i in json_obj){
+                    //$("#reRecDoc").val(json_obj[i].doc);
+                    //alert('page '+page);
+                    $( "form" ).submit();
+                    window.location.assign('#'+page);
                 }
-            });
+            }
+        });
     }
 </script>

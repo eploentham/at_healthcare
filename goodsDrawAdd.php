@@ -1,10 +1,11 @@
 <?php require_once("inc/init.php"); ?>
 <?php
-//if (!isset($_SESSION['at_user_staff_name']) || empty($_SESSION['at_user_staff_name'])) {
-//    //header("location: #login.php");
-//    $_SESSION['at_page'] ="goodsDrawView.php";
-//    echo "<script>window.location.assign('#login.php');</script>";
-//}
+session_start();
+if (!isset($_SESSION['at_user_staff_name'])) {
+    //header("location: #login.php");
+    $_SESSION['at_page'] ="goodsDrawAdd.php";
+    echo "<script>window.location.assign('#login.php');</script>";
+}
 include 'UUID.php';
 //echo $userDB;
 $draId="-";

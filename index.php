@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 //initilize the page
 require_once("inc/init.php");
 

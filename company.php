@@ -1,11 +1,11 @@
 <?php require_once("inc/init.php"); ?>
 <?php
-//if (isset($_SESSION['at_user_staff_name'])) {
-//    //header("location: #login.php");
-//    $_SESSION['at_page'] ="company.php";
-//    echo "<script>window.location.assign('#login.php?page=company.php');</script>";
-//}
-//echo $userDB;
+session_start();
+if (!isset($_SESSION['at_user_staff_name'])) {
+    //header("location: #login.php");
+    $_SESSION['at_page'] ="company.php";
+    echo "<script>window.location.assign('#login.php');</script>";
+}
 $compId="-";
 if(isset($_GET["compId"])){
     $compId = $_GET["compId"];

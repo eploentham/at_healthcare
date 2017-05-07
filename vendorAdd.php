@@ -1,11 +1,11 @@
 <?php require_once("inc/init.php"); ?>
 <?php
-//if (!isset($_SESSION['at_user_staff_name']) || empty($_SESSION['at_user_staff_name'])) {
-//    //header("location: #login.php");
-//    $_SESSION['at_page'] ="vendorAdd.php";
-//    echo "<script>window.location.assign('#login.php');</script>";
-//}
-//echo $userDB;
+session_start();
+if (!isset($_SESSION['at_user_staff_name'])) {
+    //header("location: #login.php");
+    $_SESSION['at_page'] ="vendorAdd.php";
+    echo "<script>window.location.assign('#login.php');</script>";
+}
 $veId="";
 $veCode="";
 if(isset($_GET["vendId"])){
@@ -68,7 +68,7 @@ mysqli_close($conn);
 	</div>
 </div>
 
-<div class="alert alert-block alert-success">
+<div class="alert alert-block alert-success" id="reAlert">
 	<a class="close" data-dismiss="alert" href="#">×</a>
 	<h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
 	<p>
@@ -141,55 +141,70 @@ mysqli_close($conn);
                                             <input type="text" name="veAddress" id="veAddress" value="<?php echo $veAddress;?>" placeholder="ที่อยู่ บ้านเลขที่ ซอย ถนน">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
-                                
-                                <section >
-                                    <label class="label">ตำบล</label>
-                                    <label class="select">
-                                        <select name="veDistrict" id="veDistrict">
-                                            <?php echo $oComp;?>
-                                        </select> <i></i> </label>
-                                </section>
-                                
-                                <section >
-                                    <label class="label">อำเภอ</label>
-                                    <label class="select">
-                                        <select name="veAmphur" id="veAmphur">
-                                            <?php echo $oComp;?>
-                                        </select> <i></i> </label>
-                                </section>
-                                
-                                <section >
-                                    <label class="label">จังหวัด</label>
-                                    <label class="select">
-                                        <select name="veProv" id="veProv">
-                                            <?php echo $oProv;?>
-                                        </select> <i></i> </label>
-                                </section>
+                                <div class="row">
+                                    <section  class="col col-6">
+                                        <label class="label">ตำบล</label>
+                                        <label class="select">
+                                            <select name="veDistrict" id="veDistrict">
+                                                <?php echo $oComp;?>
+                                            </select> <i></i> </label>
+                                    </section>
 
-                                <section>
-                                    <label class="label">รหัสไปรษณีย์</label>
-                                    <label class="input"> <i class="icon-append fa fa-lock"></i>
-                                        <input type="text" name="veZipcode" id="veZipcode" placeholder="รหัสไปรษณีย์">
-                                        <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
-                                </section>
+                                    <section  class="col col-6">
+                                        <label class="label">อำเภอ</label>
+                                        <label class="select">
+                                            <select name="veAmphur" id="veAmphur">
+                                                <?php echo $oComp;?>
+                                            </select> <i></i> </label>
+                                    </section>
+                                </div>
+                                
+                                <div class="row">
+                                    <section  class="col col-6">
+                                        <label class="label">จังหวัด</label>
+                                        <label class="select">
+                                            <select name="veProv" id="veProv">
+                                                <?php echo $oProv;?>
+                                            </select> <i></i> </label>
+                                    </section>
 
-                                <section>
+                                    <section class="col col-6">
+                                        <label class="label">รหัสไปรษณีย์</label>
+                                        <label class="input"> <i class="icon-append fa fa-lock"></i>
+                                            <input type="text" name="veZipcode" id="veZipcode" placeholder="รหัสไปรษณีย์">
+                                            <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
+                                    </section>
+                                </div>
+                                
+                                <div class="row">
+                                    <section class="col col-6">
                                     <label class="label">โทรศัพท์</label>
                                     <label class="input"> <i class="icon-prepend fa fa-phone"></i>
                                         <input type="tel" name="veTele" id="veTele" placeholder="Phone" data-mask="(999) 999-9999" value="<?php echo $veTele;?>"></label>
                                 </section>
-                                <section >
+                                <section  class="col col-6">
                                     <label class="label">Email</label>
                                     <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
                                         <input type="email" name="veEmail" id="veEmail" placeholder="Email" value="<?php echo $veEmail;?>">
                                         <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
-                                <section >
-                                    <label class="label">เลขที่ผู้เสียภาษี</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="text" name="veTaxId" id="veTaxId" placeholder="เลขที่ผู้เสียภาษี" value="<?php echo $veTaxId;?>">
-                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section >
+                                </div>
+                                <div class="row">
+                                    <section class="col col-8">
+                                        <label class="label">เลขที่ผู้เสียภาษี</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="text" name="veTaxId" id="veTaxId" placeholder="เลขที่ผู้เสียภาษี" value="<?php echo $veTaxId;?>">
+                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section >
+                                    <section class="col col-2">    
+                                        <label class="label">&nbsp;</label>
+                                        <label class="toggle state-error"><input type="checkbox" name="chkReVoid" checked="true" id="chkReVoid"><i data-swchon-text="ใช้งาน" data-swchoff-text="ยกเลิก"></i>สถานะ</label>
+                                    </section>
+                                    <section class="col col-2" >    
+                                        <label class="label">&nbsp;&nbsp;</label>
+                                        <button type="button" id="btnReVoid" class="btn btn-primary btn-sm">ต้องการยกเลิก</button>
+                                    </section>
+                                </div>
                             </fieldset>
                             
                             <footer>
@@ -352,12 +367,60 @@ mysqli_close($conn);
 	
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
-        
+        $("#reAlert").hide();
+        hideBtnVoid();
         $("#veProv").change(getAmphur);
         $("#veAmphur").change(getDistrict);
         $("#veDistrict").change(getZipcode);
         $("#btnSave").click(saveVend);
-        
+        $("#chkReVoid").click(checkBtnVoid);
+        $("#btnReVoid").click(voidVendor);
+        function checkBtnVoid(){
+            if($("#chkReVoid").is(':checked'))
+                $("#btnReVoid").hide();  // checked
+            else
+                $("#btnReVoid").show();  // unchecked
+//            $("#btnReVoid").show();
+        }
+        function hideBtnVoid(){
+            $("#btnReVoid").hide();
+        }
+        function voidVendor(){
+            //$("#veAmphur").empty();
+            $.confirm({
+                title: 'ต้องการยกเลิก Vendor!',
+                content: 'ยกเลิก Vendor '+$("#veNameT").val(),
+                buttons: {
+                    confirm: function () {
+                        //$.alert("hello222 "+td.attr("id"));
+                        voidVendor1();
+                    },
+                    cancel: function () {
+                        $.alert('Canceled!');
+                    }
+                }
+            });
+        }
+        function voidVendor1(){
+            //$.alert("hello222 "+$("#veId").val());
+            $.ajax({ 
+                type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', data: { 'vend_id': $("#veId").val(), 'flagPage':"void_vendor" }, 
+                success: function (data) {
+                    //alert('bbbbb'+data);
+                    var json_obj = $.parseJSON(data);
+                    
+                    for (var i in json_obj)
+                    {
+//                        $.alert({
+//                            title: 'Save Data',
+//                            content: 'ยกเลิกข้อมูลเรียบร้อย',
+//                        });
+                        window.location.assign('#vendorView.php');
+                    }
+                    
+                }
+            });
+        }
         function getAmphur(){
             //alert("aaaa");
             $("#veAmphur").empty();

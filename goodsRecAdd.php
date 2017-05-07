@@ -1,10 +1,11 @@
 <?php require_once("inc/init.php"); ?>
 <?php
-//if (!isset($_SESSION['at_user_staff_name']) || empty($_SESSION['at_user_staff_name'])) {
-//    //header("location: #login.php");
-//    $_SESSION['at_page'] ="goodsRecAdd.php";
-//    echo "<script>window.location.assign('#login.php');</script>";
-//}
+session_start();
+if (!isset($_SESSION['at_user_staff_name'])) {
+    //header("location: #login.php");
+    $_SESSION['at_page'] ="goodsRecView.php";
+    echo "<script>window.location.assign('#login.php');</script>";
+}
 include 'UUID.php';
 //echo $userDB;
 $reRecId="-";
@@ -606,6 +607,7 @@ mysqli_close($conn);
         $("#reGoQty").keyup(calAmt);
         $("#reGoPrice").keyup(calAmt);
         $("#chkReVoid").click(checkBtnVoid);
+        $("#btnReVoid").click(voidRec);
         
 //        $("#reRecDoc").click(genRec);
         function checkBtnVoid(){
@@ -617,6 +619,42 @@ mysqli_close($conn);
         }
         function hideBtnVoid(){
             $("#btnReVoid").hide();
+        }
+        function voidRec(){
+            //$("#veAmphur").empty();
+            $.confirm({
+                title: 'ต้องการยกเลิก รับเข้าสินค้า!',
+                content: 'ยกเลิก รับเข้าสินค้า '+$("#reRecDoc").val(),
+                buttons: {
+                    confirm: function () {
+                        //$.alert("hello222 "+td.attr("id"));
+                        voidRec1();
+                    },
+                    cancel: function () {
+                        $.alert('Canceled!');
+                    }
+                }
+            });
+        }
+        function voidRec1(){
+            //$.alert("hello222 "+$("#veId").val());
+            $.ajax({ 
+                type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', data: { 'vend_id': $("#veId").val(), 'flagPage':"void_goods_rec" }, 
+                success: function (data) {
+                    //alert('bbbbb'+data);
+                    var json_obj = $.parseJSON(data);
+                    
+                    for (var i in json_obj)
+                    {
+//                        $.alert({
+//                            title: 'Save Data',
+//                            content: 'ยกเลิกข้อมูลเรียบร้อย',
+//                        });
+                        window.location.assign('#goodsRecView.php');
+                    }
+                    
+                }
+            });
         }
         function genRec(){
             //alert("aaa");

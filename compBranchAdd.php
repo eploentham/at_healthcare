@@ -1,11 +1,11 @@
 <?php require_once("inc/init.php"); ?>
 <?php
-//if (!isset($_SESSION['at_user_staff_name']) || empty($_SESSION['at_user_staff_name'])) {
-//    //header("location: #login.php");
-//    $_SESSION['at_page'] ="compBranchAdd.php";
-//    echo "<script>window.location.assign('#login.php');</script>";
-//}
-//echo $userDB;
+session_start();
+if (!isset($_SESSION['at_user_staff_name'])) {
+    //header("location: #login.php");
+    $_SESSION['at_page'] ="compBranchAdd.php";
+    echo "<script>window.location.assign('#login.php');</script>";
+}
 $brId="";
 if(isset($_GET["branchId"])){
     $brId = $_GET["branchId"];
