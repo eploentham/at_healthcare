@@ -15,7 +15,7 @@ if($_GET["flagPage"] === "gen_stock_rec"){
     if ($result=mysqli_query($conn,$sql)){
         while($row = mysqli_fetch_array($result)){
             //$rocId = $row["rec_id"];
-            $draDId = $row["rec_detail_id"];
+            $recDId = $row["rec_detail_id"];
             $goodsId = $row["goods_id"];
             $price = $row["price"];
             $qty = $row["qty"];
@@ -23,9 +23,9 @@ if($_GET["flagPage"] === "gen_stock_rec"){
                 return;
             }
             $sql="Insert Into t_stock(stock_id, goods_id, qty, price, rec_draw_detail_id, status_rec_draw, active, date_create) "
-                    ."Values(UUID(),'".$goodsId."',".$qty.",".$price.",'".$draDId."','1','1', now())";
+                    ."Values(UUID(),'".$goodsId."',".$qty.",".$price.",'".$recDId."','1','1', now())";
             mysqli_query($conn,$sql);
-            $sql="Update t_goods_rec_detail Set status_stock = '1' Where rec_detail_id = '".$draDId."'";
+            $sql="Update t_goods_rec_detail Set status_stock = '1' Where rec_detail_id = '".$recDId."'";
             mysqli_query($conn,$sql);
             $sql="Update b_goods Set on_hand = on_hand+".$qty." Where goods_id = '".$goodsId."'";
             mysqli_query($conn,$sql);
@@ -81,6 +81,54 @@ if($_GET["flagPage"] === "gen_stock_rec"){
         }
         $sql="Update t_goods_reurn Set status_stock = '1' Where return_id = '".$ret_id."'";
         mysqli_query($conn,$sql);
+    }
+}else if($_GET["flagPage"] === "void_stock_rec"){
+    $rec_id=$_GET["rec_id"];
+    $sql="Select * From t_goods_rec_detail Where rec_id = '".$rec_id."' and active = '1' and status_stock = '1' " ;
+    if ($result=mysqli_query($conn,$sql)){
+        while($row = mysqli_fetch_array($result)){
+            //$rocId = $row["rec_id"];
+            $recDId = $row["rec_detail_id"];
+            $goodsId = $row["goods_id"];
+            $cost = $row["cost"];
+            $qty = $row["qty"];
+            if($qty===""){
+                return;
+            }
+            $sql="Insert Into t_stock(stock_id, goods_id, qty, price, rec_draw_detail_id, status_rec_draw, active, date_create) "
+                    ."Values(UUID(),'".$goodsId."',".$qty.",".$cost.",'".$recDId."','4','1', now())";
+            mysqli_query($conn,$sql);
+            $sql="Update t_goods_rec_detail Set status_stock = '3', date_cancel = now() Where rec_detail_id = '".$recDId."'";
+            mysqli_query($conn,$sql);
+            $sql="Update b_goods Set on_hand = on_hand-".$qty." Where goods_id = '".$goodsId."'";
+            mysqli_query($conn,$sql);
+        }
+//        $sql="Update t_goods_rec Set status_stock = '1' Where rec_id = '".$rec_id."'";
+//        mysqli_query($conn,$sql);
+    }
+}else if($_GET["flagPage"] === "void_stock_draw"){
+    $draw_id=$_GET["draw_id"];
+    $sql="Select * From t_goods_draw_detail Where draw_id = '".$draw_id."' and active = '1' and status_stock = '1' " ;
+    if ($result=mysqli_query($conn,$sql)){
+        while($row = mysqli_fetch_array($result)){
+            //$rocId = $row["rec_id"];
+            $draDId = $row["draw_detail_id"];
+            $goodsId = $row["goods_id"];
+            $cost = $row["cost"];
+            $qty = $row["qty"];
+            if($qty===""){
+                return;
+            }
+            $sql="Insert Into t_stock(stock_id, goods_id, qty, price, rec_draw_detail_id, status_rec_draw, active, date_create) "
+                    ."Values(UUID(),'".$goodsId."',".$qty.",".$cost.",'".$draDId."','5','1', now())";
+            mysqli_query($conn,$sql);
+            $sql="Update t_goods_draw_detail Set status_stock = '3', date_cancel = now() Where draw_detail_id = '".$draDId."'";
+            mysqli_query($conn,$sql);
+            $sql="Update b_goods Set on_hand = on_hand+".$qty." Where goods_id = '".$goodsId."'";
+            mysqli_query($conn,$sql);
+        }
+//        $sql="Update t_goods_rec Set status_stock = '1' Where rec_id = '".$rec_id."'";
+//        mysqli_query($conn,$sql);
     }
 }
 

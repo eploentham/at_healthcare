@@ -208,19 +208,35 @@ mysqli_close($conn);
                                 </div>
                                 
                                 
+                                <div class="row">
+                                    <section class="col col-11">
+                                        <label class="label">ชื่อ สินค้า</label>
+                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                            <input type="text" name="goName" id="goName" value="<?php echo $goName;?>" placeholder="ชื่อ สินค้า">
+                                            <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
+                                    </section>
+                                    <section class="col col-1">
+                                            <label class="label">&nbsp;&nbsp;</label>
+                                            <button type="button" id="goNameCopy" class="btn btn-primary btn-sm"><<<</button>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-8">
+                                        <label class="label">ชื่อ สินค้า ex</label>
+                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                            <input type="text" name="goNameEx" id="goNameEx" value="<?php echo $goNameEx;?>" placeholder="ชื่อ สินค้า ex">
+                                            <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
+                                    </section>
+                                    <section class="col col-2">    
+                                        <label class="label">&nbsp;</label>
+                                        <label class="toggle state-error"><input type="checkbox" name="chkGoVoid" checked="true" id="chkGoVoid"><i data-swchon-text="ใช้งาน" data-swchoff-text="ยกเลิก"></i>สถานะ</label>
+                                    </section>
+                                    <section class="col col-2" >    
+                                        <label class="label">&nbsp;&nbsp;</label>
+                                        <button type="button" id="btnGoVoid" class="btn btn-primary btn-sm">ต้องการยกเลิก</button>
+                                    </section>
+                                </div>
                                 
-                                <section>
-                                    <label class="label">ชื่อ สินค้า</label>
-                                    <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="goName" id="goName" value="<?php echo $goName;?>" placeholder="ชื่อ สินค้า">
-                                        <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
-                                </section>
-                                <section>
-                                    <label class="label">ชื่อ สินค้า ex</label>
-                                    <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="goNameEx" id="goNameEx" value="<?php echo $goNameEx;?>" placeholder="ชื่อ สินค้า ex">
-                                        <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
-                                </section>
                                 <div class="row">
                                     <section  class="col col-4">
                                         <label class="label">ราคาซื้อ</label>
@@ -460,10 +476,14 @@ mysqli_close($conn);
 	
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
+        hideBtnVoid();
         $("#goAlert").hide();
         $("#goCodeCopy").click(codeCopy);
+        $("#goNameCopy").click(nameCopy);
         $("#btnSave").click(saveGoods);
         $("#goType").change(checkHole);
+        $("#chkGoVoid").click(checkBtnVoid);
+        $("#btnGoVoid").click(voidGoods);
         checkHole();
         $( ".select" ).change(function() {
             //var name = $('select[name="dept"]').val('3');
@@ -473,8 +493,57 @@ mysqli_close($conn);
             }
             //alert( "Handler for .change() called." );
         });
+        function checkBtnVoid(){
+            if($("#chkGoVoid").is(':checked'))
+                $("#btnGoVoid").hide();  // checked
+            else
+                $("#btnGoVoid").show();  // unchecked
+//            $("#btnGoVoid").show();
+        }
+        function hideBtnVoid(){
+            $("#btnGoVoid").hide();
+        }
+        function voidGoods(){
+            //$("#veAmphur").empty();
+            $.confirm({
+                title: 'ต้องการยกเลิก สินค้า!',
+                content: 'ยกเลิก สินค้า '+$("#goCode").val(),
+                buttons: {
+                    confirm: function () {
+                        //$.alert("hello222 "+td.attr("id"));
+                        voidGoods1();
+                        //voidStock();
+                    },
+                    cancel: function () {
+                        $.alert('Canceled!');
+                    }
+                }
+            });
+        }
+        function voidGoods1(){
+            //$.alert("hello222 "+$("#veId").val());
+            $.ajax({ 
+                type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', data: { 'goods_id': $("#goId").val(), 'flagPage':"void_goods" }, 
+                success: function (data) {
+                    //alert('bbbbb'+data);
+                    var json_obj = $.parseJSON(data);
+                    
+                    for (var i in json_obj)
+                    {
+//                        $.alert({
+//                            title: 'Save Data',
+//                            content: 'ยกเลิกข้อมูลเรียบร้อย',
+//                        });
+                        window.location.assign('#goodsView.php');
+                    }
+                }
+            });
+        }
         function codeCopy(){
             $("#goCode").val($("#goCodeEx").val());
+        }
+        function nameCopy(){
+            $("#goName").val($("#goNameEx").val());
         }
         function checkHole(){
             if($("#goType").val()=="05233f7d-225b-11e7-b800-1c1b0d8ca1a0"){

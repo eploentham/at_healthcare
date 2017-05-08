@@ -540,7 +540,7 @@ mysqli_close($conn);
 	
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
-        $("#draAlert").hide();
+        
         if($("#draFlagNew").val()=="new"){
             //$("#btnDraDoc").
             $("#btnDraDoc").prop("disabled", true);
@@ -592,6 +592,7 @@ mysqli_close($conn);
             //change the background color to red before removing
             
         });
+        $("#draAlert").hide();
         hideBtnVoid();
         $("#draDoc").prop("disabled", true);
         $('#sandbox-container input').datepicker({ });
@@ -610,6 +611,43 @@ mysqli_close($conn);
         }
         function hideBtnVoid(){
             $("#btnDraVoid").hide();
+        }
+        function voidDra(){
+            //$("#veAmphur").empty();
+            $.confirm({
+                title: 'ต้องการยกเลิก เบิกสินค้า!',
+                content: 'ยกเลิก เบิกสินค้า '+$("#draDoc").val(),
+                buttons: {
+                    confirm: function () {
+                        //$.alert("hello222 "+td.attr("id"));
+                        voidDra1();
+                        voidStock();
+                    },
+                    cancel: function () {
+                        $.alert('Canceled!');
+                    }
+                }
+            });
+        }
+        function voidDra1(){
+            //$.alert("hello222 "+$("#veId").val());
+            $.ajax({ 
+                type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', data: { 'draw_id': $("#draId").val(), 'flagPage':"void_goods_draw" }, 
+                success: function (data) {
+                    //alert('bbbbb'+data);
+                    var json_obj = $.parseJSON(data);
+                    
+                    for (var i in json_obj)
+                    {
+//                        $.alert({
+//                            title: 'Save Data',
+//                            content: 'ยกเลิกข้อมูลเรียบร้อย',
+//                        });
+                        window.location.assign('#goodsDrawView.php');
+                    }
+                    
+                }
+            });
         }
         function calAmt(){
             $("#draGoAmt").val($("#draGoQty").val()*$("#draGoPrice").val());
@@ -670,6 +708,41 @@ mysqli_close($conn);
             //                    alert('bbbbb '+json_obj.length);
             //                    alert('ccccc '+$("#cDistrict").val());
                                 //$("#cZipcode").val("aaaa");
+                            }
+                        });
+                    },
+                    cancel: function () {
+                        $.alert('Canceled!');
+                    }
+                }
+            });
+        }
+        function voidStock(){
+            $.confirm({
+                title: 'Confirm!',
+                content: 'Simple confirm!',
+                buttons: {
+                    confirm: function () {
+                        //$.alert("hello222 ");
+                        var draId = $("#draId").val();
+                        //$.alert("hello222 "+draId);
+                        $.ajax({
+                            type: 'GET', url: 'genStock.php', contentType: "application/json", dataType: 'text', 
+                            data: { 'draw_id': draId
+                                ,'flagPage': "void_stock_draw" }, 
+                            success: function (data) {
+                                //var rec_id = $("#draId").val();
+                                //saveDetail();
+                                //alert('bbbbb'+data);
+                                var json_obj = $.parseJSON(data);
+                                $("#btnDraDoc").prop("disabled", true);
+                                $.alert({
+                                    title: 'Save Data',
+                                    content: 'gen Stock เรียบร้อย',
+                                });
+ 
+                                $("#draVali").empty();
+                                $("#draVali").append("void Stock เรียบร้อย");
                             }
                         });
                     },
@@ -818,10 +891,10 @@ mysqli_close($conn);
                         for (var i in json_obj){
                             //alert("mmmmm "+json_obj[i].success);
                             if(json_obj[i].success=="1"){
-                                $.alert({
-                                    title: 'Save Data',
-                                    content: 'บันทึกข้อมูลเรียบร้อย Detail',
-                                });
+//                                $.alert({
+//                                    title: 'Save Data',
+//                                    content: 'บันทึกข้อมูลเรียบร้อย Detail',
+//                                });
                             }
                         }
                     }

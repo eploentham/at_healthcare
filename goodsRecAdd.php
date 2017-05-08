@@ -84,7 +84,7 @@ if ($result=mysqli_query($conn,$sql)){
         
     }
 }
-$sql="Select * From b_vendor Order By vend_name_t";
+$sql="Select * From b_vendor Where active = '1' Order By vend_name_t";
 //$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
 if ($result=mysqli_query($conn,$sql)){
     $oVend = "<option value='0' selected='' disabled=''>เลือก Vendor</option>";
@@ -97,7 +97,7 @@ if ($result=mysqli_query($conn,$sql)){
         
     }
 }
-$sql="Select * From b_branch Order By branch_name";
+$sql="Select * From b_branch Where active = '1' Order By branch_name";
 //$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
 if ($result=mysqli_query($conn,$sql)){
     $oBranch = "<option value='0' selected='' disabled=''>เลือก สาขา</option>";
@@ -109,7 +109,7 @@ if ($result=mysqli_query($conn,$sql)){
         }
     }
 }
-$sql="Select * From b_unit Order By unit_code";
+$sql="Select * From b_unit Where active = '1' Order By unit_code";
 //$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
 if ($result=mysqli_query($conn,$sql)){
     $oUnit = "<option value='0' selected='' disabled=''>เลือก หน่วย</option>";
@@ -629,6 +629,7 @@ mysqli_close($conn);
                     confirm: function () {
                         //$.alert("hello222 "+td.attr("id"));
                         voidRec1();
+                        voidStock();
                     },
                     cancel: function () {
                         $.alert('Canceled!');
@@ -639,7 +640,7 @@ mysqli_close($conn);
         function voidRec1(){
             //$.alert("hello222 "+$("#veId").val());
             $.ajax({ 
-                type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', data: { 'vend_id': $("#veId").val(), 'flagPage':"void_goods_rec" }, 
+                type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', data: { 'rec_id': $("#reRecId").val(), 'flagPage':"void_goods_rec" }, 
                 success: function (data) {
                     //alert('bbbbb'+data);
                     var json_obj = $.parseJSON(data);
@@ -749,6 +750,39 @@ mysqli_close($conn);
             //                    alert('bbbbb '+json_obj.length);
             //                    alert('ccccc '+$("#cDistrict").val());
                                 //$("#cZipcode").val("aaaa");
+                            }
+                        });
+                    },
+                    cancel: function () {
+                        $.alert('Canceled!');
+                    }
+                }
+            });
+        }
+        function voidStock(){
+            $.confirm({
+                title: 'Confirm!',
+                content: 'Simple confirm!',
+                buttons: {
+                    confirm: function () {
+                        //$.alert("hello222 ");
+                        var reRecId = $("#reRecId").val();
+                        //$.alert("hello222 "+reRecId);
+                        $.ajax({
+                            type: 'GET', url: 'genStock.php', contentType: "application/json", dataType: 'text', 
+                            data: { 'rec_id': reRecId
+                                ,'flagPage': "void_stock_rec" }, 
+                            success: function (data) {
+                                //alert('bbbbb'+data);
+                                var json_obj = $.parseJSON(data);
+                                //$("#btnReDoc").prop("disabled", true);
+//                                $.alert({
+//                                    title: 'Save Data',
+//                                    content: 'void Stock เรียบร้อย',
+//                                });
+                                $("#reVali").empty();
+                                $("#reVali").append("void Stock เรียบร้อย");
+
                             }
                         });
                     },

@@ -380,12 +380,26 @@ if($_GET["flagPage"] === "company"){
         .", date_cancel = now() "
         ."Where goods_cat_id = '".$cat_id."'";
 }else if($_GET["flagPage"] === "void_goods_rec"){
-    $goods_rec_id=$_GET["goods_rec_id"];
+    $rec_id=$_GET["rec_id"];
     $sql="Update t_goods_rec "
         ."Set  "
         ." active = '3' "
         .", date_cancel = now() "
-        ."Where goods_rec_id = '".$goods_rec_id."'";
+        ."Where rec_id = '".$rec_id."'";
+}else if($_GET["flagPage"] === "void_goods_draw"){
+    $draw_id=$_GET["draw_id"];
+    $sql="Update t_goods_draw "
+        ."Set  "
+        ." active = '3' "
+        .", date_cancel = now() "
+        ."Where draw_id = '".$draw_id."'";
+}else if($_GET["flagPage"] === "void_goods"){
+    $goods_id=$_GET["goods_id"];
+    $sql="Update b_goods "
+        ."Set  "
+        ." active = '3' "
+        .", date_cancel = now() "
+        ."Where goods_id = '".$goods_id."'";
 }else if($_GET["flagPage"] === "aa"){
     $rec_id=$_GET["rec_id"];
     
