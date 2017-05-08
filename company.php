@@ -85,10 +85,10 @@ mysqli_close($conn);
 	</div>
 </div>
 
-<div class="alert alert-block alert-success" id="alert">
+<div class="alert alert-block alert-success"  id="compAlert">
 	<a class="close" data-dismiss="alert" href="#">×</a>
 	<h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
-	<p>
+	<p id="compVali">
 		You may also check the form validation by clicking on the form action button. Please try and see the results below!
 	</p>
 </div>
@@ -158,55 +158,60 @@ mysqli_close($conn);
                                         <input type="text" name="compAddress" id="compAddress" placeholder="ที่อยู่ บ้านเลขที่ ซอย ถนน" value="<?php echo $aComp["comp_address_t"]?>">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
-                                
-                                <section >
-                                    <label class="label">ตำบล</label>
-                                    <label class="select">
-                                        <select name="cDistrict" id="cDistrict">
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">ตำบล</label>
+                                        <label class="select">
+                                            <select name="cDistrict" id="cDistrict">
+                                                    <?php echo $oComp;?>
+                                            </select> <i></i> </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">อำเภอ</label>
+                                        <label class="select">
+                                            <select name="cAmphur" id="cAmphur">
                                                 <?php echo $oComp;?>
-                                        </select> <i></i> </label>
-                                </section>
+                                            </select> <i></i> </label>
+                                    </section>
+                                </div>
                                 
-                                <section >
-                                    <label class="label">อำเภอ</label>
-                                    <label class="select">
-                                        <select name="cAmphur" id="cAmphur">
-                                            <?php echo $oComp;?>
-                                        </select> <i></i> </label>
-                                </section>
-                                
-                                <section >
-                                    <label class="label">จังหวัด</label>
-                                    <label class="select">
-                                        <select name="cProv" id="cProv">
-                                            <?php echo $oProv;?>
-                                        </select> <i></i> </label>
-                                </section>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">จังหวัด</label>
+                                        <label class="select">
+                                            <select name="cProv" id="cProv">
+                                                <?php echo $oProv;?>
+                                            </select> <i></i> </label>
+                                    </section>
 
-                                <section>
-                                    <label class="label">รหัสไปรษณีย์</label>
-                                    <label class="input"> <i class="icon-append fa fa-lock"></i>
-                                            <input type="text" name="cZipcode" placeholder="รหัสไปรษณีย์" id="cZipcode" value="<?php echo $aComp["zipcode"]?>">
-                                            <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
-                                </section>
-
-                                <section>
-                                    <label class="label">โทรศัพท์</label>
-                                    <label class="input"> <i class="icon-prepend fa fa-phone"></i>
-                                        <input type="tel" name="tele" id="tele" placeholder="Phone" data-mask="(999) 999-9999" value="<?php echo $aComp["tele"]?>"></label>
-                                </section>
-                                <section>
-                                    <label class="label">Email</label>
-                                    <label class="input"> <i class="icon-prepend fa fa-phone"></i>
-                                        <input type="email" name="email" id="email" placeholder="Phone" value="<?php echo $aComp["email"]?>"></label>
-                                </section>
+                                    <section class="col col-6">
+                                        <label class="label">รหัสไปรษณีย์</label>
+                                        <label class="input"> <i class="icon-append fa fa-lock"></i>
+                                                <input type="text" name="cZipcode" placeholder="รหัสไปรษณีย์" id="cZipcode" value="<?php echo $aComp["zipcode"]?>">
+                                                <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
+                                    </section>
+                                </div>
                                 
-                                <section >
-                                    <label class="label">เลขที่ผู้เสียภาษี</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="text" name="taxid" id="taxid" placeholder="เลขที่ผู้เสียภาษี" value="<?php echo $aComp["tax_id"]?>">
-                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section >
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <label class="label">โทรศัพท์</label>
+                                        <label class="input"> <i class="icon-prepend fa fa-phone"></i>
+                                            <input type="tel" name="tele" id="tele" placeholder="Phone" data-mask="(999) 999-9999" value="<?php echo $aComp["tele"]?>"></label>
+                                    </section>
+                                    <section class="col col-4">
+                                        <label class="label">Email</label>
+                                        <label class="input"> <i class="icon-prepend fa fa-phone"></i>
+                                            <input type="email" name="email" id="email" placeholder="Phone" value="<?php echo $aComp["email"]?>"></label>
+                                    </section>
+
+                                    <section class="col col-4">
+                                        <label class="label">เลขที่ผู้เสียภาษี</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="text" name="taxid" id="taxid" placeholder="เลขที่ผู้เสียภาษี" value="<?php echo $aComp["tax_id"]?>">
+                                                <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section >
+                                </div>
+                                
                             </fieldset>
                             
                             <footer>
@@ -226,7 +231,78 @@ mysqli_close($conn);
     <!-- END ROW -->
 </section>
 <!-- end widget grid -->
+<section id="widget-grid" class="">
+    <!-- START ROW -->
+    <div class="row">
+        <!-- NEW COL START -->
+        <article class="col-sm-12 col-md-12 col-lg-6">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-4" data-widget-editbutton="false" data-widget-custombutton="false">
 
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                    <h2>Flow Control </h2>				
+
+                </header>
+                <div>
+                <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+
+                </div>
+                <div class="widget-body no-padding">
+                    <form action="" id="smart-form-register1" class="smart-form">
+                        <header>ข้อมูล บริษัท</header>
+                        <fieldset>
+                            <div class="row">
+                                <section class="col col-6">
+                                    <div >
+                                        
+                                        <span class="onoffswitch">
+                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
+                                                <label class="onoffswitch-label" for="myonoffswitch"> 
+                                                        <span class="onoffswitch-inner" data-swchon-text="ON" data-swchoff-text="OFF"></span> 
+                                                        <span class="onoffswitch-switch"></span> </label> 
+                                        </span>
+                                        <label class="onoffswitch-title"><i class="fa fa-location-arrow"></i>เมื่อป้อน รับเข้าสินค้า เรียบร้อย ให้ส่ง email ไปที่ </label>
+                                        
+                                    </div>
+                                </section>
+                                <section class="col col-6">
+                                    <label class="input"> <i class="icon-append fa fa-lock"></i>
+                                                <input type="text" name="cZipcode" placeholder="รหัสไปรษณีย์" id="cZipcode" value="<?php echo $aComp["zipcode"]?>"></label>
+                                </section>
+                                
+                            </div>
+                            <div class="row">
+                                <section class="col col-6">
+                                    <div >
+                                        
+                                        <span class="onoffswitch">
+                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
+                                                <label class="onoffswitch-label" for="myonoffswitch"> 
+                                                        <span class="onoffswitch-inner" data-swchon-text="ON" data-swchoff-text="OFF"></span> 
+                                                        <span class="onoffswitch-switch"></span> </label> 
+                                        </span>
+                                        <label class="onoffswitch-title"><i class="fa fa-location-arrow"></i>เมื่อป้อน รับเข้าสินค้า เรียบร้อย ให้ส่ง email ไปที่ </label>
+                                        
+                                    </div>
+                                </section>
+                                <section class="col col-6">
+                                    <label class="input"> <i class="icon-append fa fa-lock"></i>
+                                                <input type="text" name="cZipcode" placeholder="รหัสไปรษณีย์" id="cZipcode" value="<?php echo $aComp["zipcode"]?>"></label>
+                                </section>
+                                
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            </div>
+            
+            
+        </article>
+    </div>
+</section>
 		
 <!-- SCRIPTS ON PAGE EVENT -->
 <script type="text/javascript">
@@ -366,7 +442,7 @@ mysqli_close($conn);
 	
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
-        
+        $("#compAlert").hide();
         $("#cProv").change(getAmphur);
         $("#cAmphur").change(getDistrict);
         $("#cDistrict").change(getZipcode);

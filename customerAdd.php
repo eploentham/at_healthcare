@@ -63,10 +63,10 @@ mysqli_close($conn);
 	</div>
 </div>
 
-<div class="alert alert-block alert-success">
+<div class="alert alert-block alert-success" id="custAlert">
 	<a class="close" data-dismiss="alert" href="#">×</a>
 	<h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
-	<p>
+	<p id="custVali">
 		You may also check the form validation by clicking on the form action button. Please try and see the results below!
 	</p>
 </div>
@@ -135,55 +135,60 @@ mysqli_close($conn);
                                             <input type="text" name="cuAddress" id="cuAddress" value="<?php echo $cuAddress;?>" placeholder="ที่อยู่ บ้านเลขที่ ซอย ถนน">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                 </section >
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">ตำบล</label>
+                                        <label class="select">
+                                            <select name="cuDistrict" id="cuDistrict">
+                                                <?php echo $oComp;?>
+                                            </select> <i></i> </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">อำเภอ</label>
+                                        <label class="select">
+                                            <select name="cuAmphur" id="cuAmphur">
+                                                <?php echo $oComp;?>
+                                            </select> <i></i> </label>
+                                    </section>
+                                </div>
                                 
-                                <section >
-                                    <label class="label">ตำบล</label>
-                                    <label class="select">
-                                        <select name="cuDistrict" id="cuDistrict">
-                                            <?php echo $oComp;?>
-                                        </select> <i></i> </label>
-                                </section>
-                                
-                                <section >
-                                    <label class="label">อำเภอ</label>
-                                    <label class="select">
-                                        <select name="cuAmphur" id="cuAmphur">
-                                            <?php echo $oComp;?>
-                                        </select> <i></i> </label>
-                                </section>
-                                
-                                <section >
-                                    <label class="label">จังหวัด</label>
-                                    <label class="select">
-                                        <select name="cuProv" id="cuProv">
-                                            <?php echo $oProv;?>
-                                        </select> <i></i> </label>
-                                </section>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">จังหวัด</label>
+                                        <label class="select">
+                                            <select name="cuProv" id="cuProv">
+                                                <?php echo $oProv;?>
+                                            </select> <i></i> </label>
+                                    </section>
 
-                                <section>
-                                    <label class="label">รหัสไปรษณีย์</label>
-                                    <label class="input"> <i class="icon-append fa fa-lock"></i>
-                                        <input type="text" name="cuZipcode" id="cuZipcode" placeholder="รหัสไปรษณีย์">
-                                        <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
-                                </section>
-
-                                <section>
-                                    <label class="label">โทรศัพท์</label>
-                                    <label class="input"> <i class="icon-prepend fa fa-phone"></i>
-                                        <input type="tel" name="cuTele" id="cuTele" placeholder="Phone" data-mask="(999) 999-9999" value="<?php echo $cuTele;?>"></label>
-                                </section>
-                                <section >
-                                    <label class="label">Email</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="email" name="cuEmail" id="cuEmail" placeholder="Email" value="<?php echo $cuEmail;?>">
-                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section >
-                                <section >
-                                    <label class="label">เลขที่ผู้เสียภาษี</label>
-                                    <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                        <input type="text" name="cuTaxId" id="cuTaxId" placeholder="เลขที่ผู้เสียภาษี" value="<?php echo $cuTaxId;?>">
-                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                </section >
+                                    <section class="col col-6">
+                                        <label class="label">รหัสไปรษณีย์</label>
+                                        <label class="input"> <i class="icon-append fa fa-lock"></i>
+                                            <input type="text" name="cuZipcode" id="cuZipcode" placeholder="รหัสไปรษณีย์">
+                                            <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
+                                    </section>
+                                </div>
+                                
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <label class="label">โทรศัพท์</label>
+                                        <label class="input"> <i class="icon-prepend fa fa-phone"></i>
+                                            <input type="tel" name="cuTele" id="cuTele" placeholder="Phone" data-mask="(999) 999-9999" value="<?php echo $cuTele;?>"></label>
+                                    </section>
+                                    <section class="col col-4">
+                                        <label class="label">Email</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="email" name="cuEmail" id="cuEmail" placeholder="Email" value="<?php echo $cuEmail;?>">
+                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section >
+                                    <section class="col col-4">
+                                        <label class="label">เลขที่ผู้เสียภาษี</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="text" name="cuTaxId" id="cuTaxId" placeholder="เลขที่ผู้เสียภาษี" value="<?php echo $cuTaxId;?>">
+                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section >
+                                </div>
+                                
                             </fieldset>
                             
                             <footer>
@@ -346,7 +351,7 @@ mysqli_close($conn);
 	
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
-        
+        $("#custAlert").hide();
         $("#cuProv").change(getAmphur);
         $("#cuAmphur").change(getDistrict);
         $("#cuDistrict").change(getZipcode);
