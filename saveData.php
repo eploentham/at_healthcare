@@ -393,6 +393,13 @@ if($_GET["flagPage"] === "company"){
         ." active = '3' "
         .", date_cancel = now() "
         ."Where draw_id = '".$draw_id."'";
+}else if($_GET["flagPage"] === "void_goods_return"){
+    $return_id=$_GET["return_id"];
+    $sql="Update t_goods_return "
+        ."Set  "
+        ." active = '3' "
+        .", date_cancel = now() "
+        ."Where return_id = '".$return_id."'";
 }else if($_GET["flagPage"] === "void_goods"){
     $goods_id=$_GET["goods_id"];
     $sql="Update b_goods "

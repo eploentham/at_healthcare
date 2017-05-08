@@ -602,6 +602,7 @@ mysqli_close($conn);
         $("#btnDraDoc").click(genStock);
         $("#draGoQty").keyup(calAmt);
         $("#chkDraVoid").click(checkBtnVoid);
+        $("#btnDraVoid").click(voidDra);
         function checkBtnVoid(){
             if($("#chkDraVoid").is(':checked'))
                 $("#btnDraVoid").hide();  // checked
@@ -645,7 +646,6 @@ mysqli_close($conn);
 //                        });
                         window.location.assign('#goodsDrawView.php');
                     }
-                    
                 }
             });
         }
@@ -718,17 +718,18 @@ mysqli_close($conn);
             });
         }
         function voidStock(){
-            $.confirm({
-                title: 'Confirm!',
-                content: 'Simple confirm!',
-                buttons: {
-                    confirm: function () {
-                        //$.alert("hello222 ");
-                        var draId = $("#draId").val();
-                        //$.alert("hello222 "+draId);
+            //$.alert("voidStock ");
+//            $.confirm({
+//                title: 'Confirm!',
+//                content: 'Simple confirm!',
+//                buttons: {
+//                    confirm: function () {
+//                        //$.alert("hello222 ");
+//                        var draId = $("#draId").val();
+//                        //$.alert("hello222 "+draId);
                         $.ajax({
                             type: 'GET', url: 'genStock.php', contentType: "application/json", dataType: 'text', 
-                            data: { 'draw_id': draId
+                            data: { 'draw_id': $("#draId").val()
                                 ,'flagPage': "void_stock_draw" }, 
                             success: function (data) {
                                 //var rec_id = $("#draId").val();
@@ -736,21 +737,21 @@ mysqli_close($conn);
                                 //alert('bbbbb'+data);
                                 var json_obj = $.parseJSON(data);
                                 $("#btnDraDoc").prop("disabled", true);
-                                $.alert({
-                                    title: 'Save Data',
-                                    content: 'gen Stock เรียบร้อย',
-                                });
+//                                $.alert({
+//                                    title: 'Save Data',
+//                                    content: 'gen Stock เรียบร้อย',
+//                                });
  
                                 $("#draVali").empty();
                                 $("#draVali").append("void Stock เรียบร้อย");
                             }
                         });
-                    },
-                    cancel: function () {
-                        $.alert('Canceled!');
-                    }
-                }
-            });
+//                    },
+//                    cancel: function () {
+//                        $.alert('Canceled!');
+//                    }
+//                }
+//            });
         }
         function addRow(){
             var draCnt = $("#draCnt").val();

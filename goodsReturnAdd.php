@@ -612,6 +612,7 @@ mysqli_close($conn);
         $("#reGoPrice").keyup(calAmt);
         $("#retDrawSearch").click(searchDraw);
         $("#chkRetVoid").click(checkBtnVoid);
+        $("#btnRetVoid").click(voidReturn);
         function checkBtnVoid(){
             if($("#chkRetVoid").is(':checked'))
                 $("#btnRetVoid").hide();  // checked
@@ -621,6 +622,60 @@ mysqli_close($conn);
         }
         function hideBtnVoid(){
             $("#btnRetVoid").hide();
+        }
+        function voidReturn(){
+            //$("#veAmphur").empty();
+            $.confirm({
+                title: 'ต้องการยกเลิก คืนสินค้า!',
+                content: 'ยกเลิก คืนสินค้า '+$("#reRetDoc").val(),
+                buttons: {
+                    confirm: function () {
+                        //$.alert("hello222 "+td.attr("id"));
+                        voidReturn1();
+                        voidStock();
+                    },
+                    cancel: function () {
+                        $.alert('Canceled!');
+                    }
+                }
+            });
+        }
+        function voidReturn1(){
+            //$.alert("hello222 "+$("#veId").val());
+            $.ajax({ 
+                type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', data: { 'return_id': $("#retRetId").val(), 'flagPage':"void_goods_return" }, 
+                success: function (data) {
+                    //alert('bbbbb'+data);
+                    var json_obj = $.parseJSON(data);
+                    
+                    for (var i in json_obj)
+                    {
+//                        $.alert({
+//                            title: 'Save Data',
+//                            content: 'ยกเลิกข้อมูลเรียบร้อย',
+//                        });
+//                        window.location.assign('#goodsRecView.php');
+                    }
+                }
+            });
+        }
+        function voidStock(){
+            $.ajax({
+                type: 'GET', url: 'genStock.php', contentType: "application/json", dataType: 'text', 
+                data: { 'return_id': $("#retRetId").val()
+                    ,'flagPage': "void_stock_return" }, 
+                success: function (data) {
+//                                alert('bbbbb'+data);
+                    var json_obj = $.parseJSON(data);
+                    //$("#btnReDoc").prop("disabled", true);
+//                                $.alert({
+//                                    title: 'Save Data',
+//                                    content: 'void Stock เรียบร้อย',
+//                                });
+                    $("#retVali").empty();
+                    $("#retVali").append("void Stock เรียบร้อย");
+                }
+            });
         }
         function searchDraw(){
             //alert("aaaa");

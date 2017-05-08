@@ -306,14 +306,13 @@ mysqli_close($conn);
                                     </section >
                                     <section class="col col-2">    
                                         <label class="label">&nbsp;</label>
-                                        <label class="toggle state-error"><input type="checkbox" name="chkReVoid" checked="true" id="chkReVoid"><i data-swchon-text="ใช้งาน" data-swchoff-text="ยกเลิก"></i>สถานะ</label>
+                                        <label class="toggle state-error"><input type="checkbox" name="chkReVoid" checked="true" id="chkReVoid"><i data-swchon-text="ใช้งาน" data-swchoff-text=" ยกเลิก"></i>สถานะ</label>
                                     </section>
                                     <section class="col col-2" >    
                                         <label class="label">&nbsp;&nbsp;</label>
                                         <button type="button" id="btnReVoid" class="btn btn-primary btn-sm">ต้องการยกเลิก</button>
                                     </section>
                                 </div>
-                                
                             </fieldset>
                             
                             <header>
@@ -368,7 +367,13 @@ mysqli_close($conn);
                                                 <input type="text" name="reGoAmt" id="reGoAmt" placeholder="รวมราคา">
                                         </label>
                                     </section>
-                                    <section class="col col-2">
+                                    <section class="col col-2 right-inner">
+                                        <label class="label">&nbsp;</label>
+                                        <label class="input"> 
+                                                <input type="text" name="reGoDesc1" id="reGoDesc1" >
+                                        </label>
+                                    </section>
+                                    <section class="col col-2 right-inner">
                                         <label class="label">&nbsp;&nbsp;</label>
                                         <button type="button" class="btn btn-primary btn-sm" id="btnReAdd">เพิ่มสินค้า</button>
                                         <input type="hidden" name="reCnt" id="reCnt" value="<?php echo $reCnt;?>">
@@ -598,6 +603,7 @@ mysqli_close($conn);
             
         });
         hideBtnVoid();
+        $("#reGoDesc1").hide();
         $("#reAlert").hide();
         $('#sandbox-container input').datepicker({ });
         $("#btnSave").click(saveRec1);
@@ -651,9 +657,8 @@ mysqli_close($conn);
 //                            title: 'Save Data',
 //                            content: 'ยกเลิกข้อมูลเรียบร้อย',
 //                        });
-                        window.location.assign('#goodsRecView.php');
+//                        window.location.assign('#goodsRecView.php');
                     }
-                    
                 }
             });
         }
@@ -703,7 +708,7 @@ mysqli_close($conn);
                     //$("#cZipcode").val("aaaa");
                     for (var i in json_obj){
                         if(json_obj[i].goods_name!=null) {
-                            $("#reGoName").val(json_obj[i].goods_name);
+                            $("#reGoName").val(json_obj[i].goods_name1);
                         }
                         if(json_obj[i].price!=null) {
                             $("#reGoPrice").val(json_obj[i].cost);
@@ -760,20 +765,21 @@ mysqli_close($conn);
             });
         }
         function voidStock(){
-            $.confirm({
-                title: 'Confirm!',
-                content: 'Simple confirm!',
-                buttons: {
-                    confirm: function () {
-                        //$.alert("hello222 ");
-                        var reRecId = $("#reRecId").val();
-                        //$.alert("hello222 "+reRecId);
+//            $.alert("voidStock ");
+//            $.confirm({
+//                title: 'Confirm!',
+//                content: 'Simple confirm!',
+//                buttons: {
+//                    confirm: function () {
+//                        //$.alert("hello222 ");
+//                        var reRecId = $("#reRecId").val();
+//                        //$.alert("hello222 "+reRecId);
                         $.ajax({
                             type: 'GET', url: 'genStock.php', contentType: "application/json", dataType: 'text', 
-                            data: { 'rec_id': reRecId
+                            data: { 'rec_id': $("#reRecId").val()
                                 ,'flagPage': "void_stock_rec" }, 
                             success: function (data) {
-                                //alert('bbbbb'+data);
+//                                alert('bbbbb'+data);
                                 var json_obj = $.parseJSON(data);
                                 //$("#btnReDoc").prop("disabled", true);
 //                                $.alert({
@@ -782,15 +788,14 @@ mysqli_close($conn);
 //                                });
                                 $("#reVali").empty();
                                 $("#reVali").append("void Stock เรียบร้อย");
-
                             }
                         });
-                    },
-                    cancel: function () {
-                        $.alert('Canceled!');
-                    }
-                }
-            });
+//                    },
+//                    cancel: function () {
+//                        $.alert('Canceled!');
+//                    }
+//                }
+//            });
         }
         function addRow(){
             
