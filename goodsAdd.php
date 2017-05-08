@@ -209,13 +209,13 @@ mysqli_close($conn);
                                 
                                 
                                 <div class="row">
-                                    <section class="col col-11">
+                                    <section class="col col-10">
                                         <label class="label">ชื่อ สินค้า</label>
                                         <label class="input"> <i class="icon-append fa fa-user"></i>
                                             <input type="text" name="goName" id="goName" value="<?php echo $goName;?>" placeholder="ชื่อ สินค้า">
                                             <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
                                     </section>
-                                    <section class="col col-1">
+                                    <section class="col col-2">
                                             <label class="label">&nbsp;&nbsp;</label>
                                             <button type="button" id="goNameCopy" class="btn btn-primary btn-sm"><<<</button>
                                     </section>
@@ -263,8 +263,17 @@ mysqli_close($conn);
                                     <section  class="col col-6">
                                         <label class="label">Holes</label>
                                         <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                                            <input type="text" name="goHoles" id="goHoles" value="<?php echo $goHoles;?>" placeholder="Holes">
+                                            <input type="text" class="form-control spinner-both" name="goHoles" id="goHoles" value="<?php echo $goHoles;?>" placeholder="Holes">
+                                            
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                            
+                                            
+                                            <div class="form-group">
+                                                    <label>Increment spinner</label>
+                                                    <input class="form-control spinner-both"  id="spinner-currency" name="spinner-currency" value="0">
+                                            </div>
+                                            
+                                            
                                     </section >
 
                                     <section  class="col col-6">
@@ -473,7 +482,13 @@ mysqli_close($conn);
 	};
 	
 	// end pagefunction
-	
+        $("#spinner-currency").spinner({
+            min: 0,
+            max: 20,
+            step: 1,
+            start: 0,
+            numberFormat: "C"
+        });
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
         hideBtnVoid();

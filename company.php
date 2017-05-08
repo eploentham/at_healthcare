@@ -136,21 +136,24 @@ mysqli_close($conn);
                         <form action="" id="smart-form-register" class="smart-form">
                             <header>ข้อมูล บริษัท</header>
                             <fieldset>
-                                <section >
-                                    <label class="label">ประเภทบริษัท</label>
-                                    <label class="select">
-                                        <select name="compType" id="compType">
-                                                <?php echo $oComp;?>
-                                        </select> <i></i> </label>
-                                </section>
-                                <section >
-                                    <label class="label">ชื่อบริษัท</label>
-                                    <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="compNameT" id="compNameT" placeholder="ชื่อบริษัท" value="<?php echo $aComp["comp_name_t"]?>">
-                                        <input type="hidden" name="compId" id="compId" value="<?php echo $compId;?>">
-                                        <input type="hidden" name="compCode" id="compCode" value="100">
-                                            <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
-                                </section>
+                                <div class="row">
+                                    <section  class="col col-4">
+                                        <label class="label">ประเภทบริษัท</label>
+                                        <label class="select">
+                                            <select name="compType" id="compType">
+                                                    <?php echo $oComp;?>
+                                            </select> <i></i> </label>
+                                    </section>
+                                    <section  class="col col-8">
+                                        <label class="label">ชื่อบริษัท</label>
+                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                            <input type="text" name="compNameT" id="compNameT" placeholder="ชื่อบริษัท" value="<?php echo $aComp["comp_name_t"]?>">
+                                            <input type="hidden" name="compId" id="compId" value="<?php echo $compId;?>">
+                                            <input type="hidden" name="compCode" id="compCode" value="100">
+                                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
+                                    </section>
+                                </div>
+                                
 
                                 <section >
                                     <label class="label">ที่อยู่</label>
@@ -251,43 +254,43 @@ mysqli_close($conn);
                 </div>
                 <div class="widget-body no-padding">
                     <form action="" id="smart-form-register1" class="smart-form">
-                        <header>ข้อมูล บริษัท</header>
+                        
                         <fieldset>
                             <div class="row">
-                                <section class="col col-6">
+                                <section class="col col-8">
                                     <div >
                                         
                                         <span class="onoffswitch">
-                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
-                                                <label class="onoffswitch-label" for="myonoffswitch"> 
+                                                <input type="checkbox" name="chkRecEmail" class="onoffswitch-checkbox" id="chkRecEmail">
+                                                <label class="onoffswitch-label" for="chkRecEmail"> 
                                                         <span class="onoffswitch-inner" data-swchon-text="ON" data-swchoff-text="OFF"></span> 
                                                         <span class="onoffswitch-switch"></span> </label> 
                                         </span>
-                                        <label class="onoffswitch-title"><i class="fa fa-location-arrow"></i>เมื่อป้อน รับเข้าสินค้า เรียบร้อย ให้ส่ง email ไปที่ </label>
+                                        <label class="onoffswitch-title">&nbsp;<i class="fa fa-location-arrow"></i> เมื่อป้อน รับเข้าสินค้า เรียบร้อย ให้ส่ง email ไปที่ </label>
                                         
                                     </div>
                                 </section>
-                                <section class="col col-6">
+                                <section class="col col-4">
                                     <label class="input"> <i class="icon-append fa fa-lock"></i>
                                                 <input type="text" name="cZipcode" placeholder="รหัสไปรษณีย์" id="cZipcode" value="<?php echo $aComp["zipcode"]?>"></label>
                                 </section>
                                 
                             </div>
                             <div class="row">
-                                <section class="col col-6">
+                                <section class="col col-8">
                                     <div >
                                         
                                         <span class="onoffswitch">
-                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
-                                                <label class="onoffswitch-label" for="myonoffswitch"> 
+                                                <input type="checkbox" name="chkPurchaseEmail" class="onoffswitch-checkbox" id="chkPurchaseEmail">
+                                                <label class="onoffswitch-label" for="chkPurchaseEmail"> 
                                                         <span class="onoffswitch-inner" data-swchon-text="ON" data-swchoff-text="OFF"></span> 
                                                         <span class="onoffswitch-switch"></span> </label> 
                                         </span>
-                                        <label class="onoffswitch-title"><i class="fa fa-location-arrow"></i>เมื่อป้อน รับเข้าสินค้า เรียบร้อย ให้ส่ง email ไปที่ </label>
+                                        <label class="onoffswitch-title">&nbsp;<i class="fa fa-location-arrow"></i>&nbsp;เมื่อจำนวนสินค้าคงเหลือน้อยกว่าที่กำหนด ให้ส่ง email ไปที่ </label>
                                         
                                     </div>
                                 </section>
-                                <section class="col col-6">
+                                <section class="col col-4">
                                     <label class="input"> <i class="icon-append fa fa-lock"></i>
                                                 <input type="text" name="cZipcode" placeholder="รหัสไปรษณีย์" id="cZipcode" value="<?php echo $aComp["zipcode"]?>"></label>
                                 </section>
