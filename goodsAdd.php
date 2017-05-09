@@ -16,6 +16,9 @@ $goCatId="";
 $goPup="";
 $goPuPer="";
 $goBarcode="";
+$chkSideRT="";
+$chkSideLT="";
+$chkSideOther="";
 if(isset($_GET["goodsId"])){
     $goId = $_GET["goodsId"];
 }else{
@@ -45,6 +48,13 @@ if ($rComp=mysqli_query($conn,$sql)){
     $goPup = ($aGoods["purchase_point"]);
     $goPuPer = ($aGoods["purchase_period"]);
     $goBarcode = $aGoods["barcode"];
+    if($goSide === "RT"){
+        $chkSideRT = "checked='checked'";
+    }else if($goSide === "LT"){
+        $chkSideLT = "checked='checked'";
+    }else{
+        $chkSideOther = "checked='checked'";
+    }
 //    if($goTypeId=="05233f7d-225b-11e7-b800-1c1b0d8ca1a0"){
 //        echo '<script type="text/javascript">showHole();</script>';
 //    }else if($goTypeId=="2595c85d-225b-11e7-b800-1c1b0d8ca1a0"){
@@ -260,67 +270,33 @@ mysqli_close($conn);
                                 
                                 
                                 <div class="row" id="divHole">
-                                    <section  class="col col-7">
+                                    <section  class="col col-6">
                                         <div class="form-group ">
                                             <label>Holes</label>
-                                            <input class="form-control spinner-both"  id="goHoles" name="goHoles" value="0" disabled="true">
-                                        </div>       
-                                        
-                                        <!--<div class="rating">
-                                            <input type="radio" name="overall" id="overall-20">
-                                            <label for="overall-20"><i class="fa fa-star"></i></label>
-                                            <input type="radio" name="overall" id="overall-19">
-                                            <label for="overall-19"><i class="fa fa-star"></i></label>
-                                            <input type="radio" name="overall" id="overall-18">
-                                            <label for="overall-18"><i class="fa fa-star"></i></label>
-                                            <input type="radio" name="overall" id="overall-17">
-                                            <label for="overall-170"><i class="fa fa-star"></i></label>
-                                            <input type="radio" name="overall" id="overall-16">
-                                            <label for="overall-16"><i class="fa fa-star"></i></label>
-                                            <input type="radio" name="overall" id="overall-15">
-                                            <label for="overall-15"><i class="fa fa-star"></i></label>
-                                            <input type="radio" name="overall" id="overall-14">
-                                            <label for="overall-14"><i class="fa fa-star"></i></label>
-                                            <input type="radio" name="overall" id="overall-13">
-                                            <label for="overall-13"><i class="fa fa-star"></i></label>
-                                            <input type="radio" name="overall" id="overall-12">
-                                            <label for="overall-12"><i class="fa fa-star"></i></label>
-                                            <input type="radio" name="overall" id="overall-11">
-                                            <label for="overall-11"><i class="fa fa-star"></i></label>
-                                            <input type="radio" name="overall" id="overall-10">
-                                            <label for="overall-10"><i class="fa fa-star"></i></label>
-                                            <input type="radio" name="overall" id="overall-9">
-                                            <label for="overall-9"><i class="fa fa-star"></i></label>
-                                            <input type="radio" name="overall" id="overall-8">
-                                            <label for="overall-8"><i class="fa fa-star"></i></label>
-                                            <input type="radio" name="overall" id="overall-7">
-                                            <label for="overall-7"><i class="fa fa-star"></i></label>
-                                            <input type="radio" name="overall" id="overall-6">
-                                            <label for="overall-6"><i class="fa fa-star"></i></label>
-                                            
-                                                <input type="radio" name="overall" id="overall-5">
-                                                <label for="overall-5"><i class="fa fa-star"></i></label>
-                                                <input type="radio" name="overall" id="overall-4">
-                                                <label for="overall-4"><i class="fa fa-star"></i></label>
-                                                <input type="radio" name="overall" id="overall-3">
-                                                <label for="overall-3"><i class="fa fa-star"></i></label>
-                                                <input type="radio" name="overall" id="overall-2">
-                                                <label for="overall-2"><i class="fa fa-star"></i></label>
-                                                <input type="radio" name="overall" id="overall-1">
-                                                <label for="overall-1"><i class="fa fa-star"></i></label>
-                                                <input type="radio" name="overall" id="overall-0">
-                                                <label for="overall-0"><i class="fa fa-pencil-square-o"></i></label>
-                                                
-                                        </div>-->
+                                            <input class="form-control spinner-both"  id="goHoles" name="goHoles" value="<?php echo $goHoles;?>" disabled="true">
+                                        </div>                                        
                                     </section>                                    
 
-                                    <section  class="col col-5">
+                                    <section  class="col col-4">
+                                        <label class="label">&nbsp;</label>
+                                        <div class="inline-group">
+                                            <label class="radio">
+                                                <input type="radio" name="radio-inline" <?php echo $chkSideRT;?> value="RT">
+                                                    <i></i>RT</label>
+                                            <label class="radio">
+                                                    <input type="radio" name="radio-inline" <?php echo $chkSideLT;?> value="LT">
+                                                    <i></i>LT</label>
+                                            <label class="radio">
+                                                    <input type="radio" name="radio-inline" <?php echo $chkSideOther;?> value="Other">
+                                                    <i></i>Other</label>
+                                            </div>
+                                    </section >
+                                    <section  class="col col-2">
                                         <label class="label">Side</label>
                                         <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
                                             <input type="text" name="goSide" id="goSide" value="<?php echo $goSide;?>" placeholder="Side">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
-                                            
-                                    </section >
+                                    </section>
                                 </div>
                                 
                                 <div class="row" id="divDiameter">
@@ -547,6 +523,12 @@ mysqli_close($conn);
                 
             }
             //alert( "Handler for .change() called." );
+        });
+        $( ".radio" ).change(function() {
+            //alert( "Handler for .change() called." +$('input[name="radio-inline"]:checked').val());
+            if($('radio[name="radio-inline"]')){
+                $("#goSide").val($('input[name="radio-inline"]:checked').val());
+            }
         });
         function checkBtnVoid(){
             if($("#chkGoVoid").is(':checked'))
