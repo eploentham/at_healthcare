@@ -342,8 +342,6 @@ mysqli_close($conn);
                                     </section >
                                 </div>
                                 
-                                
-                                
                             </fieldset>
                             
                             <header>
@@ -761,7 +759,7 @@ mysqli_close($conn);
                             success: function (data) {
                                 //var rec_id = $("#retRetId").val();
                                 //saveDetail();
-                                //alert('bbbbb'+data);
+//                                alert('bbbbb'+data);
                                 var json_obj = $.parseJSON(data);
                                 $("#btnReDoc").prop("disabled", true);
                                 $.alert({

@@ -351,7 +351,7 @@ mysqli_close($conn);
                                     <section class="col col-2">
                                         <label class="label">ราคาทุน</label>
                                         <label class="input"> <i class="icon-prepend fa fa-phone"></i>
-                                                <input type="number" name="reGoPrice" id="reGoPrice" placeholder="ราคา" >
+                                            <input type="number" name="reGoPrice" id="reGoPrice" placeholder="ราคาทุน" value="1" disabled="true" >
                                         </label>
                                     </section>
                                     <section class="col col-2">
@@ -556,6 +556,7 @@ mysqli_close($conn);
             $("#btnReDoc").prop("disabled", true);
         }else if($("#reStatusStock").val()=="1"){
             $("#btnReDoc").prop("disabled", true);
+            $("#btnSave").prop("disabled", true);
         }
         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',
@@ -576,7 +577,6 @@ mysqli_close($conn);
             var td = $(this).parent();
             var tr = td.parent();
             
-            
             $.confirm({
                 title: 'Confirm!',
                 content: 'Simple confirm!',
@@ -594,9 +594,7 @@ mysqli_close($conn);
                     }
                 }
             });
-            
-            
-            
+                        
             //$(this).parent().attr("id");
             //alert("hello "+$(this).parent().attr("id"));
             //change the background color to red before removing
@@ -657,7 +655,7 @@ mysqli_close($conn);
 //                            title: 'Save Data',
 //                            content: 'ยกเลิกข้อมูลเรียบร้อย',
 //                        });
-//                        window.location.assign('#goodsRecView.php');
+                        window.location.assign('#goodsRecView.php');
                     }
                 }
             });
@@ -738,17 +736,19 @@ mysqli_close($conn);
                             data: { 'rec_id': reRecId
                                 ,'flagPage': "gen_stock_rec" }, 
                             success: function (data) {
+                                $("#reVali").empty();
+                                $("#reVali").append("gen Stock เรียบร้อย");
                                 //var rec_id = $("#reRecId").val();
                                 //saveDetail();
                                 //alert('bbbbb'+data);
+                                
                                 var json_obj = $.parseJSON(data);
                                 $("#btnReDoc").prop("disabled", true);
                                 $.alert({
                                     title: 'Save Data',
                                     content: 'gen Stock เรียบร้อย',
                                 });
-                                $("#reVali").empty();
-                                $("#reVali").append("gen Stock เรียบร้อย");
+                                
                                 //for (var i in json_obj){
                                 //    alert("aaaa "+json_obj[i].success);
                                 //}

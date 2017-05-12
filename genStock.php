@@ -17,13 +17,16 @@ if($_GET["flagPage"] === "gen_stock_rec"){
             //$rocId = $row["rec_id"];
             $recDId = $row["rec_detail_id"];
             $goodsId = $row["goods_id"];
-            $price = $row["price"];
+            $cost = $row["cost"];
             $qty = $row["qty"];
-            if($qty===""){
+            if(!is_numeric($cost)){
                 return;
             }
-            $sql="Insert Into t_stock(stock_id, goods_id, qty, price, rec_draw_detail_id, status_rec_draw, active, date_create) "
-                    ."Values(UUID(),'".$goodsId."',".$qty.",".$price.",'".$recDId."','1','1', now())";
+            if(!is_numeric($cost)){
+                $cost="0";
+            }
+            $sql="Insert Into t_stock(stock_id, goods_id, qty, cost, rec_draw_detail_id, status_rec_draw, active, date_create) "
+                ."Values(UUID(),'".$goodsId."',".$qty.",".$cost.",'".$recDId."','1','1', now())";
             mysqli_query($conn,$sql);
             $sql="Update t_goods_rec_detail Set status_stock = '1' Where rec_detail_id = '".$recDId."'";
             mysqli_query($conn,$sql);
@@ -42,13 +45,16 @@ if($_GET["flagPage"] === "gen_stock_rec"){
             //$rocId = $row["rec_id"];
             $draDId = $row["draw_detail_id"];
             $goodsId = $row["goods_id"];
-            $price = $row["price"];
+            $cost = $row["cost"];
             $qty = $row["qty"];
-            if($qty===""){
+            if(!is_numeric($qty)){
                 return;
             }
-            $sql="Insert Into t_stock(stock_id, goods_id, qty, price, rec_draw_detail_id, status_rec_draw, active, date_create) "
-                    ."Values(UUID(),'".$goodsId."',".$qty.",".$price.",'".$draDId."','2','1', now())";
+            if(!is_numeric($cost)){
+                $cost="0";
+            }
+            $sql="Insert Into t_stock(stock_id, goods_id, qty, cost, rec_draw_detail_id, status_rec_draw, active, date_create) "
+                ."Values(UUID(),'".$goodsId."',".$qty.",".$cost.",'".$draDId."','2','1', now())";
             mysqli_query($conn,$sql);
             $sql="Update t_goods_draw_detail Set status_stock = '1' Where draw_detail_id = '".$draDId."'";
             mysqli_query($conn,$sql);
@@ -68,10 +74,13 @@ if($_GET["flagPage"] === "gen_stock_rec"){
             $goodsId = $row["goods_id"];
 //            $price = $row["price"];
             $qty = $row["qty"];
-            if($qty===""){
+            if(!is_numeric($qty)){
                 return;
             }
-            $sql="Insert Into t_stock(stock_id, goods_id, qty, price, rec_draw_detail_id, status_rec_draw, active, date_create) "
+//            if($cost===""){
+//                $cost="0";
+//            }
+            $sql="Insert Into t_stock(stock_id, goods_id, qty, cost, rec_draw_detail_id, status_rec_draw, active, date_create) "
                     ."Values(UUID(),'".$goodsId."',".$qty.",0,'".$retDId."','3','1', now())";
             mysqli_query($conn,$sql);
             $sql="Update t_goods_return_detail Set status_stock = '1' Where rec_detail_id = '".$retDId."'";
@@ -96,7 +105,10 @@ if($_GET["flagPage"] === "gen_stock_rec"){
             if($qty===""){
                 return;
             }
-            $sql="Insert Into t_stock(stock_id, goods_id, qty, price, rec_draw_detail_id, status_rec_draw, active, date_create) "
+            if($cost===""){
+                $cost="0";
+            }
+            $sql="Insert Into t_stock(stock_id, goods_id, qty, cost, rec_draw_detail_id, status_rec_draw, active, date_create) "
                     ."Values(UUID(),'".$goodsId."',".$qty.",".$cost.",'".$recDId."','4','1', now())";
             mysqli_query($conn,$sql);
             $sql="Update t_goods_rec_detail Set active = '3', date_cancel = now() Where rec_detail_id = '".$recDId."'";
@@ -121,7 +133,10 @@ if($_GET["flagPage"] === "gen_stock_rec"){
             if($qty===""){
                 return;
             }
-            $sql="Insert Into t_stock(stock_id, goods_id, qty, price, rec_draw_detail_id, status_rec_draw, active, date_create) "
+            if($cost===""){
+                $cost="0";
+            }
+            $sql="Insert Into t_stock(stock_id, goods_id, qty, cost, rec_draw_detail_id, status_rec_draw, active, date_create) "
                     ."Values(UUID(),'".$goodsId."',".$qty.",".$cost.",'".$draDId."','5','1', now())";
             mysqli_query($conn,$sql);
             $sql="Update t_goods_draw_detail Set active = '3', date_cancel = now() Where draw_detail_id = '".$draDId."'";
@@ -147,7 +162,10 @@ if($_GET["flagPage"] === "gen_stock_rec"){
             if($qty===""){
                 return;
             }
-            $sql="Insert Into t_stock(stock_id, goods_id, qty, price, rec_draw_detail_id, status_rec_draw, active, date_create) "
+            if($cost===""){
+                $cost="0";
+            }
+            $sql="Insert Into t_stock(stock_id, goods_id, qty, cost, rec_draw_detail_id, status_rec_draw, active, date_create) "
                     ."Values(UUID(),'".$goodsId."',".$qty.",".$cost.",'".$retDId."','6','1', now())";
             mysqli_query($conn,$sql);
             $sql="Update t_goods_return_detail Set active = '3', date_cancel = now() Where return_detail_id = '".$retDId."'";
@@ -169,7 +187,7 @@ header('Content-Type: application/json');
 if(!$result){
     $response["success"] = 0;
     $response["message"] = "insert Order success";
-    $response["error"] = mysqli_error();
+    $response["error"] = mysqli_error($conn);
     $response["sql"] = $sql;
     array_push($resultArray,$response);
     echo json_encode($resultArray);

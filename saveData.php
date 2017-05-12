@@ -321,6 +321,24 @@ if($_GET["flagPage"] === "company"){
     $cost=$_GET["cost"];
     $amt=$_GET["amt"];
     $unit_id=$_GET["unit_id"];
+    if($cost===""){
+        $cost="0";
+    }
+    if($price===""){
+        $price="0";
+    }
+    if($amt===""){
+        $amt="0";
+    }
+    if(!is_numeric($amt)){
+        $amt="0";
+    }
+    if(!is_numeric($price)){
+        $price="0";
+    }
+    if(!is_numeric($cost)){
+        $cost="0";
+    }
     if(($_GET["rec_detail_id"]==="-")|| ($_GET["rec_detail_id"]==="")){
         $sql="Insert Into t_goods_rec_detail(rec_detail_id, rec_id, goods_id, price, "
                 ."cost, qty, amount, unit_id, "
@@ -477,6 +495,15 @@ if($_GET["flagPage"] === "company"){
     $amt=$_GET["amt"];
     $unit_id=$_GET["unit_id"];
     $hn=$_GET["hn"];
+    if(!is_numeric($amt)){
+        $amt="0";
+    }
+    if(!is_numeric($price)){
+        $price="0";
+    }
+    if(!is_numeric($cost)){
+        $cost="0";
+    }
     if(($_GET["draw_detail_id"]==="-")|| ($_GET["draw_detail_id"]==="")){
         $sql="Insert Into t_goods_draw_detail(draw_detail_id, draw_id, goods_id, price, "
             ."cost, qty, amount, unit_id, "
@@ -575,6 +602,10 @@ if($_GET["flagPage"] === "company"){
     $ret_id=$_GET["ret_id"];
     $goods_id=$_GET["goods_id"];
     $qty=$_GET["qty"];
+    if(!is_numeric($qty)){
+        $qty="0";
+    }
+
 //    $price=$_GET["price"];
 //    $cost=$_GET["cost"];
 //    $amt=$_GET["amt"];

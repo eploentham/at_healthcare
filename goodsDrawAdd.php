@@ -348,7 +348,7 @@ mysqli_close($conn);
                                     <section class="col col-2">
                                         <label class="label">ราคา</label>
                                         <label class="input"> <i class="icon-prepend fa fa-phone"></i>
-                                                <input type="text" name="draGoPrice" id="draGoPrice" placeholder="ราคา">
+                                                <input type="text" name="draGoPrice" id="draGoPrice" placeholder="ราคา" value="1" disabled="true">
                                         </label>
                                     </section>
                                     <section class="col col-2">
@@ -546,6 +546,7 @@ mysqli_close($conn);
             $("#btnDraDoc").prop("disabled", true);
         }else if($("#reStatusStock").val()=="1"){
             $("#btnDraDoc").prop("disabled", true);
+            $("#btnSave").prop("disabled", true);
         }
         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',
