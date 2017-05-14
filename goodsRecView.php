@@ -11,6 +11,7 @@ $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
 $sql="Select rec.rec_id, ifnull(rec.description,'-') as description, ifnull(rec.rec_doc,'-') as rec_doc, ifnull(rec.inv_ex,'-') as inv_ex, ifnull(rec.rec_date,'-') as rec_date, ifnull(rec.inv_ex_date,'-') as inv_ex_date "
         .", ifnull(comp.comp_name_t,'') as comp_name_t, ifnull(vend.vend_name_t,'') as vend_name_t, ifnull(br.branch_name,'') as branch_name "
+        .", rec.status_stock "
         ."From t_goods_rec rec "
         //."Left Join t_goods_rec_detail recd On rec.rec_id = recd.rec_id "
         ."Left Join b_company comp On rec.comp_id = comp.comp_id "
@@ -26,7 +27,13 @@ if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
 if($result){
     while($row = mysqli_fetch_array($result)){
         $brName="<a href='#goodsRecAdd.php?recId=".$row["rec_id"]."'>".$row["rec_doc"]."</a>";
-        $trCust .= "<tr><td>".$brName."</td><td>".$row["inv_ex"]."</td><td>".$row["description"]."</td><td>"
+        $classTr="";
+        if($row["status_stock"]){
+            $classTr=" success ";
+        }else{
+            $classTr=" ";
+        }
+        $trCust .= "<tr class=' ".$classTr."'><td>".$brName."</td><td>".$row["inv_ex"]."</td><td>".$row["description"]."</td><td>"
                 .$row["rec_date"]."</td><td>".$row["inv_ex_date"]."</td><td>".$row["comp_name_t"]."</td><td>".$row["vend_name_t"]."</td><td>".$row["branch_name"]."</td>";
     }
 }else{
@@ -109,23 +116,26 @@ mysqli_close($conn);
                             <!-- end widget edit box -->
                             <!-- widget content -->
                             <div class="widget-body no-padding">
-                                <table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
-                                    <thead>
-                                        <tr>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>เลขที่เอกสาร</th>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> เลขที่ Invoice</th>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> รายละเอียด</th>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> วันที่รับสินค้า</th>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> วันที่ใน Invoice</th>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> รับเข้าบริษัท</th>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Vendor</th>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> รับเข้า สาขา</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                            <?php echo $trCust;?>
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>เลขที่เอกสาร</th>
+                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> เลขที่ Invoice</th>
+                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> รายละเอียด</th>
+                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> วันที่รับสินค้า</th>
+                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> วันที่ใน Invoice</th>
+                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> รับเข้าบริษัท</th>
+                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Vendor</th>
+                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> รับเข้า สาขา</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <?php echo $trCust;?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
                             </div>
                             <!-- end widget content -->
                         </div>

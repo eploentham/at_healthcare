@@ -385,14 +385,22 @@ mysqli_close($conn);
                             <footer>
                                 <div class="row">
                                     <section class="col col-3 left">
-                                        <button type="button" id="btnSave" class="btn btn-primary">
+                                        <button type="button" id="btnSave" class="btn btn-labeled btn-primary">
                                                 บันทึกข้อมูล
                                         </button>
                                     </section>
-                                    <section class="col col-9 right-inner">
+                                    <section class="col col-6 right-inner">
                                         <button type="button" id="btnReDoc" class="btn btn-primary">
                                                 ออกเลขที่เอกสาร เพิ่มStock
                                         </button>
+                                        
+                                    </section>
+                                    <section class="col col-3 ">
+                                        <ul class="demo-btns">
+                                            <li>
+                                                <a href="javascript:void(0);" class="btn bg-color-blue txt-color-white"><i id="loading" class="fa fa-gear fa-2x fa-spin"></i></a>
+                                            </li>
+                                        </ul>
                                     </section>
                                 </div>
                             </footer>
@@ -600,6 +608,7 @@ mysqli_close($conn);
             //change the background color to red before removing
             
         });
+        $("#loading").removeClass("fa-spin");
         hideBtnVoid();
         $("#reGoDesc1").hide();
         $("#reAlert").hide();
@@ -612,7 +621,13 @@ mysqli_close($conn);
         $("#reGoPrice").keyup(calAmt);
         $("#chkReVoid").click(checkBtnVoid);
         $("#btnReVoid").click(voidRec);
-        
+//        $(‘button[data-btn-loading]’).on(‘click’, function() {
+//            var btn = $(this);
+//            btn.button(‘loading’);
+//            setTimeout(function() {
+//            btn.button(‘reset’);
+//            }, 3000);
+//        });
 //        $("#reRecDoc").click(genRec);
         function checkBtnVoid(){
             if($("#chkReVoid").is(':checked'))
@@ -728,6 +743,7 @@ mysqli_close($conn);
                 content: 'Simple confirm!',
                 buttons: {
                     confirm: function () {
+                        $("#loading").addClass("fa-spin");
                         //$.alert("hello222 ");
                         var reRecId = $("#reRecId").val();
                         //$.alert("hello222 "+reRecId);
@@ -748,7 +764,7 @@ mysqli_close($conn);
                                     title: 'Save Data',
                                     content: 'gen Stock เรียบร้อย',
                                 });
-                                
+                                $("#loading").removeClass("fa-spin");
                                 //for (var i in json_obj){
                                 //    alert("aaaa "+json_obj[i].success);
                                 //}
@@ -835,7 +851,11 @@ mysqli_close($conn);
             //$('#trReDetail tr:last').after('<tr class="child"><td>blahblah<\/td></tr>');
         }
         function saveRec1(){
+            // loading animation (demo purpose only)fa fa-gear fa-2x fa-spin
+            
+            
             saveRec();
+            
             //saveDetail();
         }
         function delRecD(recDID){
@@ -866,8 +886,9 @@ mysqli_close($conn);
 //                $("#reVali").append("รายละเอียด ไม่สามารถว่างได้");
 //                return;
 //            }
-            $("#reAlert").show();
+            //$("#reAlert").show();
             //alert('aaaaa '+$("#reRecDate").val());
+            $("#loading").addClass("fa-spin");
             var reRecId = $("#reRecId").val();
 
             $.ajax({
@@ -897,8 +918,10 @@ mysqli_close($conn);
                                 title: 'Save Data',
                                 content: 'บันทึกข้อมูลเรียบร้อย',
                             });
+                            $("#loading").removeClass("fa-spin");
                             $("#reVali").empty();
-                            $("#reVali").append(json_obj[i].sql);
+                            //$("#reAlert").show();
+                            //$("#reVali").append(json_obj[i].sql);
                         }
                     }
 //                    alert('bbbbb '+json_obj.length);

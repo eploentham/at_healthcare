@@ -11,6 +11,7 @@ $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
 $sql="Select dra.draw_id, ifnull(dra.description,'-') as description, ifnull(dra.draw_doc,'-') as draw_doc, ifnull(dra.inv_ex,'-') as inv_ex, ifnull(dra.draw_date,'-') as draw_date "
         .", ifnull(comp.comp_name_t,'') as comp_name_t, ifnull(brd.branch_name,'') as branch_name_d, ifnull(cus.cust_name_t,'') as cust_name_t "
+        .", dra.status_stock "
         ."From t_goods_draw dra "
         //."Left Join t_goods_rec_detail recd On rec.rec_id = recd.rec_id "
         ."Left Join b_company comp On dra.comp_id = comp.comp_id "
@@ -22,7 +23,13 @@ $result = mysqli_query($conn,$sql);
 if($result){
     while($row = mysqli_fetch_array($result)){
         $brName="<a href='#goodsDrawAdd.php?draId=".$row["draw_id"]."'>".$row["draw_doc"]."</a>";
-        $trCust .= "<tr><td>".$brName."</td><td>".$row["description"]."</td><td>"
+        $classTr="";
+        if($row["status_stock"]){
+            $classTr=" success ";
+        }else{
+            $classTr=" ";
+        }
+        $trCust .= "<tr class=' ".$classTr."'><td>".$brName."</td><td>".$row["description"]."</td><td>"
                 .$row["draw_date"]."</td><td>".$row["comp_name_t"]."</td><td>".$row["branch_name_d"]."</td><td>".$row["cust_name_t"]."</td>";
     }
 }else{
@@ -105,23 +112,26 @@ mysqli_close($conn);
                             <!-- end widget edit box -->
                             <!-- widget content -->
                             <div class="widget-body no-padding">
-                                <table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
-                                    <thead>
-                                        <tr>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>เลขที่เอกสาร</th>
-                                            
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> รายละเอียด</th>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> วันที่เบิกสินค้า</th>
-                                            
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> เบิกจากบริษัท</th>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> เบิกจาก สาขา</th>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> รับเข้า สาขา</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                            <?php echo $trCust;?>
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>เลขที่เอกสาร</th>
+
+                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> รายละเอียด</th>
+                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> วันที่เบิกสินค้า</th>
+
+                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> เบิกจากบริษัท</th>
+                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> เบิกจาก สาขา</th>
+                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> รับเข้า สาขา</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <?php echo $trCust;?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
                             </div>
                             <!-- end widget content -->
                         </div>

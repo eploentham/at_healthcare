@@ -275,7 +275,7 @@ mysqli_close($conn);
                                             <label>Holes</label>
                                             <input class="form-control spinner-both"  id="goHoles" name="goHoles" value="<?php echo $goHoles;?>" disabled="true">
                                         </div>                                        
-                                    </section>                                    
+                                    </section>
 
                                     <section  class="col col-4">
                                         <label class="label">&nbsp;</label>
