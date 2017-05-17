@@ -18,7 +18,7 @@ $sql="Select ret.return_id, ifnull(ret.description,'-') as description, ifnull(r
 //        ."Left Join b_branch br On rec.branch_id = br.branch_id "
         ."Where ret.active = '1' Order By return_doc";
 //$result = mysqli_query($conn,$sql);
-if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
+if ($result=mysqli_query($conn,$sql) or die(mysqli_error($conn))){
     
 }else{
     echo mysqli_error($conn);
