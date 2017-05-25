@@ -13,8 +13,8 @@ $oCat="";
 $oType="";
 $goTypeId="";
 $goCatId="";
-$goPup="";
-$goPuPer="";
+$goPup="2";
+$goPuPer="15";
 $goBarcode="";
 $chkSideRT="";
 $chkSideLT="";
@@ -55,6 +55,12 @@ if ($rComp=mysqli_query($conn,$sql)){
     }else{
         $chkSideOther = "checked='checked'";
     }
+    if($goPup==""){
+        $goPup="2";
+    }
+    if(($goPuPer=="") || ($goPuPer==NULL)){
+        $goPuPer="15";
+    }
 //    if($goTypeId=="05233f7d-225b-11e7-b800-1c1b0d8ca1a0"){
 //        echo '<script type="text/javascript">showHole();</script>';
 //    }else if($goTypeId=="2595c85d-225b-11e7-b800-1c1b0d8ca1a0"){
@@ -64,6 +70,8 @@ if ($rComp=mysqli_query($conn,$sql)){
 //    }
 }else{
     $goId = $goodsId;
+    $goPup="2";
+    $goPuPer="15";
 }
 $sql="Select * From b_goods_type Order By sort1, goods_type_name";
 //$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
@@ -620,6 +628,14 @@ mysqli_close($conn);
             $("#goAlert").show();
             //alert("aaaa");
             //$("#goAlert").show();
+//            var pup = $("#goPup").val();
+//            var per = $("#goPuPer").val();
+//            if(pup==""){
+//                pup = "2";
+//            }
+//            if(per==""){
+//                per = "15";
+//            }
             $.ajax({ 
                 type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', 
                 data: { 'goods_id': $("#goId").val()
@@ -650,9 +666,9 @@ mysqli_close($conn);
                     for (var i in json_obj){
                         //alert("aaaa "+json_obj[i].success);
                         if(json_obj[i].success=="1"){
-                            
                             $("#goVali").empty();
-                            $("#goVali").append(json_obj[i].sql);
+//                            $("#goVali").append(json_obj[i].sql);
+                            $("#goVali").append("บันทึกข้อมูลเรียบร้อย");
                             $.alert({
                                 title: 'Save Data',
                                 content: 'บันทึกข้อมูลเรียบร้อย',
@@ -661,7 +677,6 @@ mysqli_close($conn);
 //                            $("#goAlert").show();
 //                            $("#goVali").val(json_obj[i].error);
                         }
-                            
                     }
 //                    alert('bbbbb '+json_obj.length);
 //                    alert('ccccc '+$("#cDistrict").val());
