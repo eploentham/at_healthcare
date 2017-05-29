@@ -190,7 +190,7 @@ mysqli_close($conn);
                                 <div class="row">
                                     <section class="col col-6">
                                         <label class="label">ประเภทสินค้า</label>
-                                        <label class="select">
+                                        <label class="select" id="goType1">
                                             <select name="goType" id="goType">
                                                 <?php echo $oType;?>
                                             </select> <i></i> </label>
@@ -423,7 +423,7 @@ mysqli_close($conn);
 					required : true,
 					email : true
 				},
-				password : {
+				goType11 : {
 					required : true,
 					minlength : 3,
 					maxlength : 20
@@ -434,7 +434,7 @@ mysqli_close($conn);
 					maxlength : 20,
 					equalTo : '#password'
 				},
-				firstname : {
+				goType : {
 					required : true
 				},
 				lastname : {
@@ -457,7 +457,7 @@ mysqli_close($conn);
 					required : 'Please enter your email address',
 					email : 'Please enter a VALID email address'
 				},
-				password : {
+				goType : {
 					required : 'Please enter your password'
 				},
 				passwordConfirm : {
@@ -625,7 +625,17 @@ mysqli_close($conn);
             return true;
         }
         function saveGoods(){
-            $("#goAlert").show();
+            $("#goAlert").show();//alert-success  alert-error  input state-error input state-success select
+            //alert("aaaa "+$("#goType").val());
+            if($("#goType").val()==null){
+                $("#goAlert").removeClass('alert-success');
+                $("#goAlert").addClass('alert alert-block alert-error');
+                $("#goType1").removeClass('alert-success');
+                $("#goType1").addClass('input state-error');
+                $("#goVali").empty();
+                $("#goVali").append("ประเภทสินค้า ไม่ได้เลือก");
+                return;
+            }
             //alert("aaaa");
             //$("#goAlert").show();
 //            var pup = $("#goPup").val();
@@ -669,6 +679,8 @@ mysqli_close($conn);
                             $("#goVali").empty();
 //                            $("#goVali").append(json_obj[i].sql);
                             $("#goVali").append("บันทึกข้อมูลเรียบร้อย");
+                            $("#goAlert").removeClass('alert-error');
+                            $("#goAlert").addClass('alert-success');
                             $.alert({
                                 title: 'Save Data',
                                 content: 'บันทึกข้อมูลเรียบร้อย',
