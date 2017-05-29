@@ -97,13 +97,14 @@ if($_GET["flagPage"] === "company"){
                 }else{
                     $cnt = $row["cnt"];
                 }
-                $cnt = intval($cnt)+1;
+                $cnt = intval($cnt)+100;
                 $cnt = "000".$cnt;
+                $cnt = substr($cnt, strlen($cnt)-3);
             }
-            $doc = "C".$year. substr($cnt, strlen($cnt)-3);
+            //$doc = "C".$year. substr($cnt, strlen($cnt)-3);
         }
         $sql="Insert Into b_customer(cust_id, cust_code, cust_name_t, cust_address_t, tele, email, tax_id, active, date_create) "
-                ."Values(UUID(),'".$cust_code."','".$cust_name_t."','".$cust_address_t."','".$tele."','".$email."','".$tax_id."','1',now())";
+                ."Values(UUID(),'".$cnt."','".$cust_name_t."','".$cust_address_t."','".$tele."','".$email."','".$tax_id."','1',now())";
     }else{
         $sql="Update b_customer "
                 ."Set cust_code = '".$cust_code."' "

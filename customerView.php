@@ -351,7 +351,7 @@ mysqli_close($conn);
 	});
         $("#btnCustAdd").click(showCustAdd);
         function showCustAdd(){
-            alert("aaaa");
+            //alert("aaaa");
             window.location.assign('#customerAdd.php');
         }
 

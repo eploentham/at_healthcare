@@ -192,9 +192,23 @@ mysqli_close($conn);
                             </fieldset>
                             
                             <footer>
-                                <button type="button" id="btnSave" class="btn btn-primary">
-                                        บันทึกข้อมูล
-                                </button>
+                                <div class="row">
+                                    <section class="col col-3 left">
+                                        <button type="button" id="btnSave" class="btn btn-primary">
+                                            บันทึกข้อมูล
+                                        </button>
+                                    </section>
+                                    <section class="col col-6 right-inner">
+                                        &nbsp;
+                                    </section>
+                                    <section class="col col-11 ">
+                                        <ul class="demo-btns">
+                                            <li>
+                                                <a href="javascript:void(0);" class="btn bg-color-blue txt-color-white"><i id="loading" class="fa fa-gear fa-2x fa-spin"></i></a>
+                                            </li>
+                                        </ul>
+                                    </section>
+                                </div>
                             </footer>
                         </form>						
 
@@ -351,6 +365,7 @@ mysqli_close($conn);
 	
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
+        $("#loading").removeClass("fa-spin");
         $("#custAlert").hide();
         $("#cuProv").change(getAmphur);
         $("#cuAmphur").change(getDistrict);
@@ -424,6 +439,7 @@ mysqli_close($conn);
         }
         function saveCust(){
             //alert('aaaaa');
+            $("#loading").addClass("fa-spin");
             $.ajax({ 
                 type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', 
                 data: { 'cust_id': $("#cuId").val()
@@ -447,6 +463,7 @@ mysqli_close($conn);
                             title: 'Save Data',
                             content: 'บันทึกข้อมูลเรียบร้อย',
                         });
+                        $("#loading").removeClass("fa-spin");
                     }
 //                    alert('bbbbb '+json_obj.length);
 //                    alert('ccccc '+$("#cDistrict").val());
