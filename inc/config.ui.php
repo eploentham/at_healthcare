@@ -620,7 +620,7 @@ $page_nav = array(
             ),
             "pupoint" => array(
                 "title" => "รายการจุดสั่งซื้อ",
-                "url" => "datatable1.php"
+                "url" => "pupoint.php"
             )
         )
     ),
