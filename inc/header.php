@@ -23,7 +23,7 @@
 
 		<!-- SmartAdmin RTL Support is under construction-->
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>css/smartadmin-rtl.min.css">
-
+                
 		<!-- We recommend you use "your_style.css" to override SmartAdmin
 		     specific styles this will also ensure you retrain your customization with each SmartAdmin update.
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>/css/your_style.css"> -->
@@ -65,6 +65,8 @@
 		<link rel="apple-touch-startup-image" href="<?php echo ASSETS_URL; ?>img/splash/iphone.png" media="screen and (max-device-width: 320px)">
                 
                 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>assets/plugins/jquery-confirm/dist/jquery-confirm.min.css">
+                <link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>css/responsive.dataTables.min.css">
+                <link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>css/jquery.dataTables.min.css">
 	</head>
 	<body <?php echo implode(' ', array_map(function($prop, $value) {
 			return $prop.'="'.$value.'"';

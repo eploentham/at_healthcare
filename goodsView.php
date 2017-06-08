@@ -101,7 +101,7 @@ mysqli_close($conn);
                             <!-- end widget edit box -->
                             <!-- widget content -->
                             <div class="widget-body no-padding">
-                                <table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
+                                <table id="dt_basic" class="table table-striped table-bordered table-hover responsive" width="100%">
                                     <thead>
                                         <tr>
                                             <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>รหัสสินค้า</th>
@@ -138,7 +138,15 @@ mysqli_close($conn);
 
 </section>
 <!-- end widget grid -->
-
+<!-- PAGE RELATED PLUGIN(S) -->
+<script src="<?php echo ASSETS_URL; ?>/js/plugin/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo ASSETS_URL; ?>/js/plugin/datatables/dataTables.colVis.min.js"></script>
+<script src="<?php echo ASSETS_URL; ?>/js/plugin/datatables/dataTables.tableTools.min.js"></script>
+<script src="<?php echo ASSETS_URL; ?>/js/plugin/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo ASSETS_URL; ?>/js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
+<script type="text/javascript">
+    
+</script>
 <script type="text/javascript">
 
 	/* DO NOT REMOVE : GLOBAL FUNCTIONS!
@@ -343,7 +351,6 @@ mysqli_close($conn);
 		});
 		
 		/* END TABLETOOLS */
-
 	};
 
 	// load related plugins

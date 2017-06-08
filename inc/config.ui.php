@@ -617,6 +617,10 @@ $page_nav = array(
             "goods" => array(
                 "title" => "รายการสินค้าทั้งหมด",
                 "url" => "goodsView.php"
+            ),
+            "pupoint" => array(
+                "title" => "รายการจุดสั่งซื้อ",
+                "url" => "datatable1.php"
             )
         )
     ),
