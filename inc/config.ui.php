@@ -621,6 +621,23 @@ $page_nav = array(
             "pupoint" => array(
                 "title" => "รายการจุดสั่งซื้อ",
                 "url" => "pupoint.php"
+            ),
+            "report" => array(
+                "title" => "รายงานประจำวัน",
+                "icon" => "fa-shopping-cart",
+                "sub" => array(
+			"cal" => array(
+				"title" => "รับเข้าประจำวัน",
+				"url" => "ajax/calendar.php",
+				"icon" => "fa-calendar"
+			),
+			"gmap_skins" => array(
+				"title" => "เบิกจ่ายประจำวัน",
+				"url" => "ajax/gmap-xml.php",
+				"icon" => "fa-map-marker",
+                                "label_htm" => '<span class="badge bg-color-greenLight pull-right inbox-badge">9</span>'
+			)
+                )
             )
         )
     ),

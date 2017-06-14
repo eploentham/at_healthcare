@@ -13,12 +13,20 @@ $sql="Select g.*, ifnull(gt.goods_type_name,'') as goods_type_name, ifnull(gc.go
         ."From b_goods g "
         ."Left Join b_goods_type gt On g.goods_type_id = gt.goods_type_id "
         ."Left Join b_goods_catagory gc On g.goods_cat_id = gc.goods_cat_id "
-        ."Where g.active = '1' ";
+        ."Where g.active = '1' and on_hand <= purchase_point ";
 $result = mysqli_query($conn,$sql);
 if($result){
     while($row = mysqli_fetch_array($result)){
         $brName="<a href='#goodsAdd.php?goodsId=".$row["goods_id"]."'>".$row["goods_name"]."</a>";
-        $trCust .= "<tr><td>".$row["goods_code"]."</td><td>".$row["goods_code_ex"]."</td><td>".$brName."</td><td>"
+        $classTr="";
+        if(intval($row["on_hand"]) < intval($row["purchase_point"])){
+            $classTr=" warning ";
+        }else if((intval($row["on_hand"]) - intval($row["purchase_point"])) >=2){
+            $classTr=" success ";
+        }else{
+            $classTr="  ";
+        }
+        $trCust .= "<tr class=' ".$classTr."'><td>".$row["goods_code"]."</td><td>".$row["goods_code_ex"]."</td><td>".$brName."</td><td>"
                 .$row["goods_type_name"]."</td><td>".$row["goods_cat_name"]."</td><td>".$row["on_hand"]."</td><td>".$row["purchase_point"]."</td><td>".$row["purchase_period"]."</td></tr>";
     }
 }else{
@@ -29,7 +37,7 @@ mysqli_close($conn);
 
 ?>
 <div class="row">
-	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4 ">
 		<h1 class="page-title txt-color-blueDark">
 			<i class="fa fa-table fa-fw "></i> 
 				Table 
