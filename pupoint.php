@@ -17,7 +17,8 @@ $sql="Select g.*, ifnull(gt.goods_type_name,'') as goods_type_name, ifnull(gc.go
 $result = mysqli_query($conn,$sql);
 if($result){
     while($row = mysqli_fetch_array($result)){
-        $brName="<a href='#goodsAdd.php?goodsId=".$row["goods_id"]."'>".$row["goods_name"]."</a>";
+//        $brName="<a href='#goodsAdd.php?goodsId=".$row["goods_id"]."'>".$row["goods_name"]."</a>";
+        $brName=$row["goods_name"];
         $classTr="";
         if(intval($row["on_hand"]) < intval($row["purchase_point"])){
             $classTr=" warning ";
@@ -116,7 +117,7 @@ mysqli_close($conn);
 				<div>
 
 					<!-- widget edit box -->
-					<div class="jarviswidget-editbox">
+					<div class="jarviswidget-editbox hidden-print">
 						<!-- This area used as dropdown edit box -->
 
 					</div>
@@ -139,7 +140,7 @@ mysqli_close($conn);
                                                         </tr>-->
                                                         <tr>
                                                             <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>รหัสสินค้า</th>
-                                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> รหัสสินค้า ex</th>
+                                                            <th data-class="expand" class="hidden-print"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs  hidden-print"></i> รหัสสินค้า ex</th>
                                                             <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> ชื่อสินค้า</th>
                                                             <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> ประเภทสินค้า</th>
                                                             <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> ชนิดสินค้า</th>
