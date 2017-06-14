@@ -626,17 +626,17 @@ $page_nav = array(
                 "title" => "รายงานประจำวัน",
                 "icon" => "fa-shopping-cart",
                 "sub" => array(
-			"cal" => array(
-				"title" => "รับเข้าประจำวัน",
-				"url" => "ajax/calendar.php",
-				"icon" => "fa-calendar"
-			),
-			"gmap_skins" => array(
-				"title" => "เบิกจ่ายประจำวัน",
-				"url" => "ajax/gmap-xml.php",
-				"icon" => "fa-map-marker",
-                                "label_htm" => '<span class="badge bg-color-greenLight pull-right inbox-badge">9</span>'
-			)
+                    "cal" => array(
+                            "title" => "รับเข้าประจำวัน",
+                            "url" => "rptDRec.php",
+                            "icon" => "fa-calendar"
+                    ),
+                    "gmap_skins" => array(
+                            "title" => "เบิกจ่ายประจำวัน",
+                            "url" => "ajax/gmap-xml.php",
+                            "icon" => "fa-map-marker",
+                            "label_htm" => '<span class="badge bg-color-greenLight pull-right inbox-badge">9</span>'
+                    )
                 )
             )
         )
