@@ -8,16 +8,16 @@ if (!isset($_SESSION['at_user_staff_name'])) {
     echo "<script>window.location.assign('#login.php');</script>";
 }
 $tr="";
-$conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
-mysqli_set_charset($conn, "UTF8");
-$sql="Select recd.* From t_goods_rec_detail recd Where active = '1' ";
-if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
-    while($row = mysqli_fetch_array($result)){
-        
-    }
-}else{
-    echo mysqli_error($conn);
-}
+//$conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
+//mysqli_set_charset($conn, "UTF8");
+//$sql="Select recd.* From t_goods_rec_detail recd Where active = '1' ";
+//if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
+//    while($row = mysqli_fetch_array($result)){
+//        
+//    }
+//}else{
+//    echo mysqli_error($conn);
+//}
 ?>
 <div class="row">
 	
@@ -49,9 +49,18 @@ if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
                     <input type="radio" name="radio">
                     <i></i>สรุป</label>
         </div>
-        <div class="col col-3">
+        <div class="col col-2">
             <label class="label">&nbsp;&nbsp;</label>
-            <button type="button" class="btn btn-primary btn-lg btn-success" id="btnSearch">ค้นหา :</button>
+            <button type="button" class="btn btn-primary btn-lg btn-primary" id="btnSearch">ค้นหา :</button>
+            
+        </div>
+        <div class="col col-1">
+            <label class="label">&nbsp;&nbsp;</label>
+            <ul class="demo-btns">
+                <li id="uiLoading">
+                    <a href="javascript:void(0);" class="btn btn-sm bg-color-blueDark txt-color-white"><i id="loading" class="fa fa-gear fa-2x fa-spin"></i></a>
+                </li>
+            </ul>
         </div>
     </div>
     <div class="row">
@@ -296,18 +305,32 @@ if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
 		/* END TABLETOOLS */
 
 	};
-
+        $("#uiLoading").hide();
+        $("#btnSearch").click(searchRecDaily);
+        //$("#goCodeCopy").click(codeCopy);
 	// load related plugins
 	
 	loadScript("js/plugin/datatables/jquery.dataTables.min.js", function(){
-		loadScript("js/plugin/datatables/dataTables.colVis.min.js", function(){
-			loadScript("js/plugin/datatables/dataTables.tableTools.min.js", function(){
-				loadScript("js/plugin/datatables/dataTables.bootstrap.min.js", function(){
-					loadScript("js/plugin/datatable-responsive/datatables.responsive.min.js", pagefunction)
-				});
-			});
-		});
+            loadScript("js/plugin/datatables/dataTables.colVis.min.js", function(){
+                loadScript("js/plugin/datatables/dataTables.tableTools.min.js", function(){
+                    loadScript("js/plugin/datatables/dataTables.bootstrap.min.js", function(){
+                        loadScript("js/plugin/datatable-responsive/datatables.responsive.min.js", pagefunction)
+                    });
+                });
+            });
 	});
+        function searchRecDaily(){
+            $("#loading").addClass("fa-spin");
+            $("#uiLoading").show();
+            //$("#btnSearch").addClass("fa-spin");
+            
+            
+            
+            
+            
+            $("#loading").removeClass("fa-spin");
+            $("#uiLoading").hide();
+        }
 
 
 	
