@@ -16,7 +16,7 @@ $page = $_SESSION["at_page"];
                 <div class="well no-padding">
                     <form action="<?php echo APP_URL; ?>" id="login-form" class="smart-form client-form">
                         <header>
-                                Sign In
+                                Sign In<?php echo $page; ?>
                         </header>
 
                         <fieldset>
@@ -70,7 +70,7 @@ $page = $_SESSION["at_page"];
                 for (var i in json_obj){
                     //$("#reRecDoc").val(json_obj[i].doc);
                     //alert('page '+page);
-                    $( "form" ).submit();
+                    //$( "form" ).submit();
                     window.location.assign('#'+page);
                 }
             }

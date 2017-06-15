@@ -1,51 +1,27 @@
-<?php require_once("inc/init.php"); ?>
+<?php 
+session_start();
+require_once("inc/init.php"); 
 
- <?php
- $tr="";
- ?>
+if (!isset($_SESSION['at_user_staff_name'])) {
+    //header("location: #login.php");
+    $_SESSION['at_page'] = "rptDRec.php";
+    echo "<script>window.location.assign('#login.php');</script>";
+}
+$tr="";
+$conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
+mysqli_set_charset($conn, "UTF8");
+$sql="Select recd.* From t_goods_rec_detail recd Where active = '1' ";
+if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
+    while($row = mysqli_fetch_array($result)){
+        
+    }
+}else{
+    echo mysqli_error($conn);
+}
+?>
 <div class="row">
 	
-	<!-- col -->
-	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-		<h1 class="page-title txt-color-blueDark">
-			
-			<!-- PAGE HEADER -->
-			<i class="fa-fw fa fa-home"></i> 
-				Page Header 
-			<span>>  
-				Subtitle
-			</span>
-		</h1>
-	</div>
-	<!-- end col -->
 	
-	<!-- right side of the page with the sparkline graphs -->
-	<!-- col -->
-	<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
-		<!-- sparks -->
-		<ul id="sparks">
-			<li class="sparks-info">
-				<h5> My Income <span class="txt-color-blue">$47,171</span></h5>
-				<div class="sparkline txt-color-blue hidden-mobile hidden-md hidden-sm">
-					1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471
-				</div>
-			</li>
-			<li class="sparks-info">
-				<h5> Site Traffic <span class="txt-color-purple"><i class="fa fa-arrow-circle-up" data-rel="bootstrap-tooltip" title="Increased"></i>&nbsp;45%</span></h5>
-				<div class="sparkline txt-color-purple hidden-mobile hidden-md hidden-sm">
-					110,150,300,130,400,240,220,310,220,300, 270, 210
-				</div>
-			</li>
-			<li class="sparks-info">
-				<h5> Site Orders <span class="txt-color-greenDark"><i class="fa fa-shopping-cart"></i>&nbsp;2447</span></h5>
-				<div class="sparkline txt-color-greenDark hidden-mobile hidden-md hidden-sm">
-					110,150,300,130,400,240,220,310,220,300, 270, 210
-				</div>
-			</li>
-		</ul>
-		<!-- end sparks -->
-	</div>
-	<!-- end col -->
 	
 </div>
  <!-- widget grid -->
@@ -75,7 +51,7 @@
         </div>
         <div class="col col-3">
             <label class="label">&nbsp;&nbsp;</label>
-            <button type="button" class="btn btn-primary btn-lg btn-success" id="btnReAdd">ค้นหา :</button>
+            <button type="button" class="btn btn-primary btn-lg btn-success" id="btnSearch">ค้นหา :</button>
         </div>
     </div>
     <div class="row">
@@ -99,7 +75,7 @@
              <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
                 
                  <header>
-                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <span class="widget-icon"> <i class="fa fa-calendar"></i> </span>
                     <h2>Column Filters </h2>
                 </header>
                  <!-- widget div-->
@@ -111,7 +87,7 @@
                     </div>
                     <!-- widget content -->
                     <div class="widget-body no-padding">
-                        <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                        <table id="datatable_tabletools" class="table table-striped table-bordered" width="100%">
                             <thead>
                                 
                                 <tr>
@@ -127,11 +103,11 @@
                             <?php echo $tr;?>
                         </table>
                     </div>
-                 </div>
-             </div>
-         </article>
-     </div>
- </section>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
  
  
  
@@ -214,6 +190,24 @@
 				tablet : 1024,
 				phone : 480
 			};
+                        $('#dt_basic').dataTable({
+				"sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
+					"t"+
+					"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+				"autoWidth" : true,
+				"preDrawCallback" : function() {
+					// Initialize the responsive datatables helper once.
+					if (!responsiveHelper_dt_basic) {
+						responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
+					}
+				},
+				"rowCallback" : function(nRow) {
+					responsiveHelper_dt_basic.createExpandIcon(nRow);
+				},
+				"drawCallback" : function(oSettings) {
+					responsiveHelper_dt_basic.respond();
+				}
+			});
 
 		/* END BASIC */
 		
@@ -245,7 +239,7 @@
 	    });
 	    
 	    // custom toolbar
-	    $("div.toolbar").html('<div class="text-right"><img src="img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
+	    //$("div.toolbar").html('<div class="text-right"><img src="img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
 	    	   
 	    // Apply the filter
 	    $("#datatable_fixed_column thead th input[type=text]").on( 'keyup change', function () {
@@ -257,6 +251,49 @@
 	            
 	    } );
 	    /* END COLUMN FILTER */   
+            
+            /* TABLETOOLS */
+		$('#datatable_tabletools').dataTable({
+			
+			// Tabletools options: 
+			//   https://datatables.net/extensions/tabletools/button_options
+			"sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'T>r>"+
+					"t"+
+					"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+	        "oTableTools": {
+	        	 "aButtons": [
+	             "copy",
+	             "csv",
+	             "xls",
+	                {
+	                    "sExtends": "pdf",
+	                    "sTitle": "SmartAdmin_PDF",
+	                    "sPdfMessage": "SmartAdmin PDF Export",
+	                    "sPdfSize": "letter"
+	                },
+	             	{
+                    	"sExtends": "print",
+                    	"sMessage": "Generated by SmartAdmin <i>(press Esc to close)</i>"
+                	}
+	             ],
+	            "sSwfPath": "js/plugin/datatables/swf/copy_csv_xls_pdf.swf"
+	        },
+			"autoWidth" : true,
+			"preDrawCallback" : function() {
+				// Initialize the responsive datatables helper once.
+				if (!responsiveHelper_datatable_tabletools) {
+					responsiveHelper_datatable_tabletools = new ResponsiveDatatablesHelper($('#datatable_tabletools'), breakpointDefinition);
+				}
+			},
+			"rowCallback" : function(nRow) {
+				responsiveHelper_datatable_tabletools.createExpandIcon(nRow);
+			},
+			"drawCallback" : function(oSettings) {
+				responsiveHelper_datatable_tabletools.respond();
+			}
+		});
+		
+		/* END TABLETOOLS */
 
 	};
 

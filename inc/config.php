@@ -6,13 +6,13 @@ $databaseName="at_healthcare";
 $hostDB="localhost";
 $userDB="root";
 $passDB="";
-session_start();
+//session_start();
 //ob_start();
 //$_SESSION['at_healthcare.user']="";
 
-//$userDB="athealtcare";
-//$passDB="Srb!g302";
-//$hostDB="mysql-5.5.chaiyohosting.com";
+$userDB="athealtcare";
+$passDB="Srb!g302";
+$hostDB="mysql-5.5.chaiyohosting.com";
 $acompType = array();
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");

@@ -1,6 +1,7 @@
-<?php require_once("inc/init.php"); ?>
-<?php
+<?php 
 session_start();
+require_once("inc/init.php"); 
+
 if (!isset($_SESSION['at_user_staff_name'])) {
     //header("location: #login.php");
     $_SESSION['at_page'] ="goodsView.php";
