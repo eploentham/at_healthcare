@@ -8,24 +8,39 @@ if (!isset($_SESSION['at_user_staff_name'])) {
     echo "<script>window.location.assign('#login.php');</script>";
 }
 $tr="";
-//$conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
-//mysqli_set_charset($conn, "UTF8");
-//$sql="Select recd.* From t_goods_rec_detail recd Where active = '1' ";
-//if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
-//    while($row = mysqli_fetch_array($result)){
-//        
-//    }
-//}else{
-//    echo mysqli_error($conn);
-//}
+$conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
+mysqli_set_charset($conn, "UTF8");
+
+$recDate1=substr($_GET["reRecDate1"],strlen($_GET["reRecDate1"])-4)."-".substr($_GET["reRecDate1"],3,2)."-".substr($_GET["reRecDate1"],0,2);
+$recDate2=substr($_GET["reRecDate2"],strlen($_GET["reRecDate2"])-4)."-".substr($_GET["reRecDate2"],3,2)."-".substr($_GET["reRecDate2"],0,2);
+$sql="Select rec.rec_doc, go.goods_code, go.goods_name, recd.qty, un.unit_name,rec.rec_date "
+    ."From t_goods_rec_detail recd "
+    ."Left Join t_goods_rec rec On recd.rec_id = rec.rec_id "
+    ."Left Join b_goods go On recd.goods_id = go.goods_id "
+    ."Left Join b_unit un On recd.unit_id = un.unit_id "
+    ."Where rec.rec_date >= '".$recDate1."' and rec.rec_date <= '".$recDate2."' and rec.active='1' ";
+
+if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
+    //$tr="<tr><td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+    while($row = mysqli_fetch_array($result)){
+        $tr .= "<tr><td>".$row["rec_doc"]."</td><td>"
+            .$row["rec_date"]."</td><td>"
+            .$row["goods_code"]."</td><td>"
+            .$row["goods_name"]."</td><td>"
+            .$row["qty"]."</td><td>"
+            .$row["unit_name"]."</td><td></td></tr>";
+    }
+}else{
+    $tr="<tr><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+    echo mysqli_error($conn);
+}
 ?>
 <div class="row">
 	
 	
-	
 </div>
  <!-- widget grid -->
-<form action="" id="smart-form-register" class="smart-form">
+ <form action="" id="smart-form-register" class="smart-form" method="GET">
     <div class="row">
         <div class="col col-3">&nbsp;
             
@@ -33,13 +48,13 @@ $tr="";
         <div class="col col-2">
             <label class="label">วันที่รับสินค้า</label>
             <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                <input type="text" name="reRecDate" id="reRecDate1" value="" placeholder="วันที่รับสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
+                <input type="text" name="reRecDate1" id="reRecDate1" value="<?php echo $recDate1?>" placeholder="วันที่รับสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
 
         </div>
         <div class="col col-2">
             <label class="label">ถึงวันที่</label>
             <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                <input type="text" name="reRecDate" id="reRecDate2" value="" placeholder="ถึงวันที่" class="datepicker" data-date-format="dd/mm/yyyy">
+                <input type="text" name="reRecDate2" id="reRecDate2" value="<?php echo $recDate2?>" placeholder="ถึงวันที่" class="datepicker" data-date-format="dd/mm/yyyy">
         </div>
         <div class="col col-2">
             <label class="radio">
@@ -100,16 +115,17 @@ $tr="";
                             <thead>
                                 
                                 <tr>
-                                <th data-class="expand">Order ID</th>
-                                <th >Cust ID / Phn</th>
-                                <th data-hide="phone, tablet">Purchase</th>
-                                <th data-hide="phone, tablet">Delivery</th>
-                                <th data-hide="phone,tablet">Base Price</th>
-                                <th data-hide="phone,tablet">Postal/Zip</th>
+                                <th data-class="expand">เลขที่เอกสาร</th>
+                                <th >วันที่รับสินค้า</th>
+                                <th data-hide="phone, tablet">รหัส</th>
+                                <th data-hide="phone, tablet">ชื่อสินค้า</th>
+                                <th data-hide="phone,tablet">จำนวน</th>
+                                <th data-hide="phone,tablet">Unit</th>
                                 <th>Status</th>
                                 </tr>
                             </thead>
                             <?php echo $tr;?>
+                            
                         </table>
                     </div>
                 </div>
@@ -306,7 +322,7 @@ $tr="";
 
 	};
         $("#uiLoading").hide();
-        $("#btnSearch").click(searchRecDaily);
+        $("#btnSearch").click(submitRecDaily);
         //$("#goCodeCopy").click(codeCopy);
 	// load related plugins
 	
@@ -319,15 +335,48 @@ $tr="";
                 });
             });
 	});
+        function submitRecDaily(){
+            $( "#smart-form-register" ).submit();
+        }
         function searchRecDaily(){
             $("#loading").addClass("fa-spin");
             $("#uiLoading").show();
             //$("#btnSearch").addClass("fa-spin");
+            $.ajax({
+                type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', data: { 
+                    'rec_date1': $("#reRecDate1").val(),'rec_date2': $("#reRecDate2").val(), 'flagPage':"rpt_daily_rec_detail" }, 
+                success: function (data) {
+//                    alert('bbbbb'+data);
+                    var json_obj = $.parseJSON(data);
+//                    alert('bbbbb '+json_obj.length);
+//                    alert('ccccc '+$("#cDistrict").val());
+                    //$("#cZipcode").val("aaaa");
+                    for (var i in json_obj){
+                        var newRow = "<tr><td>"+json_obj[i].rec_doc+"</td><td>"
+                                +json_obj[i].rec_date+"</td><td>"
+                                +json_obj[i].goods_code+"</td><td>"
+                                +json_obj[i].goods_name+"</td><td>"
+                                +json_obj[i].qty+"</td><td>"
+                                +json_obj[i].unit_name+"</td><td></td></tr>";
+                        $("#datatable_tabletools tbody").append(newRow);
+//                        if(json_obj[i].goods_name!=null) {
+//                            $("#reGoName").val(json_obj[i].goods_name1);
+//                        }
+//                        if(json_obj[i].price!=null) {
+//                            $("#reGoPrice").val(json_obj[i].cost);
+//                        }
+//                        if(json_obj[i].goods_id!=null) {
+//                            $("#reGoId").val(json_obj[i].goods_id);
+//                        }
+//                        if(json_obj[i].unit_id!=null) {
+//                            //$("#reGoId").val(json_obj[i].unit_id);
+//                            $('#reGoUnit').val(json_obj[i].unit_id);
+//                        }
+                    }
+                }
+            });
             
-            
-            
-            
-            
+                        
             $("#loading").removeClass("fa-spin");
             $("#uiLoading").hide();
         }

@@ -232,6 +232,30 @@ if($_GET['flagPage']=="amphur"){
         }
         $result->free();
     }
+}else if($_GET['flagPage']=="rpt_daily_rec_detail"){
+    $recDate1=substr($_GET["rec_date1"],strlen($_GET["rec_date1"])-4)."-".substr($_GET["rec_date1"],3,2)."-".substr($_GET["rec_date1"],0,2);
+    $recDate2=substr($_GET["rec_date2"],strlen($_GET["rec_date2"])-4)."-".substr($_GET["rec_date2"],3,2)."-".substr($_GET["rec_date2"],0,2);
+    $sql="Select rec.rec_doc, go.goods_code, go.goods_name, recd.qty, un.unit_name,rec.rec_date "
+        ."From t_goods_rec_detail recd "
+        ."Left Join t_goods_rec rec On recd.rec_id = rec.rec_id "
+        ."Left Join b_goods go On recd.goods_id = go.goods_id "
+        ."Left Join b_unit un On recd.unit_id = un.unit_id "
+        ."Where rec.rec_date >= '".$recDate1."' and rec.rec_date <= '".$recDate2."' and rec.active='1' ";
+    if ($result=mysqli_query($conn,$sql) or die(mysqli_error($conn))){
+        while($row = mysqli_fetch_array($result)){
+            $tmp = array();
+            $tmp["rec_doc"] = $row["rec_doc"];
+            $tmp["goods_code"] = $row["goods_code"];
+            $tmp["goods_name"] = $row["goods_name"];
+            $tmp["qty"] = $row["qty"];
+            $tmp["unit_name"] = $row["unit_name"];
+            $tmp["rec_date"] = $row["rec_date"];
+            array_push($resultArray,$tmp);
+        }
+        $result->free();
+    }else{
+        
+    }
 }
 
 mysqli_close($conn);
