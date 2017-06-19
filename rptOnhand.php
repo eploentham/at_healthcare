@@ -1,106 +1,94 @@
-<?php 
+<?php require_once("inc/init.php"); ?>
+<?php
 session_start();
-require_once("inc/init.php"); 
-
 if (!isset($_SESSION['at_user_staff_name'])) {
     //header("location: #login.php");
-    $_SESSION['at_page'] = "rptDRec.php";
+    $_SESSION['at_page'] ="goodsView.php";
     echo "<script>window.location.assign('#login.php');</script>";
 }
-$tr="";
+$trCust="";
+$oCat="";
+$oType="";
+$goTypeId="";
+$goCatId="";
+$whereType="";
+$whereCat="";
+if(!empty($_GET["goType"])){
+    $goTypeId=$_GET["goType"];
+    $whereType = " and gt.goods_type_id = '".$goTypeId."'";
+}
+if(!empty($_GET["goCat"])){
+    $goCatId=$_GET["goCat"];
+    $whereCat = " and gc.goods_cat_id = '".$goCatId."'";
+}
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
-$recDate1="";
-$recDate2="";
-$recDate11="";
-$recDate21="";
-$chkDailyCheck="";
-$chkSummaryCheck="";
-if(!empty($_GET["reRecDate1"])){
-    $recDate11=$_GET["reRecDate1"];
-    $recDate1=substr($_GET["reRecDate1"],strlen($_GET["reRecDate1"])-4)."-".substr($_GET["reRecDate1"],3,2)."-".substr($_GET["reRecDate1"],0,2);
-}
-if(!empty($_GET["reRecDate2"])){
-    $recDate21=$_GET["reRecDate2"];
-    $recDate2=substr($_GET["reRecDate2"],strlen($_GET["reRecDate2"])-4)."-".substr($_GET["reRecDate2"],3,2)."-".substr($_GET["reRecDate2"],0,2);
-}
-if(!empty($_GET["radio1"]) && $_GET["radio1"]=="daily"){
-    $chkDailyCheck="checked='checked'";
-    $sql="Select rec.rec_doc, go.goods_code, go.goods_name, recd.qty, un.unit_name,rec.rec_date "
-    ."From t_goods_rec_detail recd "
-    ."Left Join t_goods_rec rec On recd.rec_id = rec.rec_id "
-    ."Left Join b_goods go On recd.goods_id = go.goods_id "
-    ."Left Join b_unit un On recd.unit_id = un.unit_id "
-    ."Where rec.rec_date >= '".$recDate1."' and rec.rec_date <= '".$recDate2."' and rec.active='1' ";
-    if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
-        //$tr="<tr><td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
-        while($row = mysqli_fetch_array($result)){
-            $tr .= "<tr><td>".$row["rec_doc"]."</td><td>"
-                .$row["rec_date"]."</td><td>"
-                .$row["goods_code"]."</td><td>"
-                .$row["goods_name"]."</td><td>"
-                .$row["qty"]."</td><td>"
-                .$row["unit_name"]."</td><td></td></tr>";
-        }
-    }else{
-        $tr="<tr><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
-        echo mysqli_error($conn);
+$sql="Select g.*, ifnull(gt.goods_type_name,'') as goods_type_name, ifnull(gc.goods_cat_name,'') as goods_cat_name "
+        ."From b_goods g "
+        ."Left Join b_goods_type gt On g.goods_type_id = gt.goods_type_id "
+        ."Left Join b_goods_catagory gc On g.goods_cat_id = gc.goods_cat_id "
+        ."Where g.active = '1' and g.on_hand > 0 ".$whereType.$whereCat;
+$result = mysqli_query($conn,$sql);
+if($result){
+    while($row = mysqli_fetch_array($result)){
+        $brName="<a href='#goodsAdd.php?goodsId=".$row["goods_id"]."'>".$row["goods_name"]."</a>";
+        $trCust .= "<tr><td>".$row["goods_code"]."</td><td>".$row["goods_code_ex"]."</td><td>".$brName."</td><td>"
+                .$row["goods_type_name"]."</td><td>".$row["goods_cat_name"]."</td><td>".$row["on_hand"]."</td><td>".$row["purchase_point"]."</td><td>".$row["purchase_period"]."</td></tr>";
     }
 }else{
-    $chkSummaryCheck="checked='checked'";
-    $sql="Select go.goods_code, go.goods_name, sum(recd.qty) as qty, un.unit_name "
-    ."From t_goods_rec_detail recd "
-    ."Left Join t_goods_rec rec On recd.rec_id = rec.rec_id "
-    ."Left Join b_goods go On recd.goods_id = go.goods_id "
-    ."Left Join b_unit un On recd.unit_id = un.unit_id "
-    ."Where rec.rec_date >= '".$recDate1."' and rec.rec_date <= '".$recDate2."' and rec.active='1' "
-    ." Group By  go.goods_code, go.goods_name, un.unit_name ";
-    if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
-        //$tr="<tr><td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
-        while($row = mysqli_fetch_array($result)){
-            $tr.= "<tr><td></td><td></td><td>"
-                .$row["goods_code"]."</td><td>"
-                .$row["goods_name"]."</td><td>"
-                .$row["qty"]."</td><td>"
-                .$row["unit_name"]."</td><td></td></tr>";
+    echo mysqli_error($conn);
+}
+
+$sql="Select * From b_goods_type Order By sort1, goods_type_name";
+//$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
+if ($result=mysqli_query($conn,$sql)){
+    $oType = "<option value='0' selected='' disabled=''>เลือก ประะเภทสินค้า</option>";
+    while($row = mysqli_fetch_array($result)){
+        if($goTypeId===$row["goods_type_id"]){
+            $oType .= '<option selected value='.$row["goods_type_id"].'>'.$row["goods_type_name"].'</option>';
+        }else{
+            $oType .= '<option value='.$row["goods_type_id"].'>'.$row["goods_type_name"].'</option>';
         }
-    }else{
-        $tr="<tr><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
-        echo mysqli_error($conn);
+    }
+}
+$sql="Select * From b_goods_catagory Order By goods_cat_name";
+//$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
+if ($result=mysqli_query($conn,$sql)){
+    $oCat = "<option value='0' selected='' disabled=''>เลือก ชนิดสินค้า</option>";
+    while($row = mysqli_fetch_array($result)){
+        if($goCatId===$row["goods_cat_id"]){
+            $oCat .= '<option selected value='.$row["goods_cat_id"].'>'.$row["goods_cat_name"].'</option>';
+        }else{
+            $oCat .= '<option value='.$row["goods_cat_id"].'>'.$row["goods_cat_name"].'</option>';
+        }
     }
 }
 
+$result->free();
+mysqli_close($conn);
 
 ?>
-<div class="row">
-	
-	
-</div>
- <!-- widget grid -->
- <form action="" id="smart-form-register" class="smart-form" method="GET">
+<form action="" id="smart-form-register" class="smart-form" method="GET">
     <div class="row">
         <div class="col col-3">&nbsp;
             
         </div>
         <div class="col col-2">
-            <label class="label">วันที่รับสินค้า</label>
-            <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                <input type="text" name="reRecDate1" id="reRecDate1" value="<?php echo $recDate11?>" placeholder="วันที่รับสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
+            <label class="label">ประเภทสินค้า</label>
+            <label class="select" id="goType1">
+                <select name="goType" id="goType">
+                    <?php echo $oType;?>
+                </select> <i></i> </label>
 
         </div>
         <div class="col col-2">
-            <label class="label">ถึงวันที่</label>
-            <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                <input type="text" name="reRecDate2" id="reRecDate2" value="<?php echo $recDate21?>" placeholder="ถึงวันที่" class="datepicker" data-date-format="dd/mm/yyyy">
+            <label class="label">ชนิดสินค้า</label>
+            <label class="select">
+                <select name="goCat" id="goCat">
+                    <?php echo $oCat;?>
+                </select> <i></i> </label>
         </div>
-        <div class="col col-2">
-            <label class="radio">
-                <input type="radio" name="radio1" id="chkDaily" <?php echo $chkDailyCheck;?> value="daily">
-                    <i></i>ประจำวัน</label>
-            <label class="radio">
-                <input type="radio" name="radio1" id="chkSummary" <?php echo $chkSummaryCheck;?> value="summary">
-                    <i></i>สรุป</label>
-        </div>
+       
         <div class="col col-2">
             <label class="label">&nbsp;&nbsp;</label>
             <button type="button" class="btn btn-primary btn-lg btn-primary" id="btnSearch">ค้นหา :</button>
@@ -120,60 +108,77 @@ if(!empty($_GET["radio1"]) && $_GET["radio1"]=="daily"){
     </div>
 </form>
 
-<div class="content"></div>
-    
-
+<!-- widget grid -->
 <section id="widget-grid" class="">
-    
-    
-    
-    <div class="row">
-         <!-- NEW WIDGET START -->
-        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            
-            
-             <!-- Widget ID (each widget will need unique ID)-->
-             <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
-                
-                 <header>
-                    <span class="widget-icon"> <i class="fa fa-calendar"></i> </span>
-                    <h2>Column Filters </h2>
-                </header>
-                 <!-- widget div-->
-                 <div>
-                     <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                            <!-- This area used as dropdown edit box -->
 
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                    <!-- Widget ID (each widget will need unique ID)-->
+                    <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
+                        <!-- widget options:
+                        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                        data-widget-colorbutton="false"
+                        data-widget-editbutton="false"
+                        data-widget-togglebutton="false"
+                        data-widget-deletebutton="false"
+                        data-widget-fullscreenbutton="false"
+                        data-widget-custombutton="false"
+                        data-widget-collapsed="true"
+                        data-widget-sortable="false"
+
+                        -->
+                        <header>
+                                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                                <h2>Standard Data Tables </h2>
+
+                        </header>
+
+                        <!-- widget div-->
+                        <div>
+                            <!-- widget edit box -->
+                            <div class="jarviswidget-editbox">
+                                    <!-- This area used as dropdown edit box -->
+                            </div>
+                            <!-- end widget edit box -->
+                            <!-- widget content -->
+                            <div class="widget-body no-padding">
+                                <table id="dt_basic" class="table table-striped table-bordered table-hover responsive" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>รหัสสินค้า</th>
+                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> รหัสสินค้า ex</th>
+                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> ชื่อสินค้า</th>
+                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> ประเภทสินค้า</th>
+                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> ชนิดสินค้า</th>
+                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> onhand</th>
+                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Pu Piont</th>
+                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Pu Period</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                            <?php echo $trCust;?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- end widget content -->
+                        </div>
+                        <!-- end widget div -->
                     </div>
-                    <!-- widget content -->
-                    <div class="widget-body no-padding">
-                        <table id="datatable_tabletools" class="table table-striped table-bordered" width="100%">
-                            <thead>
-                                <tr>
-                                <th data-class="expand">เลขที่เอกสาร</th>
-                                <th >วันที่รับสินค้า</th>
-                                <th data-hide="phone, tablet">รหัส</th>
-                                <th data-hide="phone, tablet">ชื่อสินค้า</th>
-                                <th data-hide="phone,tablet">จำนวน</th>
-                                <th data-hide="phone,tablet">Unit</th>
-                                <th>Status</th>
-                                </tr>
-                            </thead>
-                            <?php echo $tr;?>
-                            
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </article>
-    </div>
+			
+		</article>
+		<!-- WIDGET END -->
+	</div>
+	<!-- end row -->
+
+	<!-- end row -->
+
 </section>
- 
- 
- 
- 
- <script type="text/javascript">
+<script type="text/javascript">
 
 
 	/* DO NOT REMOVE : GLOBAL FUNCTIONS!

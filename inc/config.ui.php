@@ -633,7 +633,13 @@ $page_nav = array(
                     ),
                     "gmap_skins" => array(
                             "title" => "เบิกจ่ายประจำวัน",
-                            "url" => "ajax/gmap-xml.php",
+                            "url" => "rptDDraw.php",
+                            "icon" => "fa-map-marker",
+                            "label_htm" => '<span class="badge bg-color-greenLight pull-right inbox-badge">9</span>'
+                    ),
+                    "gmap_skins1" => array(
+                            "title" => "สินค้าคงเหลือ",
+                            "url" => "rptOnhand.php",
                             "icon" => "fa-map-marker",
                             "label_htm" => '<span class="badge bg-color-greenLight pull-right inbox-badge">9</span>'
                     )

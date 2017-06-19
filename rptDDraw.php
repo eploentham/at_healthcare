@@ -4,7 +4,7 @@ require_once("inc/init.php");
 
 if (!isset($_SESSION['at_user_staff_name'])) {
     //header("location: #login.php");
-    $_SESSION['at_page'] = "rptDRec.php";
+    $_SESSION['at_page'] = "rptDDraw.php";
     echo "<script>window.location.assign('#login.php');</script>";
 }
 $tr="";
@@ -16,13 +16,13 @@ $recDate11="";
 $recDate21="";
 $chkDailyCheck="";
 $chkSummaryCheck="";
-if(!empty($_GET["reRecDate1"])){
-    $recDate11=$_GET["reRecDate1"];
-    $recDate1=substr($_GET["reRecDate1"],strlen($_GET["reRecDate1"])-4)."-".substr($_GET["reRecDate1"],3,2)."-".substr($_GET["reRecDate1"],0,2);
+if(!empty($_GET["reDrawDate1"])){
+    $recDate11=$_GET["reDrawDate1"];
+    $recDate1=substr($_GET["reDrawDate1"],strlen($_GET["reDrawDate1"])-4)."-".substr($_GET["reDrawDate1"],3,2)."-".substr($_GET["reDrawDate1"],0,2);
 }
-if(!empty($_GET["reRecDate2"])){
-    $recDate21=$_GET["reRecDate2"];
-    $recDate2=substr($_GET["reRecDate2"],strlen($_GET["reRecDate2"])-4)."-".substr($_GET["reRecDate2"],3,2)."-".substr($_GET["reRecDate2"],0,2);
+if(!empty($_GET["reDrawDate2"])){
+    $recDate21=$_GET["reDrawDate2"];
+    $recDate2=substr($_GET["reDrawDate2"],strlen($_GET["reDrawDate2"])-4)."-".substr($_GET["reDrawDate2"],3,2)."-".substr($_GET["reDrawDate2"],0,2);
 }
 if(!empty($_GET["radio1"]) && $_GET["radio1"]=="daily"){
     $chkDailyCheck="checked='checked'";
@@ -83,15 +83,15 @@ if(!empty($_GET["radio1"]) && $_GET["radio1"]=="daily"){
             
         </div>
         <div class="col col-2">
-            <label class="label">วันที่รับสินค้า</label>
+            <label class="label">วันที่เบิกสินค้า</label>
             <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                <input type="text" name="reRecDate1" id="reRecDate1" value="<?php echo $recDate11?>" placeholder="วันที่รับสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
+                <input type="text" name="reDrawDate1" id="reDrawDate1" value="<?php echo $recDate11?>" placeholder="วันที่เบิกสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
 
         </div>
         <div class="col col-2">
             <label class="label">ถึงวันที่</label>
             <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                <input type="text" name="reRecDate2" id="reRecDate2" value="<?php echo $recDate21?>" placeholder="ถึงวันที่" class="datepicker" data-date-format="dd/mm/yyyy">
+                <input type="text" name="reDrawDate2" id="reDrawDate2" value="<?php echo $recDate21?>" placeholder="ถึงวันที่" class="datepicker" data-date-format="dd/mm/yyyy">
         </div>
         <div class="col col-2">
             <label class="radio">
@@ -152,7 +152,7 @@ if(!empty($_GET["radio1"]) && $_GET["radio1"]=="daily"){
                             <thead>
                                 <tr>
                                 <th data-class="expand">เลขที่เอกสาร</th>
-                                <th >วันที่รับสินค้า</th>
+                                <th >วันที่เบิกสินค้า</th>
                                 <th data-hide="phone, tablet">รหัส</th>
                                 <th data-hide="phone, tablet">ชื่อสินค้า</th>
                                 <th data-hide="phone,tablet">จำนวน</th>
@@ -358,7 +358,7 @@ if(!empty($_GET["radio1"]) && $_GET["radio1"]=="daily"){
 
 	};
         $("#uiLoading").hide();
-        $("#btnSearch").click(submitRecDaily);
+        $("#btnSearch").click(submitDrawDaily);
         //$("#goCodeCopy").click(codeCopy);
 	// load related plugins
 	
@@ -371,7 +371,7 @@ if(!empty($_GET["radio1"]) && $_GET["radio1"]=="daily"){
                 });
             });
 	});
-        function submitRecDaily(){
+        function submitDrawDaily(){
             $( "#smart-form-register" ).submit();
         }
         function searchRecDaily(){
