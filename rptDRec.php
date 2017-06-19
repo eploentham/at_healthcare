@@ -10,9 +10,16 @@ if (!isset($_SESSION['at_user_staff_name'])) {
 $tr="";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
-
-$recDate1=substr($_GET["reRecDate1"],strlen($_GET["reRecDate1"])-4)."-".substr($_GET["reRecDate1"],3,2)."-".substr($_GET["reRecDate1"],0,2);
-$recDate2=substr($_GET["reRecDate2"],strlen($_GET["reRecDate2"])-4)."-".substr($_GET["reRecDate2"],3,2)."-".substr($_GET["reRecDate2"],0,2);
+$recDate1="";
+$recDate2="";
+if(!empty($_GET["reRecDate1"])){
+    $recDate11=$_GET["reRecDate1"];
+    $recDate1=substr($_GET["reRecDate1"],strlen($_GET["reRecDate1"])-4)."-".substr($_GET["reRecDate1"],3,2)."-".substr($_GET["reRecDate1"],0,2);
+}
+if(!empty($_GET["reRecDate2"])){
+    $recDate21=$_GET["reRecDate2"];
+    $recDate2=substr($_GET["reRecDate2"],strlen($_GET["reRecDate2"])-4)."-".substr($_GET["reRecDate2"],3,2)."-".substr($_GET["reRecDate2"],0,2);
+}
 $sql="Select rec.rec_doc, go.goods_code, go.goods_name, recd.qty, un.unit_name,rec.rec_date "
     ."From t_goods_rec_detail recd "
     ."Left Join t_goods_rec rec On recd.rec_id = rec.rec_id "
@@ -48,13 +55,13 @@ if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
         <div class="col col-2">
             <label class="label">วันที่รับสินค้า</label>
             <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                <input type="text" name="reRecDate1" id="reRecDate1" value="<?php echo $recDate1?>" placeholder="วันที่รับสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
+                <input type="text" name="reRecDate1" id="reRecDate1" value="<?php echo $recDate11?>" placeholder="วันที่รับสินค้า" class="datepicker" data-date-format="dd/mm/yyyy">
 
         </div>
         <div class="col col-2">
             <label class="label">ถึงวันที่</label>
             <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                <input type="text" name="reRecDate2" id="reRecDate2" value="<?php echo $recDate2?>" placeholder="ถึงวันที่" class="datepicker" data-date-format="dd/mm/yyyy">
+                <input type="text" name="reRecDate2" id="reRecDate2" value="<?php echo $recDate21?>" placeholder="ถึงวันที่" class="datepicker" data-date-format="dd/mm/yyyy">
         </div>
         <div class="col col-2">
             <label class="radio">
