@@ -16,7 +16,7 @@ $page = $_SESSION["at_page"];
                 <div class="well no-padding">
                     <form action="<?php echo APP_URL; ?>" id="login-form" class="smart-form client-form">
                         <header>
-                                Sign In<?php echo $page; ?>
+                                Sign In<?php //echo $page; ?>
                         </header>
 
                         <fieldset>
