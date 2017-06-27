@@ -1,4 +1,4 @@
-<?
+<?php
 $allow_url_override = 1; // Set to 0 to not allow changed VIA POST or GET
 if(!$allow_url_override || !isset($file_to_include))
 {
@@ -21,7 +21,7 @@ if(!$allow_url_override || !isset($force_nobr))
 	$force_nobr = 1;  //Force the info in cells not to wrap unless stated explicitly (newline)
 }
 
-require_once 'Excel/reader.php';
+require_once 'excel/reader.php';
 $data = new Spreadsheet_Excel_Reader();
 $data->setOutputEncoding('CPa25a');
 $data->read($file_to_include);

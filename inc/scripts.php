@@ -86,4 +86,7 @@
                 <script src="<?php echo ASSETS_URL; ?>js/plugin/datatables/dataTables.bootstrap.min.js"></script>
                 <script src="<?php echo ASSETS_URL; ?>js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
                 <script src="<?php echo ASSETS_URL; ?>js/plugin/datatable-responsive/jquery.dataTables.min.js"></script>
+                <script src="<?php echo ASSETS_URL; ?>js/plugin/datatable-responsive/jquery.dataTables.min.js"></script>
+                
+                
                 

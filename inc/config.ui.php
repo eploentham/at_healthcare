@@ -647,6 +647,16 @@ $page_nav = array(
             )
         )
     ),
+    "PowerLAB" => array(
+        "title" => "AT PowerLAB",
+        "icon" => "fa-table",
+        "sub" => array(
+            "comp" => array(
+                "title" => "รับข้อมูลจาก สาขา",
+                "url" => "labReceive.php"
+            )
+        )
+    ),
     "company" => array(
         "title" => "บริษัท",
         "icon" => "fa-table",
