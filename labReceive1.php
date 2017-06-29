@@ -84,13 +84,13 @@ mysqli_close($conn);
 				-->
 				<header>
 					<span class="widget-icon"> <i class="fa fa-cloud"></i> </span>
-					<h2>My Dropzone! </h2>
+					<h2>วางFile Excel </h2>
 
 				</header>
 
 				<!-- widget div-->
-				<div>
-
+                                <div class="row">
+                                    <div class="col col-lg-8"> 
 					<!-- widget edit box -->
 					<div class="jarviswidget-editbox">
 						<!-- This area used as dropdown edit box -->
@@ -99,16 +99,52 @@ mysqli_close($conn);
 					<!-- end widget edit box -->
 
 					<!-- widget content -->
-					<div class="widget-body">
-
-						<form action="upload.php" class="dropzone" id="mydropzone"></form>
-
+					<div class="widget-body col col-lg-4">
+                                            <form action="upload.php" class="dropzone" id="mydropzone">
+                                                
+                                            </form>
 					</div>
+                                        <form action="" id="smart-form-register" class="smart-form">
+                                        <fieldset>
+                                            <div class="row">
+                                                <div class="col col-lg-6">
+                                                    <section class="col col-6">
+                                                        <label class="label">ประเภทสินค้า</label>
+                                                        <label class="select" id="goType1">
+                                                            <select id="cboMonth">
+                                                                <option value="1">บางนา1</option>
+                                                                <option value="1">บางนา2</option>
+                                                                <option value="1">บางนา5</option>
+                                                            </select> <i></i> </label>
+                                                    </section>
+                                                    <section class="col col-6">
+                                                        <label class="label">ประเภทสินค้า</label>
+                                                        <label class="select" id="goType1">
+                                                            <select id="cboPeriod">
+                                                                <option value="1">งวดต้นเดือน</option>
+                                                                <option value="2">งวดสิ้นเดือน</option>
+                                                            </select> <i></i> </label>
+                                                    </section>
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col col-lg-6">
+                                                    <section class="col col-6">
+                                                        <button type="button" id="btnImport" class="btn btn-primary">
+                                                            อ่านข้อมูล
+                                                        </button>
+                                                    </section>
+                                                    
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        </form>
+                                    </div>
 					<!-- end widget content -->
 
 				</div>
 				<!-- end widget div -->
-
 			</div>
 			<!-- end widget -->
 
@@ -193,26 +229,18 @@ mysqli_close($conn);
 	 */
 
 	// PAGE RELATED SCRIPTS
-	
 	// pagefunction
-	
 	var pagefunction = function() {
-		
-		Dropzone.autoDiscover = false;
-		$("#mydropzone").dropzone({
-			//url: "/file/post",
-			addRemoveLinks : true,
-			maxFilesize: 0.5,
-			dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
-			dictResponseError: 'Error uploading file!'
-		});
-		
+            Dropzone.autoDiscover = false;
+            $("#mydropzone").dropzone({
+                    //url: "/file/post",
+                    addRemoveLinks : true,
+                    maxFilesize: 3,
+                    dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
+                    dictResponseError: 'Error uploading file!'
+            });
 	};
-	
 	// end pagefunction
-	
 	// run pagefunction on load
-	
 	loadScript("js/plugin/dropzone/dropzone.min.js", pagefunction);
-
 </script>
