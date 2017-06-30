@@ -227,7 +227,6 @@ mysqli_close($conn);
                             <fieldset>
                                 <div class="row">
                                     <section class="col col-3">
-                                        
                                             <label class="label">เลขที่เอกสาร</label>
                                             <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
                                                 <input type="text" name="reRecDoc" id="reRecDoc" value="<?php echo $reRecDoc;?>" placeholder="เลขที่เอกสาร" <?php echo $backColor;?>>
