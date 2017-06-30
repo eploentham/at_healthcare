@@ -243,4 +243,24 @@ mysqli_close($conn);
 	// end pagefunction
 	// run pagefunction on load
 	loadScript("js/plugin/dropzone/dropzone.min.js", pagefunction);
+        $("#btnImport").click(readExcel);
+        function readExcel(){
+            //alert("111");
+            $.ajax({
+                type: 'GET', url: 'readExcel.php', contentType: "application/json", dataType: 'text', data: {  'flagPage':"void_goods" }, 
+                success: function (data) {
+                    alert('bbbbb'+data);
+                    var json_obj = $.parseJSON(data);
+                    
+                    for (var i in json_obj)
+                    {
+//                        $.alert({
+//                            title: 'Save Data',
+//                            content: 'ยกเลิกข้อมูลเรียบร้อย',
+//                        });
+                        //window.location.assign('#goodsView.php');
+                    }
+                }
+            });
+        }
 </script>
