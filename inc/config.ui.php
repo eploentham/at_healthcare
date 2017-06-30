@@ -653,7 +653,7 @@ $page_nav = array(
         "sub" => array(
             "comp" => array(
                 "title" => "รับข้อมูลจาก สาขา",
-                "url" => "labReceive.php"
+                "url" => "labReceiveView.php"
             )
         )
     ),

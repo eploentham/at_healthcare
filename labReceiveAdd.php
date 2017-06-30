@@ -26,15 +26,15 @@ $result->free();
 mysqli_close($conn);
 ?>
 <div class="row">
-	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-		<h1 class="page-title txt-color-blueDark">
-			<i class="fa fa-pencil-square-o fa-fw "></i> 
-				Forms
-			<span>> 
-				Dropzone
-			</span>
-		</h1>
-	</div>
+    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+        <h1 class="page-title txt-color-blueDark">
+            <i class="fa fa-pencil-square-o fa-fw "></i> 
+                Forms
+            <span>> 
+                Dropzone
+            </span>
+        </h1>
+    </div>
 	<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
 		<ul id="sparks" class="">
 			<li class="sparks-info">
@@ -107,18 +107,45 @@ mysqli_close($conn);
                                         <form action="" id="smart-form-register" class="smart-form">
                                         <fieldset>
                                             <div class="row">
-                                                <div class="col col-lg-6">
-                                                    <section class="col col-6">
-                                                        <label class="label">ประเภทสินค้า</label>
+                                                <div class="col col-lg-12">
+                                                    <section class="col col-3">
+                                                        <label class="label">สาขา</label>
                                                         <label class="select" id="goType1">
-                                                            <select id="cboMonth">
+                                                            <select id="cboBranch">
                                                                 <option value="1">บางนา1</option>
-                                                                <option value="1">บางนา2</option>
-                                                                <option value="1">บางนา5</option>
+                                                                <option value="2">บางนา2</option>
+                                                                <option value="5">บางนา5</option>
                                                             </select> <i></i> </label>
                                                     </section>
-                                                    <section class="col col-6">
-                                                        <label class="label">ประเภทสินค้า</label>
+                                                    <section class="col col-3">
+                                                        <label class="label">ประจำปี</label>
+                                                        <label class="select" id="goType1">
+                                                            <select id="cboYear">
+                                                                <option value="2017">2017</option>
+                                                                <option value="2018">2018</option>
+                                                                <option value="2019">2019</option>
+                                                            </select> <i></i> </label>
+                                                    </section>
+                                                    <section class="col col-3">
+                                                        <label class="label">เดือน</label>
+                                                        <label class="select" id="goType1">
+                                                            <select id="cboMonth">
+                                                                <option value="1">มกราคม</option>
+                                                                <option value="2">กุมภาพันธ์</option>
+                                                                <option value="3">มีนาคม</option>
+                                                                <option value="4">เมษายน</option>
+                                                                <option value="5">พฤษภาคม</option>
+                                                                <option value="6">มิถุนายน</option>
+                                                                <option value="7">กรกฎาคม</option>
+                                                                <option value="8">สิงหาคม</option>
+                                                                <option value="9">กันยายน</option>
+                                                                <option value="10">ตุลาคม</option>
+                                                                <option value="11">พฤศจิกายน</option>
+                                                                <option value="12">ธันวาคม</option>
+                                                            </select> <i></i> </label>
+                                                    </section>
+                                                    <section class="col col-3">
+                                                        <label class="label">งวด</label>
                                                         <label class="select" id="goType1">
                                                             <select id="cboPeriod">
                                                                 <option value="1">งวดต้นเดือน</option>
@@ -129,13 +156,25 @@ mysqli_close($conn);
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col col-lg-6">
-                                                    <section class="col col-6">
-                                                        <button type="button" id="btnImport" class="btn btn-primary">
+                                                    <section class="col col-3 ">
+                                                        <button type="button" id="btnImport" class="btn btn-labeled btn-primary btn-lg">
                                                             อ่านข้อมูล
                                                         </button>
                                                     </section>
-                                                    
+
+                                                <section class="col col-3 ">
+                                                    <ul class="demo-btns">
+                                                        <li>
+                                                            <a href="javascript:void(0);" class="btn bg-color-blue txt-color-white"><i id="loading" class="fa fa-gear fa-2x fa-spin"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </section>
+                                                <div class="alert alert-block alert-success col col-6"  id="compAlert">
+                                                    <a class="close" data-dismiss="alert" href="#">×</a>
+                                                    <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
+                                                    <p id="compVali">
+                                                            You may also check the form validation by clicking on the form action button. Please try and see the results below!
+                                                    </p>
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -244,21 +283,31 @@ mysqli_close($conn);
 	// run pagefunction on load
 	loadScript("js/plugin/dropzone/dropzone.min.js", pagefunction);
         $("#btnImport").click(readExcel);
+        $("#loading").removeClass("fa-spin");
+        $("#reAlert").hide();
+        $("#compAlert").hide();
         function readExcel(){
             //alert("111");
+            $("#loading").addClass("fa-spin");
             $.ajax({
-                type: 'GET', url: 'readExcel.php', contentType: "application/json", dataType: 'text', data: {  'flagPage':"void_goods" }, 
+                type: 'GET', url: 'readExcel.php', contentType: "application/json", dataType: 'text', data: {  'flagPage':"void_goods"
+                , 'month_id':$("#cboMonth").val(), 'year_id':$("#cboYear").val(), 'period_id':$("#cboPeriod").val(),'branch_id':$("#cboBranch").val()}, 
                 success: function (data) {
-                    alert('bbbbb'+data);
+//                    alert('bbbbb'+data);
                     var json_obj = $.parseJSON(data);
                     
                     for (var i in json_obj)
                     {
-//                        $.alert({
-//                            title: 'Save Data',
-//                            content: 'ยกเลิกข้อมูลเรียบร้อย',
-//                        });
-                        //window.location.assign('#goodsView.php');
+//                        if(json_obj[i].success=="0"){
+                            $("#compAlert").removeClass("alert alert-block alert-danger");
+                            $("#compAlert").addClass("alert alert-block alert-success");
+                            $("#compAlert").empty();
+                            $("#compAlert").append(" บันทึกข้อมูลเรียบร้อย "+json_obj[i].row_cnt+" "+json_obj[i].patient_cnt);
+                            $("#compAlert").show();
+                            $("#loading").removeClass("fa-spin");
+                            
+                            $("#btnImport").prop("disabled", true);
+//                        }
                     }
                 }
             });
