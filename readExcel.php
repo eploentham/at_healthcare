@@ -101,7 +101,18 @@ foreach ($namedDataArray as $result) {
             .", '".$type."', '".$result[6]."', '".str_replace($result[7], "'", "''")."', '".$result[8]."', '".$result[9]."' "
             .", '".$result[10]."', '".$result[11]."', '".$result[12]."', '1')";
     if ($result=mysqli_query($conn,$sql) or die(mysqli_error($conn))){
-        
+//        if($rowCnt==100){
+//            echo "100";
+//        }
+//        if($rowCnt==200){
+//            echo "200";
+//        }
+//        if($rowCnt==300){
+//            echo "300";
+//        }
+//        if($rowCnt==400){
+//            echo "400";
+//        }
     }
 }
 

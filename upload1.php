@@ -12,17 +12,14 @@ if (!empty($_FILES)) {
     if(strpos($_FILES['file']['name'], ".xls")>0){
         $name = substr($name,strpos($_FILES['file']['name'], ".xls"));
     }
-    $year1="";
-    $month="";
-//    $year1=$_GET["cboUear1"];
-//    $month=$_GET["cboMonth1"];
+    //$month=$_GET["cboMonth"];
     $year=date("Y")."-".date("m")."-".date("d")."-".date("h")."".date("m")."".date("s");
     $tempFile = $_FILES['file']['tmp_name'];          //3             
       
     $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;  //4
      
-//    $targetFile =  $targetPath. $_FILES['file']['name'];  //5
-    $targetFile =  $targetPath. $year."-".$year1."-".$month;  //5
+    $targetFile =  $targetPath. $_FILES['file']['name'];  //5
+    //$targetFile =  $targetPath. $year."".$name."@".$month;  //5
  
     move_uploaded_file($tempFile,$targetFile); //6
     echo "<P>FILE UPLOADED TO: $targetFile</P>";

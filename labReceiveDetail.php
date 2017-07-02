@@ -213,10 +213,13 @@ mysqli_close($conn);
                             </fieldset>
                             <footer>
                                 <div class="row">
-                                    <section class="col col-3 left">
-                                        <button type="button" id="btnSave" class="btn btn-primary">
-                                                บันทึกข้อมูล
-                                        </button>
+                                    <section class="col col-2">    
+                                        <label class="label">&nbsp;</label>
+                                        <label class="toggle state-error"><input type="checkbox" name="chkReVoid" checked="true" id="chkReVoid"><i data-swchon-text="ใช้งาน" data-swchoff-text=" ยกเลิก"></i>สถานะ</label>
+                                    </section>
+                                    <section class="col col-2" >    
+                                        <label class="label">&nbsp;&nbsp;</label>
+                                        <button type="button" id="btnReVoid" class="btn btn-primary btn-sm">ต้องการยกเลิก</button>
                                     </section>
 
                                     <section class="col col-3 ">
@@ -384,15 +387,65 @@ mysqli_close($conn);
 	
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
-        
+        hideBtnVoid();
         $("#compVali").hide();
         $("#compAlert").hide();
+        $("#chkReVoid").click(checkBtnVoid);
+        $("#btnReVoid").click(voidRec);
+        
         $( document ).ready(function() {
             $("#cboBranch").val($("#branchId").val());
             $("#cboYear").val($("#yearId").val());
             $("#cboMonth").val($("#monthId").val());
             $("#cboPeriod").val($("#periodId").val());
         });
+        function checkBtnVoid(){
+            if($("#chkReVoid").is(':checked'))
+                $("#btnReVoid").hide();  // checked
+            else
+                $("#btnReVoid").show();  // unchecked
+//            $("#btnReVoid").show();
+        }
+        function hideBtnVoid(){
+            $("#btnReVoid").hide();
+        }
+        function voidRec(){
+            //$("#veAmphur").empty();
+            $.confirm({
+                title: 'ต้องการยกเลิก ข้อมูลLAB!',
+                content: 'ยกเลิก ข้อมูลLAB สาขา '+$("#cboBranch :selected").text()+" ปี "+$("#cboYear :selected").text()+" เดือน "+$("#cboMonth :selected").text()+" งวด "+$("#cboPeriod :selected").text(),
+                buttons: {
+                    confirm: function () {
+                        //$.alert("hello222 "+td.attr("id"));
+                        voidRec1();
+//                        voidStock();
+                    },
+                    cancel: function () {
+                        $.alert('Canceled!');
+                    }
+                }
+            });
+        }
+        function voidRec1(){
+            //$.alert("hello222 "+$("#veId").val());
+            $.ajax({ 
+                type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text'
+                , data: { 'rec_id': $("#reRecId").val(), 'flagPage':"void_lab_receive" }, 
+                success: function (data) {
+                    //alert('bbbbb'+data);
+                    var json_obj = $.parseJSON(data);
+                    
+                    for (var i in json_obj)
+                    {
+//                        $.alert({
+//                            title: 'Save Data',
+//                            content: 'ยกเลิกข้อมูลเรียบร้อย',
+//                        });
+                        window.location.assign('#goodsRecView.php');
+                    }
+                }
+            });
+        }
       
         
 
