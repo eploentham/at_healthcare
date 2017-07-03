@@ -90,7 +90,7 @@ mysqli_close($conn);
 
 				<!-- widget div-->
                                 <div class="row">
-                                    <div class="col col-lg-8">
+                                    <div class="col col-lg-12">
                                         <div class="col col-lg-6">
                                             <!-- widget edit box -->
                                             <div class="jarviswidget-editbox">
@@ -315,7 +315,7 @@ mysqli_close($conn);
             $("#loading").addClass("fa-spin");
             $.ajax({
                 type: 'GET', url: 'readExcel.php', contentType: "application/json", dataType: 'text'
-                , data: {  'flagPage':"void_goods"
+                , data: {  'flagPage':"readExcel"
                     , 'month_id':$("#cboMonth").val(), 'year_id':$("#cboYear").val(), 'period_id':$("#cboPeriod").val(),'branch_id':$("#cboBranch").val()}
                 , success: function (data) {
 //                    alert('bbbbb'+data);
@@ -323,15 +323,24 @@ mysqli_close($conn);
                     
                     for (var i in json_obj)
                     {
-//                        if(json_obj[i].success=="0"){
-                            $("#compAlert").removeClass("alert alert-block alert-danger");
-                            $("#compAlert").addClass("alert alert-block alert-success");
-                            $("#compAlert").empty();
-                            $("#compAlert").append(" บันทึกข้อมูลเรียบร้อย "+json_obj[i].row_cnt+" "+json_obj[i].patient_cnt);
-                            $("#compAlert").show();
-                            $("#loading").removeClass("fa-spin");
-                            
-                            $("#btnImport").prop("disabled", true);
+//                        if(json_obj[i].success==="1"){
+//                            $("#compAlert").removeClass("alert alert-block alert-danger");
+//                            $("#compAlert").addClass("alert alert-block alert-success");
+//                            $("#compAlert").empty();
+//                            $("#compAlert").append(" บันทึกข้อมูลเรียบร้อย "+json_obj[i].row_cnt+" "+json_obj[i].patient_cnt);
+//                            $("#compAlert").show();
+//                            $("#loading").removeClass("fa-spin");
+//                            
+//                            $("#btnImport").prop("disabled", true);
+//                        }else{
+//                            $("#compAlert").removeClass("alert alert-block alert-success");
+//                            $("#compAlert").addClass("alert alert-block alert-danger");
+//                            $("#compAlert").empty();
+//                            $("#compAlert").append(json_obj[i].row_cnt);
+//                            $("#compAlert").show();
+//                            $("#loading").removeClass("fa-spin");
+//                            
+//                            $("#btnImport").prop("disabled", true);
 //                        }
                     }
                 }
