@@ -90,27 +90,19 @@ mysqli_close($conn);
 
 				<!-- widget div-->
                                 <div class="row">
-                                    <div class="col col-lg-12">
-                                        <div class="col col-lg-6">
-                                            <!-- widget edit box -->
-                                            <div class="jarviswidget-editbox">
-                                                    <!-- This area used as dropdown edit box -->
+                                    <div class="col col-lg-8"> 
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
 
-                                            </div>
-                                            <!-- end widget edit box -->
+					</div>
+					<!-- end widget edit box -->
 
-                                            <!-- widget content -->
-                                            <div class="widget-body col col-lg-12">
-                                                <form action="upload.php" class="dropzone" id="mydropzone">
-                                                    <!--<input type="hidden" name="cboBranch1" id="cboBranch1" value="2">
-                                                    <input type="hidden" name="cboYear1" id="cboYear1" value="2017">
-                                                    <input type="hidden" name="cboMonth1" id="cboMonth1" value="3">
-                                                    <input type="hidden" name="cboPeriod1" id="cboPeriod1" value="4">-->
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <div class="col col-lg-6">
-                                        <form action="" id="smart-form-register" class="smart-form">
+					<!-- widget content -->
+					<div class="widget-body col col-lg-4">
+                                            <form action="upload.php" class="dropzone" id="mydropzone"></form>
+					</div>
+                                        <form id="smart-form-register" class="smart-form">
                                         <fieldset>
                                             <div class="row">
                                                 <div class="col col-lg-12">
@@ -163,11 +155,13 @@ mysqli_close($conn);
                                                 
                                             </div>
                                             <div class="row">
-                                                <div class="bar-holder">
-                                                    <div class="progress" id="progressBar">
-                                                            <div class="progress-bar bg-color-teal" data-transitiongoal="25"></div>
+                                                
+                                                    <div class="bar-holder">
+                                                        <div class="progress" id="progressBar">
+                                                                <div class="progress-bar bg-color-teal" data-transitiongoal="25"></div>
+                                                        </div>
                                                     </div>
-                                                </div>                                                
+                                                
                                                 
                                             </div>
                                             <footer>
@@ -195,8 +189,8 @@ mysqli_close($conn);
                                                 </div>
                                             </footer>
                                         </fieldset>
+                                            
                                         </form>
-                                        </div>
                                     </div>
 					<!-- end widget content -->
 
@@ -288,11 +282,6 @@ mysqli_close($conn);
 	// PAGE RELATED SCRIPTS
 	// pagefunction
 	var pagefunction = function() {
-            // Fill all progress bars with animation
-            $('.progress-bar').progressbar({
-                    display_text : 'fill'
-            });
-                
             Dropzone.autoDiscover = false;
             $("#mydropzone").dropzone({
                     //url: "/file/post",
@@ -305,7 +294,7 @@ mysqli_close($conn);
 	// end pagefunction
 	// run pagefunction on load
 	loadScript("js/plugin/dropzone/dropzone.min.js", pagefunction);
-        loadScript("js/plugin/bootstrap-progressbar/bootstrap-progressbar.min.js", pagefunction);
+//        loadScript("js/plugin/bootstrap-progressbar/bootstrap-progressbar.min.js", pagefunction);
         $("#btnImport").click(readExcel);
         $("#loading").removeClass("fa-spin");
         $("#reAlert").hide();
@@ -314,33 +303,23 @@ mysqli_close($conn);
             //alert("111");
             $("#loading").addClass("fa-spin");
             $.ajax({
-                type: 'GET', url: 'readExcel.php', contentType: "application/json", dataType: 'text'
-                , data: {  'flagPage':"readExcel"
-                    , 'month_id':$("#cboMonth").val(), 'year_id':$("#cboYear").val(), 'period_id':$("#cboPeriod").val(),'branch_id':$("#cboBranch").val()}
-                , success: function (data) {
+                type: 'GET', url: 'readExcel.php', contentType: "application/json", dataType: 'text', data: {  'flagPage':"void_goods"
+                , 'month_id':$("#cboMonth").val(), 'year_id':$("#cboYear").val(), 'period_id':$("#cboPeriod").val(),'branch_id':$("#cboBranch").val()}, 
+                success: function (data) {
 //                    alert('bbbbb'+data);
                     var json_obj = $.parseJSON(data);
                     
                     for (var i in json_obj)
                     {
-//                        if(json_obj[i].success==="1"){
-//                            $("#compAlert").removeClass("alert alert-block alert-danger");
-//                            $("#compAlert").addClass("alert alert-block alert-success");
-//                            $("#compAlert").empty();
-//                            $("#compAlert").append(" บันทึกข้อมูลเรียบร้อย "+json_obj[i].row_cnt+" "+json_obj[i].patient_cnt);
-//                            $("#compAlert").show();
-//                            $("#loading").removeClass("fa-spin");
-//                            
-//                            $("#btnImport").prop("disabled", true);
-//                        }else{
-//                            $("#compAlert").removeClass("alert alert-block alert-success");
-//                            $("#compAlert").addClass("alert alert-block alert-danger");
-//                            $("#compAlert").empty();
-//                            $("#compAlert").append(json_obj[i].row_cnt);
-//                            $("#compAlert").show();
-//                            $("#loading").removeClass("fa-spin");
-//                            
-//                            $("#btnImport").prop("disabled", true);
+//                        if(json_obj[i].success=="0"){
+                            $("#compAlert").removeClass("alert alert-block alert-danger");
+                            $("#compAlert").addClass("alert alert-block alert-success");
+                            $("#compAlert").empty();
+                            $("#compAlert").append(" บันทึกข้อมูลเรียบร้อย "+json_obj[i].row_cnt+" "+json_obj[i].patient_cnt);
+                            $("#compAlert").show();
+                            $("#loading").removeClass("fa-spin");
+                            
+                            $("#btnImport").prop("disabled", true);
 //                        }
                     }
                 }

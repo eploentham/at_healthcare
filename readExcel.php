@@ -11,7 +11,33 @@ if(!$conn){
     return;
 }
 mysqli_set_charset($conn, "UTF8");
-
+if (!isset($_SESSION['at_lab_excel'])) {
+    if (file_exists($_SESSION['at_lab_excel'])) {
+        $inputFileName = $_SESSION['at_lab_excel'];
+    }else{
+        header('Content-Type: application/json');
+        $response = array();
+        $resultArray = array();
+        $response["success"] = 0;
+        $response["message"] = "Error ไม่พบ File name";
+        $response["row_cnt"] = $rowCnt;
+        $response["patient_cnt"] = $cnt;
+        array_push($resultArray,$response);
+        echo json_encode($resultArray);
+        return;
+    }
+}else{
+    header('Content-Type: application/json');
+    $response = array();
+    $resultArray = array();
+    $response["success"] = 0;
+    $response["message"] = "Error File ไม่ได้ upload";
+    $response["row_cnt"] = $rowCnt;
+    $response["patient_cnt"] = $cnt;
+    array_push($resultArray,$response);
+    echo json_encode($resultArray);
+    return;
+}
 $inputFileName = "uploads/11111.xlsx";  
 $inputFileType = PHPExcel_IOFactory::identify($inputFileName);  
 $objReader = PHPExcel_IOFactory::createReader($inputFileType);  
@@ -101,7 +127,18 @@ foreach ($namedDataArray as $result) {
             .", '".$type."', '".$result[6]."', '".str_replace($result[7], "'", "''")."', '".$result[8]."', '".$result[9]."' "
             .", '".$result[10]."', '".$result[11]."', '".$result[12]."', '1')";
     if ($result=mysqli_query($conn,$sql) or die(mysqli_error($conn))){
-        
+//        if($rowCnt==100){
+//            echo "100";
+//        }
+//        if($rowCnt==200){
+//            echo "200";
+//        }
+//        if($rowCnt==300){
+//            echo "300";
+//        }
+//        if($rowCnt==400){
+//            echo "400";
+//        }
     }
 }
 
