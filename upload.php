@@ -12,7 +12,7 @@ if (!empty($_FILES)) {
         $name = ".xls";
     }
     if(strpos($_FILES['file']['name'], ".xlsx")>0){
-//        $name = substr($name,strpos($_FILES['file']['name'], ".xlsx"));
+//        $name = substr($name,strpos($_FILES['file']['name'], ".xlsx")) ;
         $name = ".xlsx";
     }
     
