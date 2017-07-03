@@ -127,6 +127,7 @@ mysqli_close($conn);
                                                         <label class="label">ประจำปี</label>
                                                         <label class="select" id="goType1">
                                                             <select id="cboYear">
+                                                                <option value="2016">2016</option>
                                                                 <option value="2017">2017</option>
                                                                 <option value="2018">2018</option>
                                                                 <option value="2019">2019</option>
@@ -311,7 +312,7 @@ mysqli_close($conn);
         $("#reAlert").hide();
         $("#compAlert").hide();
         function readExcel(){
-            //alert("111");
+//            alert("111");
             $("#loading").addClass("fa-spin");
             $.ajax({
                 type: 'GET', url: 'readExcel.php', contentType: "application/json", dataType: 'text'
@@ -323,27 +324,28 @@ mysqli_close($conn);
                     
                     for (var i in json_obj)
                     {
-//                        if(json_obj[i].success==="1"){
-//                            $("#compAlert").removeClass("alert alert-block alert-danger");
-//                            $("#compAlert").addClass("alert alert-block alert-success");
-//                            $("#compAlert").empty();
-//                            $("#compAlert").append(" บันทึกข้อมูลเรียบร้อย "+json_obj[i].row_cnt+" "+json_obj[i].patient_cnt);
-//                            $("#compAlert").show();
-//                            $("#loading").removeClass("fa-spin");
-//                            
-//                            $("#btnImport").prop("disabled", true);
-//                        }else{
-//                            $("#compAlert").removeClass("alert alert-block alert-success");
-//                            $("#compAlert").addClass("alert alert-block alert-danger");
-//                            $("#compAlert").empty();
-//                            $("#compAlert").append(json_obj[i].row_cnt);
-//                            $("#compAlert").show();
-//                            $("#loading").removeClass("fa-spin");
-//                            
-//                            $("#btnImport").prop("disabled", true);
-//                        }
+                        if(json_obj[i].success===1){
+                            $("#compAlert").removeClass("alert alert-block alert-danger");
+                            $("#compAlert").addClass("alert alert-block alert-success");
+                            $("#compAlert").empty();
+                            $("#compAlert").append(" บันทึกข้อมูลเรียบร้อย "+json_obj[i].row_cnt+" "+json_obj[i].patient_cnt);
+                            $("#compAlert").show();
+                            $("#loading").removeClass("fa-spin");
+                            
+                            $("#btnImport").prop("disabled", true);
+                        }else{
+                            $("#compAlert").removeClass("alert alert-block alert-success");
+                            $("#compAlert").addClass("alert alert-block alert-danger");
+                            $("#compAlert").empty();
+                            $("#compAlert").append(json_obj[i].row_cnt);
+                            $("#compAlert").show();
+                            $("#loading").removeClass("fa-spin");
+                            
+                            $("#btnImport").prop("disabled", true);
+                        }
                     }
                 }
             });
         }
+        
 </script>

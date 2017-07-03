@@ -22,10 +22,17 @@ $trCust="";
 $brname="";
 $monthName="";
 $period="";
-$sql="Select count(1) as cnt, branch_id, year_id, month_id, period_id  From lab_t_data Where active = '1' Group By branch_id, year_id, month_id, period_id ";
+$price2=0;
+$sparkline="";
+$sql="Select branch_id, year_id, month_id, period_id,count(1) as cnt, sum(price2) as price2  From lab_t_data "
+        ."Where active = '1' "
+        ."Group By branch_id, year_id, month_id, period_id "
+        ."Order By branch_id, year_id, month_id, period_id";
 $result = mysqli_query($conn,$sql);
 if($result){
     while($row = mysqli_fetch_array($result)){
+        $price2 += $row["price2"];
+        $sparkline .= $row["price2"].", ";
         if($row["branch_id"]==="1"){
             $brname="บางนา 1";
         }else if($row["branch_id"]==="2"){
@@ -63,10 +70,13 @@ if($result){
         }else if($row["period_id"]==="2"){
             $period="งวดสิ้นเดือน";
         }
-        $aa = "สาขา ".$brname." ปี ".$row["year_id"]." เดือน ".$monthName." ".$period." จำนวนข้อมูล ".$row["cnt"];
+        $aa = "สาขา ".$brname." ปี ".$row["year_id"]." เดือน ".$monthName." ".$period." จำนวนข้อมูล ".number_format($row["cnt"], 0)." รวมราคา ".number_format($row["price2"], 2);
         $brName="<a href='#labReceiveDetail.php?branch_id=".$row["branch_id"]."&year_id=".$row["year_id"]."&month_id=".$row["month_id"]."&period_id=".$row["period_id"]."'>".$aa."</a>";
         $trCust .= "<tr><td>".$brName."</td></tr>";
     }
+//    if(trim(substr($sparkline,-2))==="."){
+//        $sparkline=substr($sparkline,0,-1);
+//    }
 }
 
 $result->free();
@@ -78,16 +88,16 @@ mysqli_close($conn);
             <i class="fa fa-pencil-square-o fa-fw "></i> 
                 Forms
             <span>
-                Dropzone
+                <?php //echo substr($sparkline,-2);?>
             </span>
         </h1>
     </div>
     <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
         <ul id="sparks" class="">
             <li class="sparks-info">
-                <h5> My Income <span class="txt-color-blue">$47,171</span></h5>
+                <h5> My Income <span class="txt-color-blue"><?php echo  number_format($price2, 2);?></span></h5>
                 <div class="sparkline txt-color-blue hidden-mobile hidden-md hidden-sm">
-                        1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471
+                        <?php echo $sparkline;?>
                 </div>
             </li>
             <li class="sparks-info">

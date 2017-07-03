@@ -1,17 +1,18 @@
 <?php
+session_start();
 require_once("inc/init.php");
 require_once 'Classes/PHPExcel.php';
 
 /** PHPExcel_IOFactory - Reader */
 include 'Classes/PHPExcel/IOFactory.php';
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
-if(!$conn){
-    echo mysqli_error($conn);
-    echo "<script>alert(".mysqli_error($conn).");</script>";
-    return;
-}
+//if(!$conn){
+//    echo mysqli_error($conn);
+//    echo "<script>alert(".mysqli_error($conn).");</script>";
+//    return;
+//}
 mysqli_set_charset($conn, "UTF8");
-if (!isset($_SESSION['at_lab_excel'])) {
+if (isset($_SESSION['at_lab_excel'])) {
     if (file_exists($_SESSION['at_lab_excel'])) {
         $inputFileName = $_SESSION['at_lab_excel'];
     }else{
@@ -19,7 +20,7 @@ if (!isset($_SESSION['at_lab_excel'])) {
         $response = array();
         $resultArray = array();
         $response["success"] = 0;
-        $response["message"] = "Error ไม่พบ File name";
+        $response["message"] = "Error non found File name";
         $response["row_cnt"] = $rowCnt;
         $response["patient_cnt"] = $cnt;
         array_push($resultArray,$response);
@@ -31,14 +32,14 @@ if (!isset($_SESSION['at_lab_excel'])) {
     $response = array();
     $resultArray = array();
     $response["success"] = 0;
-    $response["message"] = "Error File ไม่ได้ upload";
-    $response["row_cnt"] = $rowCnt;
-    $response["patient_cnt"] = $cnt;
+    $response["message"] = "Error File upload";
+    $response["row_cnt"] = 0;
+    $response["patient_cnt"] = 0;
     array_push($resultArray,$response);
     echo json_encode($resultArray);
     return;
 }
-$inputFileName = "uploads/11111.xlsx";  
+//$inputFileName = "uploads/11111.xlsx";  
 $inputFileType = PHPExcel_IOFactory::identify($inputFileName);  
 $objReader = PHPExcel_IOFactory::createReader($inputFileType);  
 $objReader->setReadDataOnly(true);  
@@ -121,11 +122,11 @@ foreach ($namedDataArray as $result) {
     $sql = "Insert Into lab_t_data(data_id, branch_id, month_id, year_id, period_id"
             .", row1, doc_code, lab_date, hn, full_name"
             .", paid_type_name, lab_code, lab_name, price1, price2"
-            .", price3, price4, price5, active) "
+            .", price3, price4, price5, active, date_create) "
             ."Values(UUID(), '".$_GET["branch_id"]."','".$_GET["month_id"]."','".$_GET["year_id"]."','".$_GET["period_id"]."' "
             .", '".$row1."', '".$doc."', '".$labDate."', '".$hn."', '".$name."' "
             .", '".$type."', '".$result[6]."', '".str_replace($result[7], "'", "''")."', '".$result[8]."', '".$result[9]."' "
-            .", '".$result[10]."', '".$result[11]."', '".$result[12]."', '1')";
+            .", '".$result[10]."', '".$result[11]."', '".$result[12]."', '1', now())";
     if ($result=mysqli_query($conn,$sql) or die(mysqli_error($conn))){
 //        if($rowCnt==100){
 //            echo "100";
@@ -149,7 +150,7 @@ header('Content-Type: application/json');
 $response = array();
 $resultArray = array();
 $response["success"] = 1;
-$response["message"] = "Error";
+$response["message"] = "success";
 $response["row_cnt"] = $rowCnt;
 $response["patient_cnt"] = $cnt;
 array_push($resultArray,$response);

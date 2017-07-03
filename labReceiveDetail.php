@@ -59,14 +59,14 @@ if ($rComp=mysqli_query($conn,$sql)){
         $cntHn++;
     }
 }
-$sql="Select distinct paid_type_name, count(1) as cnt, price2  From lab_t_data "
+$sql="Select distinct paid_type_name, count(1) as cnt, sum(price2) as price2  From lab_t_data "
     .$where
     ."Group By paid_type_name";
 if ($rComp=mysqli_query($conn,$sql)){
     while($aRec = mysqli_fetch_array($rComp)){
-        $trPaid.="<tr><td>".$aRec["paid_type_name"]."</td><td>".$aRec["cnt"]."</td><td>".$aRec["price2"]*$aRec["cnt"]."</td></tr>";
+        $trPaid.="<tr><td>".$aRec["paid_type_name"]."</td><td>".$aRec["cnt"]."</td><td>".$aRec["price2"]."</td></tr>";
         $cntPaid+=$aRec["cnt"];
-        $sumPaid+=$aRec["price2"]*$aRec["cnt"];
+        $sumPaid+=$aRec["price2"];
     }
     $trPaid.="<tr><td>รวม</td><td>".$cntPaid."</td><td>".$sumPaid."</td></tr>";
 }
@@ -149,6 +149,7 @@ mysqli_close($conn);
                                         <label class="label">ประจำปี</label>
                                         <label class="select" id="goType1">
                                             <select id="cboYear">
+                                                <option value="2016">2016</option>
                                                 <option value="2017">2017</option>
                                                 <option value="2018">2018</option>
                                                 <option value="2019">2019</option>
@@ -221,15 +222,18 @@ mysqli_close($conn);
                                         <label class="label">&nbsp;&nbsp;</label>
                                         <button type="button" id="btnReVoid" class="btn btn-primary btn-sm">ต้องการยกเลิก</button>
                                     </section>
-
-                                    <section class="col col-3 ">
+                                    <section class="col col-2" >    
+                                        <label class="label">&nbsp;&nbsp;</label>
+                                        <button type="button" id="btnSave" class="btn btn-primary btn-sm">บันทึกข้อมูล</button>
+                                    </section>
+                                    <section class="col col-2 ">
                                         <ul class="demo-btns">
                                             <li>
                                                 <a href="javascript:void(0);" class="btn bg-color-blue txt-color-white"><i id="loading" class="fa fa-gear fa-2x fa-spin"></i></a>
                                             </li>
                                         </ul>
                                     </section>
-                                    <div class="alert alert-block alert-success col col-6"  id="compAlert">
+                                    <div class="alert alert-block alert-success col col-5"  id="compAlert">
                                         <a class="close" data-dismiss="alert" href="#">×</a>
                                         <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
                                         <p id="compVali">
@@ -392,7 +396,7 @@ mysqli_close($conn);
         $("#compAlert").hide();
         $("#chkReVoid").click(checkBtnVoid);
         $("#btnReVoid").click(voidRec);
-        
+        $("#btnSave").click(saveLab);
         $( document ).ready(function() {
             $("#cboBranch").val($("#branchId").val());
             $("#cboYear").val($("#yearId").val());
@@ -430,7 +434,8 @@ mysqli_close($conn);
             //$.alert("hello222 "+$("#veId").val());
             $.ajax({ 
                 type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text'
-                , data: { 'rec_id': $("#reRecId").val(), 'flagPage':"void_lab_receive" }, 
+                , data: { 'branch_id': $("#cboBranch").val(),'year_id': $("#cboYear").val(),'month_id': $("#cboMonth").val()
+                    ,'period_id': $("#cboPeriod").val(), 'flagPage':"void_lab_receive" }, 
                 success: function (data) {
                     //alert('bbbbb'+data);
                     var json_obj = $.parseJSON(data);
@@ -441,12 +446,50 @@ mysqli_close($conn);
 //                            title: 'Save Data',
 //                            content: 'ยกเลิกข้อมูลเรียบร้อย',
 //                        });
-                        window.location.assign('#goodsRecView.php');
+                        window.location.assign('#labReceiveView.php');
                     }
                 }
             });
         }
-      
-        
+        function saveLab(){
+            $.confirm({
+                title: 'ต้องการบันทึก ข้อมูลLAB!',
+                content: 'บันทึก ข้อมูลLAB สาขา '+$("#cboBranch :selected").text()+" ปี "+$("#cboYear :selected").text()+" เดือน "+$("#cboMonth :selected").text()+" งวด "+$("#cboPeriod :selected").text(),
+                buttons: {
+                    confirm: function () {
+                        //$.alert("hello222 "+td.attr("id"));
+                        saveRec1();
+//                        voidStock();
+                    },
+                    cancel: function () {
+                        $.alert('Canceled!');
+                    }
+                }
+            });
+        }
+        function saveRec1(){
+            //$.alert("hello222 "+$("#veId").val());
+            $.ajax({ 
+                type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text'
+                , data: { 'branch_id': $("#cboBranch").val(),'year_id': $("#cboYear").val(),'month_id': $("#cboMonth").val()
+                    ,'period_id': $("#cboPeriod").val()
+                    , 'branch_id_old': $("#branchId").val(),'year_id_old': $("#yearId").val(),'month_id_old': $("#monthId").val()
+                    ,'period_id_old': $("#periodId").val()
+                    , 'flagPage':"save_lab_receive" }, 
+                success: function (data) {
+//                    alert('bbbbb'+data);
+                    var json_obj = $.parseJSON(data);
+                    
+                    for (var i in json_obj)
+                    {
+//                        $.alert({
+//                            title: 'Save Data',
+//                            content: 'ยกเลิกข้อมูลเรียบร้อย',
+//                        });
+                        window.location.assign('#labReceiveView.php');
+                    }
+                }
+            });
+        }
 
 </script>

@@ -628,6 +628,20 @@ if($_GET["flagPage"] === "company"){
                 .", date_modi = now() "
                 ."Where return_detail_id = '".$ret_detail_id."'";
     }
+}else if($_GET["flagPage"] === "void_lab_receive"){
+//    $draw_id=$_GET["draw_id"];
+    $sql="Update lab_t_data "
+        ."Set  "
+        ." active = '3' "
+        .", date_cancel = now() "
+        ."Where branch_id = '".$_GET["branch_id"]."' and year_id = '".$_GET["year_id"]."' and month_id = '".$_GET["month_id"]."' and period_id = '".$_GET["period_id"]."'";
+}else if($_GET["flagPage"] === "save_lab_receive"){
+//    $draw_id=$_GET["draw_id"];
+    $sql="Update lab_t_data "
+        ."Set  "
+        ." branch_id = '".$_GET["branch_id"]."', year_id = '".$_GET["year_id"]."', month_id = '".$_GET["month_id"]."', period_id = '".$_GET["period_id"]."' "
+        .", date_modi = now() "
+        ."Where branch_id = '".$_GET["branch_id_old"]."' and year_id = '".$_GET["year_id_old"]."' and month_id = '".$_GET["month_id_old"]."' and period_id = '".$_GET["period_id_old"]."'";
 }
 $response = array();
 $resultArray = array();
