@@ -8,7 +8,7 @@ require_once("inc/init.php");
  */
 if (!isset($_SESSION['at_user_staff_name'])) {
     //header("location: #login.php");
-    $_SESSION['at_page'] ="company.php";
+    $_SESSION['at_page'] ="labReceiveView.php";
     echo "<script>window.location.assign('#login.php');</script>";
 }
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
@@ -124,6 +124,38 @@ mysqli_close($conn);
 
 		<!-- NEW WIDGET START -->
             <article class="col-sm-12">
+                <form action="" id="smart-form-register" class="smart-form">
+                    <fieldset>
+                        <div class="row">
+                            <section class="col col-3">
+                                <label class="label"> สาขา</label>
+                                <label class="select">
+                                <select name="cboBranch" id="cboBranch">
+                                    <option value="1">บางนา1</option>
+                                    <option value="2">บางนา2</option>
+                                    <option value="5">บางนา5</option>
+                                </select> <i></i> </label>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label">ประจำปี</label>
+                                <label class="select" id="goType1">
+                                    <select id="cboYear">
+                                        <option value="2016">2016</option>
+                                        <option value="2017">2017</option>
+                                        <option value="2018">2018</option>
+                                        <option value="2019">2019</option>
+                                    </select> <i></i> </label>
+                            </section>
+                            <section class="col col-3 ">
+                                <label class="label">-</label>
+                                <button type="button" id="btnSearch" class="btn btn-labeled btn-primary btn-lg">
+                                    ดึงข้อมูล
+                                </button>
+                            </section>
+                        </div>
+                    </fieldset>
+                </form>                
+                
                 <!-- Widget ID (each widget will need unique ID)-->
                 <div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-0" data-widget-editbutton="false">
                     <header>
@@ -138,10 +170,10 @@ mysqli_close($conn);
                                 <!-- This area used as dropdown edit box -->
                         </div>
                         <!-- end widget edit box -->
-
+                        
                         <!-- widget content -->
                         <div class="widget-body">
-                            <table id="dt_basic" class="table table-striped table-bordered table-hover responsive" width="100%">
+                            <table id="datatable_tabletools" class="table table-striped table-bordered table-hover responsive" width="100%">
                                 <thead>
                                     <tr>
                                         <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>สาขา</th>
@@ -149,7 +181,7 @@ mysqli_close($conn);
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        <?php echo $trCust;?>
+                                    <?php echo $trCust;?>
                                 </tbody>
                             </table>
                         </div>
@@ -246,27 +278,111 @@ mysqli_close($conn);
 	// pagefunction
 	
 	var pagefunction = function() {
-		Dropzone.autoDiscover = false;
-		$("#mydropzone").dropzone({
-			url: "/file/post",
-                        paramName: "file", // The name that will be used to transfer the file
-			addRemoveLinks : true,
-			maxFilesize: 3,
-			dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
-			dictResponseError: 'Error uploading file!'
-		});
+            Dropzone.autoDiscover = false;
+            $("#mydropzone").dropzone({
+                url: "/file/post",
+                paramName: "file", // The name that will be used to transfer the file
+                addRemoveLinks : true,
+                maxFilesize: 3,
+                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
+                dictResponseError: 'Error uploading file!'
+            });
 		
 	};
 	
 	// end pagefunction
-	
+	/* BASIC ;*/
+        var responsiveHelper_dt_basic = undefined;
+        var responsiveHelper_datatable_fixed_column = undefined;
+        var responsiveHelper_datatable_col_reorder = undefined;
+        var responsiveHelper_datatable_tabletools = undefined;
+
+        var breakpointDefinition = {
+                tablet : 1024,
+                phone : 480
+        };
+
+        $('#dt_basic').dataTable({
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
+                        "t"+
+                        "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+                "autoWidth" : true,
+                "preDrawCallback" : function() {
+                        // Initialize the responsive datatables helper once.
+                        if (!responsiveHelper_dt_basic) {
+                                responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
+                        }
+                },
+                "rowCallback" : function(nRow) {
+                        responsiveHelper_dt_basic.createExpandIcon(nRow);
+                },
+                "drawCallback" : function(oSettings) {
+                        responsiveHelper_dt_basic.respond();
+                }
+        });
+
+        /* END BASIC */
 	// run pagefunction on load
-	
+	/* TABLETOOLS */
+        $('#datatable_tabletools').dataTable({
+
+                // Tabletools options: 
+                //   https://datatables.net/extensions/tabletools/button_options
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'T>r>"+
+                                "t"+
+                                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+        "oTableTools": {
+                 "aButtons": [
+             "copy",
+             "csv",
+             "xls",
+                {
+                    "sExtends": "pdf",
+                    "sTitle": "SmartAdmin_PDF",
+                    "sPdfMessage": "SmartAdmin PDF Export",
+                    "sPdfSize": "letter"
+                },
+                {
+                "sExtends": "print",
+                "sMessage": "Generated by SmartAdmin <i>(press Esc to close)</i>"
+                }
+             ],
+            "sSwfPath": "js/plugin/datatables/swf/copy_csv_xls_pdf.swf"
+        },
+            "autoWidth" : true,
+            "preDrawCallback" : function() {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_datatable_tabletools) {
+                    responsiveHelper_datatable_tabletools = new ResponsiveDatatablesHelper($('#datatable_tabletools'), breakpointDefinition);
+                }
+            },
+            "rowCallback" : function(nRow) {
+                responsiveHelper_datatable_tabletools.createExpandIcon(nRow);
+            },
+            "drawCallback" : function(oSettings) {
+                responsiveHelper_datatable_tabletools.respond();
+            }
+        });
+
+        /* END TABLETOOLS */
 	loadScript("js/plugin/dropzone/dropzone.min.js", pagefunction);
+        loadScript("js/plugin/datatables/jquery.dataTables.min.js", function(){
+            loadScript("js/plugin/datatables/dataTables.colVis.min.js", function(){
+                loadScript("js/plugin/datatables/dataTables.tableTools.min.js", function(){
+                    loadScript("js/plugin/datatables/dataTables.bootstrap.min.js", function(){
+                        loadScript("js/plugin/datatable-responsive/datatables.responsive.min.js", pagefunction)
+                    });
+                });
+            });
+	});
         $("#btnDataAdd").click(showDataAdd);
+        $("#btnSearch").click(submitForm);
         function showDataAdd(){
             //alert("aaaa");
             window.location.assign("#labReceiveAdd.php");
+        }
+        function submitForm(){
+            $( "#smart-form-register" ).submit();
         }
 
 </script>
