@@ -24,8 +24,20 @@ $monthName="";
 $period="";
 $price2=0;
 $sparkline="";
+$brId="";
+$yearId="";
+if(isset($_GET["cboBranch"])){
+    $brId = $_GET["cboBranch"];
+}else{
+    $brId = "";
+}
+if(isset($_GET["cboYear"])){
+    $yearId = $_GET["cboYear"];
+}else{
+    $yearId = "";
+}
 $sql="Select branch_id, year_id, month_id, period_id,count(1) as cnt, sum(price2) as price2  From lab_t_data "
-        ."Where active = '1' "
+        ."Where active = '1' and branch_id = '".$brId."' and year_id = '".$yearId."' "
         ."Group By branch_id, year_id, month_id, period_id "
         ."Order By branch_id, year_id, month_id, period_id";
 $result = mysqli_query($conn,$sql);
@@ -71,7 +83,7 @@ if($result){
             $period="งวดสิ้นเดือน";
         }
         $aa = "สาขา ".$brname." ปี ".$row["year_id"]." เดือน ".$monthName." ".$period." จำนวนข้อมูล ".number_format($row["cnt"], 0)." รวมราคา ".number_format($row["price2"], 2);
-        $brName="<a href='#labReceiveDetail.php?branch_id=".$row["branch_id"]."&year_id=".$row["year_id"]."&month_id=".$row["month_id"]."&period_id=".$row["period_id"]."'>".$aa."</a>";
+        $brName="<a href='#labReceiveDetail.php?branch_id1=".$row["branch_id"]."&year_id1=".$row["year_id"]."&month_id1=".$row["month_id"]."&period_id1=".$row["period_id"]."'>".$aa."</a>";
         $trCust .= "<tr><td>".$brName."</td></tr>";
     }
 //    if(trim(substr($sparkline,-2))==="."){
@@ -127,6 +139,8 @@ mysqli_close($conn);
                 <form action="" id="smart-form-register" class="smart-form">
                     <fieldset>
                         <div class="row">
+                            <input type="hidden" name="branchId" id="branchId" value="<?php echo $brId;?>">
+                            <input type="hidden" name="yearId" id="yearId" value="<?php echo $yearId;?>">
                             <section class="col col-3">
                                 <label class="label"> สาขา</label>
                                 <label class="select">
@@ -139,7 +153,7 @@ mysqli_close($conn);
                             <section class="col col-3">
                                 <label class="label">ประจำปี</label>
                                 <label class="select" id="goType1">
-                                    <select id="cboYear">
+                                    <select name="cboYear" id="cboYear">
                                         <option value="2016">2016</option>
                                         <option value="2017">2017</option>
                                         <option value="2018">2018</option>
@@ -382,7 +396,14 @@ mysqli_close($conn);
             window.location.assign("#labReceiveAdd.php");
         }
         function submitForm(){
-            $( "#smart-form-register" ).submit();
+            //$( "#smart-form-register" ).submit();
+//            alert("aaaa");
+            window.location.assign('#labReceiveView.php?cboBranch='+$("#cboBranch").val()+'&cboYear='+$("#cboYear").val());
         }
+        $( document ).ready(function() {
+            $("#cboBranch").val($("#branchId").val());
+            $("#cboYear").val($("#yearId").val());
+            
+        });
 
 </script>
