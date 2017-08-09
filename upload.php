@@ -20,7 +20,7 @@ if (!empty($_FILES)) {
     $month="";
 //    $year1=$_GET["cboUear1"];
 //    $month=$_GET["cboMonth1"];
-    $year=date("Y")."-".date("m")."-".date("d")."-".date("h")."".date("i")."".date("s");
+    $year=date("Y")."-".date("m")."-".date("d")."-".date("H")."".date("i")."".date("s");
     $tempFile = $_FILES['file']['tmp_name'];          //3             
       
     $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;  //4

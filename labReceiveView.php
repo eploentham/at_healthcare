@@ -26,6 +26,7 @@ $price2=0;
 $sparkline="";
 $brId="";
 $yearId="";
+$row1=0;
 if(isset($_GET["cboBranch"])){
     $brId = $_GET["cboBranch"];
 }else{
@@ -44,6 +45,7 @@ $result = mysqli_query($conn,$sql);
 if($result){
     while($row = mysqli_fetch_array($result)){
         $price2 += $row["price2"];
+        $row1++;
         $sparkline .= $row["price2"].", ";
         if($row["branch_id"]==="1"){
             $brname="บางนา 1";
@@ -84,7 +86,7 @@ if($result){
         }
         $aa = "สาขา ".$brname." ปี ".$row["year_id"]." เดือน ".$monthName." ".$period." จำนวนข้อมูล ".number_format($row["cnt"], 0)." รวมราคา ".number_format($row["price2"], 2);
         $brName="<a href='#labReceiveDetail.php?branch_id1=".$row["branch_id"]."&year_id1=".$row["year_id"]."&month_id1=".$row["month_id"]."&period_id1=".$row["period_id"]."'>".$aa."</a>";
-        $trCust .= "<tr><td>".$brName."</td></tr>";
+        $trCust .= "<tr><td>".$row1."</td><td>".$brName."</td></tr>";
     }
 //    if(trim(substr($sparkline,-2))==="."){
 //        $sparkline=substr($sparkline,0,-1);
@@ -189,7 +191,7 @@ mysqli_close($conn);
                         <div class="widget-body">
                             <table id="datatable_tabletools" class="table table-striped table-bordered table-hover responsive" width="100%">
                                 <thead>
-                                    <tr>
+                                    <tr><th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>ลำดับ</th>
                                         <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>สาขา</th>
                                         
                                     </tr>
