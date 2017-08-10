@@ -85,7 +85,7 @@ if($result){
             $period="งวดสิ้นเดือน";
         }
         $aa = "สาขา ".$brname." ปี ".$row["year_id"]." เดือน ".$monthName." ".$period." จำนวนข้อมูล ".number_format($row["cnt"], 0)." รวมราคา ".number_format($row["price2"], 2);
-        $brName="<a href='#labReceiveDetail.php?branch_id1=".$row["branch_id"]."&year_id1=".$row["year_id"]."&month_id1=".$row["month_id"]."&period_id1=".$row["period_id"]."'>".$aa."</a>";
+        $brName="<a href='#labReceiveDetail.php?branch_id=".$row["branch_id"]."&year_id=".$row["year_id"]."&month_id=".$row["month_id"]."&period_id=".$row["period_id"]."'>".$aa."</a>";
         $trCust .= "<tr><td>".$row1."</td><td>".$brName."</td></tr>";
     }
 //    if(trim(substr($sparkline,-2))==="."){

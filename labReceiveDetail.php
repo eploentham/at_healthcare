@@ -226,9 +226,13 @@ mysqli_close($conn);
                                         <label class="label">&nbsp;&nbsp;</label>
                                         <button type="button" id="btnSave" class="btn btn-primary btn-sm">บันทึกข้อมูล</button>
                                     </section>
+                                    <section class="col col-2" >    
+                                        <label class="label">&nbsp;&nbsp;</label>
+                                        <button type="button" id="btnPrint" class="btn btn-primary btn-sm">Print</button>
+                                    </section>
                                     <section class="col col-2 ">
                                         <ul class="demo-btns">
-                                            <li>
+                                            <li id="uiLoading">
                                                 <a href="javascript:void(0);" class="btn bg-color-blue txt-color-white"><i id="loading" class="fa fa-gear fa-2x fa-spin"></i></a>
                                             </li>
                                         </ul>
@@ -397,6 +401,8 @@ mysqli_close($conn);
         $("#chkReVoid").click(checkBtnVoid);
         $("#btnReVoid").click(voidRec);
         $("#btnSave").click(saveLab);
+        $("#btnPrint").click(printSum);
+        $("#uiLoading").hide();
         $( document ).ready(function() {
             $("#cboBranch").val($("#branchId").val());
             $("#cboYear").val($("#yearId").val());
@@ -412,6 +418,9 @@ mysqli_close($conn);
         }
         function hideBtnVoid(){
             $("#btnReVoid").hide();
+        }
+        function printSum(){
+            window.location.assign('#labReceivePrintSum.php');
         }
         function voidRec(){
             //$("#veAmphur").empty();
