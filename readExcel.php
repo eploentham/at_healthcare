@@ -12,6 +12,14 @@ $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 //    return;
 //}
 mysqli_set_charset($conn, "UTF8");
+$sql = "Select * From lab_b_discount Where active = '1' ";
+$discount = array();
+if ($result=mysqli_query($conn,$sql)){
+    while($row = mysqli_fetch_array($result)){
+        array_push($discount,$row);
+    }
+    $result->free();
+}
 if (isset($_SESSION['at_lab_excel'])) {
     if (file_exists($_SESSION['at_lab_excel'])) {
         $inputFileName = $_SESSION['at_lab_excel'];
@@ -83,9 +91,15 @@ $name="";
 $nameOld="";
 $cnt=0;
 $rowCnt=0;
+$discPer=0;
 foreach ($namedDataArray as $result) {
     $row1++;
     $rowCnt++;
+    $netPrice=0.0;
+    $remark="";
+    $price2=0.0;
+    $price3=0.0;
+    $strpos=0;
 //    $aaa = str_replace($result[7], "'", "''");
     $doc=$result[1];
     if($doc === ""){
@@ -107,7 +121,7 @@ foreach ($namedDataArray as $result) {
     }else{
         $hnOld=$hn;
     }
-    $type=$result[5];
+    $type=trim($result[5]);
     if($type === ""){
         $type = $typeOld;
     }else{
@@ -119,14 +133,46 @@ foreach ($namedDataArray as $result) {
     }else{
         $nameOld=$name;
     }
+    $price2= floatval($result[9]);
+    $price3= floatval($result[10]);
+    if($price3===0){
+        $price3=$price2;
+    }
+    if((strpos(strtoupper($result[7]),"OUTLAB")>0) || (strpos(strtoupper($result[7]),"OUT LAB")>0)){
+        $statusOutLab = "1";
+        $statusDiscount = "0";
+        //remark = "เป็น out lab ไม่มีส่วนลด ใช้ราคา price2";
+        $remark = "เป็น out lab ไม่มีส่วนลด ใช้ราคา price3";
+        //netPrice = ltb_i.getPriceSale2();//ไม่ให้ส่วนลด
+        $netPrice = $price3;//ไม่ให้ส่วนลด
+    }else{
+        $statusOutLab = "0";
+        $statusDiscount = "0";
+        $remark = "เป็น lab ทำเอง ----";
+        foreach ($discount as $value) {
+            if(strcmp($type, $value[1])===0){
+                $statusDiscount="1";
+                $discPer=$value[2];
+            }
+            $strpos = strpos($type, $value[1]);
+        }
+        if($statusDiscount==="1"){// discount per
+            $remark .= " ส่วนลดเป็น percent ".$price3." - (".$discPer." * ".$price3."/100)";
+            //netPrice = (ltb_i.getPriceSale2() - (lbp.getDiscount()*ltb_i.getPriceSale2()/100));
+            $netPrice = ($price3 - ($discPer*$price3/100));        
+        }else{
+            $netPrice = $price3;
+        }
+    }
     $sql = "Insert Into lab_t_data(data_id, branch_id, month_id, year_id, period_id"
             .", row1, doc_code, lab_date, hn, full_name"
             .", paid_type_name, lab_code, lab_name, price1, price2"
-            .", price3, price4, price5, active, date_create) "
+            .", price3, price4, price5, discount, netprice"
+            .", remark, status_discount, status_outlab, active, date_create, date_cancel) "
             ."Values(UUID(), '".$_GET["branch_id"]."','".$_GET["month_id"]."','".$_GET["year_id"]."','".$_GET["period_id"]."' "
             .", '".$row1."', '".$doc."', '".$labDate."', '".$hn."', '".$name."' "
-            .", '".$type."', '".$result[6]."', '".str_replace($result[7], "'", "''")."', '".$result[8]."', '".$result[9]."' "
-            .", '".$result[10]."', '".$result[11]."', '".$result[12]."', '1', now())";
+            .", '".$type."', '".$result[6]."', '".str_replace("'", "''",$result[7])."', '".$result[8]."', '".$result[9]."' "
+            .", '".$result[10]."', '".$result[11]."', '".$result[12]."', ".$discPer.", ".$netPrice.", '".$remark."', '".$statusDiscount."', '".$statusOutLab."', '1', now(),'".$discount[0][1].$strpos."')";
     if ($result=mysqli_query($conn,$sql) or die(mysqli_error($conn))){
 //        if($rowCnt==100){
 //            echo "100";

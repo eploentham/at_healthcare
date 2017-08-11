@@ -54,23 +54,23 @@ if($result){
         }else if($row["branch_id"]==="5"){
             $brname="บางนา 5";
         }
-        if($row["month_id"]==="1"){
+        if($row["month_id"]==="01"){
             $monthName="มกราคม";
-        }else if($row["month_id"]==="2"){
+        }else if($row["month_id"]==="02"){
             $monthName="กุมภาพันธ์";
-        }else if($row["month_id"]==="3"){
+        }else if($row["month_id"]==="03"){
             $monthName="มีนาคม";
-        }else if($row["month_id"]==="4"){
+        }else if($row["month_id"]==="04"){
             $monthName="เมษายน";
-        }else if($row["month_id"]==="5"){
+        }else if($row["month_id"]==="05"){
             $monthName="พฤษภาคม";
-        }else if($row["month_id"]==="6"){
+        }else if($row["month_id"]==="06"){
             $monthName="มิถุนายน";
-        }else if($row["month_id"]==="7"){
+        }else if($row["month_id"]==="07"){
             $monthName="กรกฎาคม";
-        }else if($row["month_id"]==="8"){
+        }else if($row["month_id"]==="08"){
             $monthName="สิงหาคม";
-        }else if($row["month_id"]==="9"){
+        }else if($row["month_id"]==="09"){
             $monthName="กันยายน";
         }else if($row["month_id"]==="10"){
             $monthName="ตุลาคม";
