@@ -17,3 +17,10 @@
  * - BODY
  * - CUSTOM STYLES
  */
+.header-print .topbar-v1 {
+	background: #fdfdfd;
+	border-top: solid 1px #f0f0f0;
+	border-bottom: solid 1px #f0f0f0;
+        margin: 0;
+}
+
