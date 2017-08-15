@@ -99,6 +99,7 @@ foreach ($namedDataArray as $result) {
     $remark="";
     $price2=0.0;
     $price3=0.0;
+    $discount1=0.0;
     $strpos=0;
 //    $aaa = str_replace($result[7], "'", "''");
     $doc=$result[1];
@@ -145,6 +146,7 @@ foreach ($namedDataArray as $result) {
         $remark = "เป็น out lab ไม่มีส่วนลด ใช้ราคา price3";
         //netPrice = ltb_i.getPriceSale2();//ไม่ให้ส่วนลด
         $netPrice = $price3;//ไม่ให้ส่วนลด
+        $discount1=0.0;
     }else{
         $statusOutLab = "0";
         $statusDiscount = "0";
@@ -159,8 +161,10 @@ foreach ($namedDataArray as $result) {
         if($statusDiscount==="1"){// discount per
             $remark .= " ส่วนลดเป็น percent ".$price3." - (".$discPer." * ".$price3."/100)";
             //netPrice = (ltb_i.getPriceSale2() - (lbp.getDiscount()*ltb_i.getPriceSale2()/100));
-            $netPrice = ($price3 - ($discPer*$price3/100));        
+            $discount1 = ($discPer*$price3/100);
+            $netPrice = ($price3 - $discount);        
         }else{
+            $discount1=0.0;
             $netPrice = $price3;
         }
     }
@@ -172,7 +176,7 @@ foreach ($namedDataArray as $result) {
             ."Values(UUID(), '".$_GET["branch_id"]."','".$_GET["month_id"]."','".$_GET["year_id"]."','".$_GET["period_id"]."' "
             .", '".$row1."', '".$doc."', '".$labDate."', '".$hn."', '".$name."' "
             .", '".$type."', '".$result[6]."', '".str_replace("'", "''",$result[7])."', '".$result[8]."', '".$result[9]."' "
-            .", '".$result[10]."', '".$result[11]."', '".$result[12]."', ".$discPer.", ".$netPrice.", '".$remark."', '".$statusDiscount."', '".$statusOutLab."', '1', now(),'".$discount[0][1].$strpos."')";
+            .", '".$result[10]."', '".$result[11]."', '".$result[12]."', ".$discount1.", ".$netPrice.", '".$remark."', '".$statusDiscount."', '".$statusOutLab."', '1', now(),'".$discount[0][1].$strpos."')";
     if ($result=mysqli_query($conn,$sql) or die(mysqli_error($conn))){
 //        if($rowCnt==100){
 //            echo "100";

@@ -654,6 +654,10 @@ $page_nav = array(
             "comp" => array(
                 "title" => "รับข้อมูลจาก สาขา",
                 "url" => "labReceiveView.php"
+            ),
+            "adjust" => array(
+                "title" => "ปรับปรุงข้อมูล",
+                "url" => "labReceiveAdjust.php"
             )
         )
     ),

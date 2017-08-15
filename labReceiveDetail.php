@@ -39,9 +39,11 @@ $cntHn=0;
 $cnt=0;
 $cntPaid=0;
 $sumPaid=0;
+$sumDiscount=0;
+$sumNetPrice=0;
 $trPaid="";
 $where="Where branch_id = '".$brId."' and year_id = '".$yearId
-    ."' and month_id = '".$monthId."' and period_id = '".$periodId."' ";
+    ."' and month_id = '".$monthId."' and period_id = '".$periodId."' and active = '1' ";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
 $sql="Select count(1) as cnt  From lab_t_data "
@@ -59,16 +61,18 @@ if ($rComp=mysqli_query($conn,$sql)){
         $cntHn++;
     }
 }
-$sql="Select distinct paid_type_name, count(1) as cnt, sum(price2) as price2  From lab_t_data "
+$sql="Select distinct paid_type_name, count(1) as cnt, sum(price3) as price3, sum(discount) as discount, sum(netprice) as netprice  From lab_t_data "
     .$where
     ."Group By paid_type_name";
 if ($rComp=mysqli_query($conn,$sql)){
     while($aRec = mysqli_fetch_array($rComp)){
-        $trPaid.="<tr><td>".$aRec["paid_type_name"]."</td><td>".$aRec["cnt"]."</td><td>".$aRec["price2"]."</td></tr>";
+        $trPaid.="<tr><td>".$aRec["paid_type_name"]."</td><td>".number_format($aRec["cnt"],2,'.',',')."</td><td>".number_format($aRec["price3"],2,'.',',')."</td><td>".number_format($aRec["discount"],2,'.',',')."</td><td>".number_format($aRec["netprice"],2,'.',',')."</td></tr>";
         $cntPaid+=$aRec["cnt"];
-        $sumPaid+=$aRec["price2"];
+        $sumPaid+=$aRec["price3"];
+        $sumDiscount+=$aRec["discount"];
+        $sumNetPrice+=$aRec["netprice"];
     }
-    $trPaid.="<tr><td>รวม</td><td>".$cntPaid."</td><td>".$sumPaid."</td></tr>";
+    $trPaid.="<tr><td>รวม</td><td>".number_format($cntPaid,2,'.',',')."</td><td>".number_format($sumPaid,2,'.',',')."</td><td>".number_format($sumDiscount,2,'.',',')."</td><td>".number_format($sumNetPrice,2,'.',',')."</td></tr>";
 }
 $rComp->free();
 mysqli_close($conn);
@@ -186,23 +190,25 @@ mysqli_close($conn);
                                     </section>
                                 </div>
                                 <div class="row">
-                                    <section class="col col-3">
+                                    <section class="col col-2">
                                         <label class="label">จำนวนข้อมูล</label>
                                         <label class="input"> <i class="icon-append fa fa-user"></i>
                                             <input type="text" name="reDesc" id="reDesc" value="<?php echo $cnt;?>" placeholder="จำนวนข้อมูล">                                        
                                     </section>
-                                    <section class="col col-3">
+                                    <section class="col col-2">
                                         <label class="label">จำนวนคนไข้</label>
                                         <label class="input"> <i class="icon-append fa fa-user"></i>
                                             <input type="text" name="reDesc" id="reDesc" value="<?php echo $cntHn;?>" placeholder="จำนวนคนไข้">                                        
                                     </section>
-                                    <section class="col col-6">
+                                    <section class="col col-8">
                                         <table id="dt_basic" class="table table-striped table-bordered table-hover responsive" width="100%">
                                             <thead>
                                                 <tr>
-                                                    <th data-class="expand" width="70%"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>สิทธิการรักษา</th>
+                                                    <th data-class="expand" width="40%"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>สิทธิการรักษา</th>
                                                     <th data-class="expand" width="15%"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>จำนวน</th>
-                                                    <th data-class="expand" width="15%"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>มูลค่า</th>
+                                                    <th data-class="expand" width="20%"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>มูลค่า</th>
+                                                    <th data-class="expand" width="15%"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>ส่วนลด</th>
+                                                    <th data-class="expand" width="20%"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>สุทธิ</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

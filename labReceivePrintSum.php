@@ -34,6 +34,8 @@ $cntHn=0;
 $row=0;
 $cntPaid=0;
 $sumPaid=0;
+$sumDiscount=0;
+$sumNetPrice=0;
 $trPaid="";
 $where="Where branch_id = '".$brId."' and year_id = '".$yearId
     ."' and month_id = '".$monthId."' and period_id = '".$periodId."' and active = '1' ";
@@ -60,11 +62,13 @@ $sql="Select distinct paid_type_name, count(1) as cnt, sum(price3) as price3, su
 if ($rComp=mysqli_query($conn,$sql)){
     while($aRec = mysqli_fetch_array($rComp)){
         $row++;
-        $trPaid.="<tr><td>".$row."</td><td>".$aRec["paid_type_name"]."</td><td>".$aRec["cnt"]."</td><td>".$aRec["price3"]."</td><td>".$aRec["discount"]."</td><td>".$aRec["netprice"]."</td></tr>";
+        $trPaid.="<tr><td>".$row."</td><td>".$aRec["paid_type_name"]."</td><td class='cnt' align='right'>".number_format($aRec["cnt"])."</td><td class='price' align='right'>".number_format($aRec["price3"],2,'.',',')."</td><td class='price' align='right'>".number_format($aRec["discount"],2,'.',',')."</td><td class='price' align='right'>".number_format($aRec["netprice"],2,'.',',')."</td></tr>";
         $cntPaid+=$aRec["cnt"];
         $sumPaid+=$aRec["price3"];
+        $sumDiscount+=$aRec["discount"];
+        $sumNetPrice+=$aRec["netprice"];
     }
-    $trPaid.="<tr><td></td><td>รวม</td><td>".$cntPaid."</td><td>".$sumPaid."</td><td></td><td></td></tr>";
+    $trPaid.="<tr><td></td><td>รวม</td><td class='cnt' align='right'>".number_format($cntPaid)."</td><td class='price' align='right'>".number_format($sumPaid,2,'.',',')."</td><td class='price' align='right'>".number_format($sumDiscount,2,'.',',')."</td><td class='price' align='right'>".number_format($sumNetPrice,2,'.',',')."</td></tr>";
 }
 $rComp->free();
 mysqli_close($conn);
@@ -76,7 +80,7 @@ mysqli_close($conn);
     @media print {
         @page {
           size: A4;
-          margin: 0mm;
+          margin: 5mm;
         }
         html, body {
           width: 1024px;
@@ -91,6 +95,9 @@ mysqli_close($conn);
         .demo activate, .page-footer, .demo,.breadcrumb{
             display: none !important;
         }
+        .tdTimes {font-family: 'times new roman'; font-size-adjust: 1;}
+        .tdTimes1 {font-family: 'times new roman'; font-size-adjust: 0.58;}
+        
         #Header, #Footer { display: none !important; }
         #header, #Footer,#left-panel,#shortcut,#smart-fixed-header, #smart-fixed-navigation,#smart-fixed-ribbon,#smart-fixed-footer,#smart-fixed-container,#smart-rtl { display: none !important; }
         .footer,
@@ -98,6 +105,8 @@ mysqli_close($conn);
         .header,
         #non-printable { display: none !important; }
     }
+    .cnt { margin: auto; align-content: flex-end; width: 10%; border: 0px solid #fff; padding: 10px;}
+    .price { margin: auto; align-content: flex-end; width: 15%; border: 0px solid #fff; padding: 10px;}
     .header-print .topbar-v1 {
 	background: #fff;
 	border-top: solid 1px #f0f0f0;
@@ -110,22 +119,22 @@ mysqli_close($conn);
             <div class="col-lg-12">
                 <table class="header-print topbar-v1">
                     <tr><td><img src="img/atta.jpg" alt="me" ></td>
-                        <td><table><tr><td>บริษัท เพาเวอร์ไดแอกนอสติค ลาโบราทอรี่ จำกัด </td></tr><tr><td>79 ม.8 ต.บางครุ อ.พระประแดง จ สมุทรปราการ 10130 โทร.0813518464 โทรสาร 02-1381175</td></tr></table></td>
+                        <td><table><tr><td class="tdTimes">บริษัท เพาเวอร์ไดแอกนอสติค ลาโบราทอรี่ จำกัด </td></tr><tr><td class="tdTimes1">79 ม.8 ต.บางครุ อ.พระประแดง จ สมุทรปราการ 10130 โทร.0813518464 โทรสาร 02-1381175</td></tr></table></td>
                     </tr>
                 </table>
             </div>
     </div><br><br>
     <div class="row">
         <div class="col col-sm-12">
-            <table id="dt_basic" class="table table-striped table-bordered table-hover responsive"  width="70%">
+            <table id="dt_basic" class="table table-striped table-bordered table-hover responsive"  width="100%">
                 <thead>
                     <tr><th colspan="6" align="center" class="padding-5">ใบวางบิล lab</th></tr>
-                    <tr><th colspan="6" align="center">ประจำ งวดกลางเดือน เดือน มกราคม ปี 2559</th></tr>
+                    <tr><th colspan="6" align="center">ประจำ <?php echo getPeriodName($periodId);?> เดือน <?php echo getMonthName($monthId);?> ปี <?php echo $yearId;?> สาขา <?php echo getBranchName($brId);?></th></tr>
                     <tr>
                         <th data-class="expand" width="40"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>ลำดับ</th>
                         <th data-class="expand" width="45%"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>ประเภทการรับชำระ</th>
-                        <th data-class="expand" width="10%"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>จำนวน</th>
-                        <th data-class="expand" width="15%"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>ราคา/หน่วย</th>
+                        <th data-class="expand"  class='cnt' align='center'><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>จำนวน</th>
+                        <th data-class="expand" width="15%" align='center'><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>รวมราคา</th>
                         <th data-class="expand" width="15%"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>ส่วนลด</th>
                         <th data-class="expand" width="15%"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>ยอดสุทธิ</th>
                     </tr>
@@ -136,5 +145,51 @@ mysqli_close($conn);
             </table>
         </div>
     </div>
-
+    <div class="row">
+        &nbsp;
+    </div>
+    <div class="row">
+        &nbsp;
+    </div>
+    <div class="row">
+        <div class="col col-sm-1">
+            ผู้วางบิล 
+        </div>
+        <div class="col col-sm-7">
+            _____________________________________________
+        </div>
+    </div>
+    <div class="row">
+        &nbsp;
+    </div>
+    <div class="row">
+        <div class="col col-sm-1">
+            วันที่   
+        </div>
+        <div class="col col-sm-7">
+            _____________________________________________
+        </div>
+    </div>
+    <div class="row">
+        &nbsp;
+    </div>
+    <div class="row">
+        <div class="col col-sm-1">
+            ผู้รับวางบิล   
+        </div>
+        <div class="col col-sm-7">
+            _____________________________________________
+        </div>
+    </div>
+    <div class="row">
+        &nbsp;
+    </div>
+    <div class="row">
+        <div class="col col-sm-1">
+            วันที่รับวางบิล   
+        </div>
+        <div class="col col-sm-7">
+            _____________________________________________
+        </div>
+    </div>
 </div>

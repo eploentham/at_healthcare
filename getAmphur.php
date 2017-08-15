@@ -256,6 +256,88 @@ if($_GET['flagPage']=="amphur"){
     }else{
         
     }
+}else if($_GET['flagPage']=="lab_adjust"){
+    $price2=0.0;
+    $price3=0.0;
+    $type="";
+    $netPrice=0.0;
+    $discount1=0.0;
+    if(isset($_GET["branch_id"])){
+        $brId = $_GET["branch_id"];
+    }else{
+        $brId = "";
+    }
+    if(isset($_GET["year_id"])){
+        $yearId = $_GET["year_id"];
+    }else{
+        $yearId = "";
+    }
+    if(isset($_GET["month_id"])){
+        $monthId = $_GET["month_id"];
+    }else{
+        $monthId = "";
+    }
+    if(isset($_GET["period_id"])){
+        $periodId = $_GET["period_id"];
+    }else{
+        $periodId = "";
+    }
+    $sql = "Select * From lab_b_discount Where active = '1' ";
+    $discount = array();
+    if ($result=mysqli_query($conn,$sql)){
+        while($row = mysqli_fetch_array($result)){
+            array_push($discount,$row);
+        }
+        $result->free();
+    }
+    
+    $where="Where branch_id = '".$brId."' and year_id = '".$yearId
+        ."' and month_id = '".$monthId."' and period_id = '".$periodId."' and active = '1' ";
+    $sql = "Select * From lab_t_data  ".$where;
+    if ($result=mysqli_query($conn,$sql) or die(mysqli_error($conn))){
+        while($row = mysqli_fetch_array($result)){
+            $price2= floatval($row["price2"]);
+            $price3= floatval($row["price3"]);
+            $type=trim($row["paid_type_name"]);
+            if((strpos(strtoupper($row["lab_name"]),"OUTLAB")>0) || (strpos(strtoupper($row["lab_name"]),"OUT LAB")>0)){
+                $statusOutLab = "1";
+                $statusDiscount = "0";
+                //remark = "เป็น out lab ไม่มีส่วนลด ใช้ราคา price2";
+                $remark = "เป็น out lab ไม่มีส่วนลด ใช้ราคา price3";
+                //netPrice = ltb_i.getPriceSale2();//ไม่ให้ส่วนลด
+                $netPrice = $price3;//ไม่ให้ส่วนลด
+                $discount1=0.0;
+            }else{
+                $statusOutLab = "0";
+                $statusDiscount = "0";
+                $remark = "เป็น lab ทำเอง ----";
+                foreach ($discount as $value) {
+                    if(strcmp($type, $value[1])===0){
+                        $statusDiscount="1";
+                        $discPer=$value[2];
+                    }
+                    $strpos = strpos($type, $value[1]);
+                }
+                if($statusDiscount==="1"){// discount per
+                    $remark .= " ส่วนลดเป็น percent ".$price3." - (".$discPer." * ".$price3."/100)";
+                    //netPrice = (ltb_i.getPriceSale2() - (lbp.getDiscount()*ltb_i.getPriceSale2()/100));
+                    $discount1 = ($discPer*$price3/100);
+                    $netPrice = ($price3 - ($discPer*$price3/100));        
+                }else{
+                    $discount1=0.0;
+                    $netPrice = $price3;
+                }
+            }
+            $sql = "Update lab_t_data Set netprice =".$netPrice.", discount =".$discount1." Where data_id='".$row["data_id"]."'";
+            mysqli_query($conn,$sql);
+        }
+        $tmp = array();
+        $tmp["message"] = "ok";
+        $tmp["success"] = 1;
+        array_push($resultArray,$tmp);
+    }else{
+        
+    }
 }
 
 mysqli_close($conn);
