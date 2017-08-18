@@ -113,6 +113,8 @@ mysqli_close($conn);
 	border-bottom: solid 1px #f0f0f0;
         margin: 0;
     }
+    .l1{padding: 30px;}
+    .l2{padding: 60px;}
 </style>
 <div class="container">
     <div class="row">
@@ -128,8 +130,8 @@ mysqli_close($conn);
         <div class="col col-sm-12">
             <table id="dt_basic" class="table table-striped table-bordered table-hover responsive"  width="100%">
                 <thead>
-                    <tr><th colspan="6" align="center" class="padding-5">ใบวางบิล lab</th></tr>
-                    <tr><th colspan="6" align="center">ประจำ <?php echo getPeriodName($periodId);?> เดือน <?php echo getMonthName($monthId);?> ปี <?php echo $yearId;?> สาขา <?php echo getBranchName($brId);?></th></tr>
+                    <tr><th colspan="6" align="center" class="padding-5"><h3>ใบวางบิล lab</h3></th></tr>
+                    <tr><th colspan="6" align="center"><h4>ประจำ <?php echo getPeriodName($periodId);?> เดือน <?php echo getMonthName($monthId);?> ปี <?php echo $yearId;?> สาขา <?php echo getBranchName($brId);?></h4></th></tr>
                     <tr>
                         <th data-class="expand" width="40"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>ลำดับ</th>
                         <th data-class="expand" width="45%"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>ประเภทการรับชำระ</th>
@@ -152,10 +154,10 @@ mysqli_close($conn);
         &nbsp;
     </div>
     <div class="row">
-        <div class="col col-sm-1">
+        <div class="col col-sm-1 L1">
             ผู้วางบิล 
         </div>
-        <div class="col col-sm-7">
+        <div class="col col-sm-5 L2">
             _____________________________________________
         </div>
     </div>
@@ -163,10 +165,10 @@ mysqli_close($conn);
         &nbsp;
     </div>
     <div class="row">
-        <div class="col col-sm-1">
+        <div class="col col-sm-1 L1">
             วันที่   
         </div>
-        <div class="col col-sm-7">
+        <div class="col col-sm-5 L2">
             _____________________________________________
         </div>
     </div>
@@ -174,10 +176,10 @@ mysqli_close($conn);
         &nbsp;
     </div>
     <div class="row">
-        <div class="col col-sm-1">
+        <div class="col col-sm-1 L1">
             ผู้รับวางบิล   
         </div>
-        <div class="col col-sm-7">
+        <div class="col col-sm-5 L2">
             _____________________________________________
         </div>
     </div>
@@ -185,11 +187,16 @@ mysqli_close($conn);
         &nbsp;
     </div>
     <div class="row">
-        <div class="col col-sm-1">
+        <div class="col col-sm-1 L1">
             วันที่รับวางบิล   
         </div>
-        <div class="col col-sm-7">
+        <div class="col col-sm-5 L2">
             _____________________________________________
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        //window.print();
+    });
+</script>
