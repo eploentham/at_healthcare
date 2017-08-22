@@ -236,6 +236,10 @@ mysqli_close($conn);
                                         <label class="label">&nbsp;&nbsp;</label>
                                         <button type="button" id="btnPrint" class="btn btn-primary btn-sm">Print</button>
                                     </section>
+                                    <section class="col col-2" >    
+                                        <label class="label">&nbsp;&nbsp;</label>
+                                        <button type="button" id="btnPrintDetail" class="btn btn-primary btn-sm">Print รายละเอียด</button>
+                                    </section>
                                     <section class="col col-2 ">
                                         <ul class="demo-btns">
                                             <li id="uiLoading">
@@ -408,6 +412,7 @@ mysqli_close($conn);
         $("#btnReVoid").click(voidRec);
         $("#btnSave").click(saveLab);
         $("#btnPrint").click(printSum);
+        $("#btnPrintDetail").click(printDetail);
         $("#uiLoading").hide();
         $( document ).ready(function() {
             $("#cboBranch").val($("#branchId").val());
@@ -427,6 +432,29 @@ mysqli_close($conn);
         }
         function printSum(){
             window.location.assign("#labReceivePrintSum.php?branch_id="+$("#branchId").val()+"&year_id="+$("#yearId").val()+"&month_id="+$("#monthId").val()+"&period_id="+$("#periodId").val());
+        }
+        function printDetail(){
+            $.ajax({ 
+                type: 'GET', url: 'labReceivePrintDetail.php', contentType: "application/json", dataType: 'text'
+                , data: { 'branch_id': $("#cboBranch").val(),'year_id': $("#cboYear").val(),'month_id': $("#cboMonth").val()
+                    ,'period_id': $("#cboPeriod").val(), 'flagPage':"" }, 
+                success: function (data) {
+                    //alert('bbbbb'+data);
+                    window.location.assign('MyPDF.pdf');
+                    var json_obj = $.parseJSON(data);
+                    
+                    for (var i in json_obj)
+                    {
+//                        $.alert({
+//                            title: 'Save Data',
+//                            content: 'ยกเลิกข้อมูลเรียบร้อย',
+//                        });
+                        //window.location.assign('#labReceiveView.php');
+                        window.location.assign('MyPDF.pdf');
+                    }
+                }
+            });
+            
         }
         function voidRec(){
             //$("#veAmphur").empty();

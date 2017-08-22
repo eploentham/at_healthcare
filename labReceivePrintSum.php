@@ -121,7 +121,7 @@ mysqli_close($conn);
             <div class="col-lg-12">
                 <table class="header-print topbar-v1">
                     <tr><td><img src="img/atta.jpg" alt="me" ></td>
-                        <td><table><tr><td class="tdTimes">บริษัท เพาเวอร์ไดแอกนอสติค ลาโบราทอรี่ จำกัด </td></tr><tr><td class="tdTimes1">79 ม.8 ต.บางครุ อ.พระประแดง จ สมุทรปราการ 10130 โทร.0813518464 โทรสาร 02-1381175</td></tr></table></td>
+                        <td><table><tr><td class="tdTimes">บริษัท เอทีทีเอ2016 จำกัด </td></tr><tr><td class="tdTimes1">หมู่บ้านโครงการทาวร์พลัส เทพารักษ์ หมู่4 ถ.เทพารักษ์ ต.บางพลีใหญ่ อ.บางพลี จ.สมุทรปราการ 10540 โทร.0813518464 โทรสาร 02-1381175</td></tr></table></td>
                     </tr>
                 </table>
             </div>
