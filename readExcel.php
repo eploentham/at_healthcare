@@ -102,6 +102,9 @@ foreach ($namedDataArray as $result) {
     $discount1=0.0;
     $strpos=0;
 //    $aaa = str_replace($result[7], "'", "''");
+    if($row1 === 3463){
+        $sql="";
+    }
     $doc=$result[1];
     if($doc === ""){
         $doc = $docold;
@@ -190,6 +193,8 @@ foreach ($namedDataArray as $result) {
 //        if($rowCnt==400){
 //            echo "400";
 //        }
+    }else{
+        $sql="";
     }
 }
 
