@@ -29,7 +29,7 @@ include("inc/nav.php");
 <!-- MAIN PANEL -->
 <div id="main" role="main">
 	<?php
-		include("inc/ribbon.php");
+            include("inc/ribbon.php");
 	?>
 
 	<!-- MAIN CONTENT -->

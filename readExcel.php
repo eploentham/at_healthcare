@@ -102,7 +102,7 @@ foreach ($namedDataArray as $result) {
     $discount1=0.0;
     $strpos=0;
 //    $aaa = str_replace($result[7], "'", "''");
-    if($row1 === 3463){
+    if($rowCnt === 3466){
         $sql="";
     }
     $doc=$result[1];
@@ -112,6 +112,9 @@ foreach ($namedDataArray as $result) {
         $docold=$doc;
         $row1=1;
         $cnt++;
+    }
+    if($doc==="1/16-01-2559"){
+        $sql = "";
     }
     $labDate=$result[2];
     if($labDate === ""){
@@ -165,10 +168,10 @@ foreach ($namedDataArray as $result) {
             $remark .= " ส่วนลดเป็น percent ".$price3." - (".$discPer." * ".$price3."/100)";
             //netPrice = (ltb_i.getPriceSale2() - (lbp.getDiscount()*ltb_i.getPriceSale2()/100));
             $discount1 = ($discPer*$price3/100);
-            $netPrice = ($price3 - $discount);        
+            $netPrice = ($price3 - $discount1);        
         }else{
             $discount1=0.0;
-            $netPrice = $price3;
+            $netPrice = $price3;// bug 
         }
     }
     $sql = "Insert Into lab_t_data(data_id, branch_id, month_id, year_id, period_id"
