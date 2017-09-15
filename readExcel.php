@@ -63,6 +63,7 @@ $headingsArray = $headingsArray[1];
 
 $r = -1;
 $col=0;
+$dataHeaderId="";
 $namedDataArray = array();
 for ($row = 2; $row <= $highestRow; ++$row) {
     $dataRow = $objWorksheet->rangeToArray('A'.$row.':'.$highestColumn.$row,null, true, true, true);
@@ -76,7 +77,11 @@ for ($row = 2; $row <= $highestRow; ++$row) {
         }
 //    }
 }
-
+$sql = "Insert Into lab_t_data_header(year_id, month_id, period_id, branch_id, active, excel_cnt) "
+        . "Values('".$_GET["year_id"]."','".$_GET["month_id"]."','".$_GET["period_id"]."','".$_GET["period_id"]."','1','".$highestRow."')";
+if ($result=mysqli_query($conn,$sql) or die(mysqli_error($conn))){
+    $dataHeaderId = mysqli_insert_id($conn);
+}
 $sql="";
 $row1=0;
 $doc="";
@@ -92,6 +97,8 @@ $nameOld="";
 $cnt=0;
 $rowCnt=0;
 $discPer=0;
+$price3Zere=0;
+$price2Zere=0;
 foreach ($namedDataArray as $result) {
     $row1++;
     $rowCnt++;
@@ -103,6 +110,12 @@ foreach ($namedDataArray as $result) {
     $strpos=0;
 //    $aaa = str_replace($result[7], "'", "''");
     if($rowCnt === 3466){
+        $sql="";
+    }
+    if($rowCnt === 6000){
+        $sql="";
+    }
+    if($rowCnt === 9000){
         $sql="";
     }
     $doc=$result[1];
@@ -142,8 +155,12 @@ foreach ($namedDataArray as $result) {
     }
     $price2= floatval($result[9]);
     $price3= floatval($result[10]);
+    if($price2===0){
+        $price2Zere++;
+    }
     if($price3===0){
         $price3=$price2;
+        $price3Zere++;
     }
     if((strpos(strtoupper($result[7]),"OUTLAB")>0) || (strpos(strtoupper($result[7]),"OUT LAB")>0)){
         $statusOutLab = "1";
@@ -168,7 +185,7 @@ foreach ($namedDataArray as $result) {
             $remark .= " ส่วนลดเป็น percent ".$price3." - (".$discPer." * ".$price3."/100)";
             //netPrice = (ltb_i.getPriceSale2() - (lbp.getDiscount()*ltb_i.getPriceSale2()/100));
             $discount1 = ($discPer*$price3/100);
-            $netPrice = ($price3 - $discount1);        
+            $netPrice = ($price3 - $discount1);
         }else{
             $discount1=0.0;
             $netPrice = $price3;// bug 
@@ -178,11 +195,11 @@ foreach ($namedDataArray as $result) {
             .", row1, doc_code, lab_date, hn, full_name"
             .", paid_type_name, lab_code, lab_name, price1, price2"
             .", price3, price4, price5, discount, netprice"
-            .", remark, status_discount, status_outlab, active, date_create, date_cancel) "
+            .", remark, status_discount, status_outlab, active, date_create, data_header_id) "
             ."Values(UUID(), '".$_GET["branch_id"]."','".$_GET["month_id"]."','".$_GET["year_id"]."','".$_GET["period_id"]."' "
             .", '".$row1."', '".$doc."', '".$labDate."', '".$hn."', '".$name."' "
             .", '".$type."', '".$result[6]."', '".str_replace("'", "''",$result[7])."', '".$result[8]."', '".$result[9]."' "
-            .", '".$result[10]."', '".$result[11]."', '".$result[12]."', ".$discount1.", ".$netPrice.", '".$remark."', '".$statusDiscount."', '".$statusOutLab."', '1', now(),'".$discount[0][1].$strpos."')";
+            .", '".$result[10]."', '".$result[11]."', '".$result[12]."', ".$discount1.", ".$netPrice.", '".$remark."', '".$statusDiscount."', '".$statusOutLab."', '1', now(),'".$dataHeaderId."')";
     if ($result=mysqli_query($conn,$sql) or die(mysqli_error($conn))){
 //        if($rowCnt==100){
 //            echo "100";
@@ -200,7 +217,11 @@ foreach ($namedDataArray as $result) {
         $sql="";
     }
 }
-
+$sql = "Update lab_t_data_header Set import_cnt = '".$rowCnt."', price2_cnt_zero = '".$price2Zere."', price3_cnt_zero = '".$price3Zere."' "
+        . "Where data_header_id = ".$dataHeaderId;
+if ($result=mysqli_query($conn,$sql) or die(mysqli_error($conn))){
+    
+}
 //$result->free();
 mysqli_close($conn);
 
