@@ -113,6 +113,7 @@ $brId="";
 $yearId="";
 $monthId="";
 $periodId="";
+$brname="";
 $tr="";
 if(isset($_GET["branch_id"])){
     $brId = $_GET["branch_id"];
@@ -134,8 +135,16 @@ if(isset($_GET["period_id"])){
 }else{
     $periodId = "";
 }
+if($brId==="1"){
+    $brname="บางนา 1";
+}else if($brId==="2"){
+    $brname="บางนา 2";
+}else if($brId==="5"){
+    $brname="บางนา 5";
+}
 $cntHn=0;
 $row=0;
+$rowGroupPaid=0;
 $cntPaid=0;
 $sumPaid=0;
 $sumDiscount=0;
@@ -164,10 +173,13 @@ mysqli_set_charset($conn, "UTF8");
 //}
 $pageNum=0;
 $aa=0;
-$cat = "ประจำ ปี ".$yearId." เดือน ".getMonthName($monthId)." ".getPeriodName($periodId);
-$sql="Select lab_code, lab_name, count(1) as cnt, price2, price3, discount, netprice From lab_t_data "
+$paidType="";
+$paidTypeOld="";
+$newPage="";
+$cat = "ประจำ ปี ".$yearId." เดือน ".getMonthName($monthId)." ".getPeriodName($periodId)." โรงพยาบาล " .$brname;
+$sql="Select lab_code, lab_name, count(1) as cnt, price2, price3, discount, netprice, paid_type_name From lab_t_data "
     .$where
-    ."Group By lab_name Order By lab_name";
+    ."Group By lab_name Order By paid_type_name, lab_name";
 if ($rComp=mysqli_query($conn,$sql)){
     $pdf=new PDF("P", "mm", 'A4');
     $pdf->SetAutoPageBreak(TRUE, 0.1) ;
@@ -180,7 +192,17 @@ if ($rComp=mysqli_query($conn,$sql)){
     $total=0;
     while($aRec = mysqli_fetch_array($rComp)){
         $row++;
-        if(($row===1) || ($row % $lineBreak===0)){
+        
+        $paidType = $aRec["paid_type_name"];
+        if($paidType!=$paidTypeOld){
+            $paidTypeOld = $paidType;
+            $newPage = "new";
+            $rowGroupPaid=0;
+        }
+        
+        if(($row===1) || ($row % $lineBreak===0) || $newPage ==="new"){
+            
+            $newPage = "old";
             $pdf->AddPage();
             $pdf->SetFont('angsa','',16);
 //            $pdf->AddFont('angsa','','angsa.php');
@@ -188,6 +210,7 @@ if ($rComp=mysqli_query($conn,$sql)){
             $pdf->Cell(0,0.6,iconv('UTF-8','TIS-620',"รายงานชันสูตรโรค ตามประเภท"),$border,0,"C");
             $pdf->Ln(5);
             $pdf->SetX(15);
+            $pdf->Cell(10,0.6,iconv('UTF-8','TIS-620',$aRec["paid_type_name"]),$border,0,"C");
             $pdf->Cell(0,0.6,iconv('UTF-8','TIS-620',$cat),$border,0,"C");
             $pdf->Ln(10);
             $pdf->SetX(5);
@@ -205,9 +228,10 @@ if ($rComp=mysqli_query($conn,$sql)){
             $pdf->Ln(7);
             $pdf->SetFont('angsa','',14);
         }
+        $rowGroupPaid++;
         $total = $aRec["netprice"] * $aRec["cnt"];
         $pdf->SetX(5);
-        $pdf->Cell(10,0.6,iconv('UTF-8','TIS-620',$row),$border,0,"C");
+        $pdf->Cell(10,0.6,iconv('UTF-8','TIS-620',$rowGroupPaid),$border,0,"C");
         $pdf->SetX(15);
         $pdf->Cell(20,0.6,iconv('UTF-8','TIS-620',$aRec["lab_name"]."[".$aRec["lab_code"]."]"),$border,0,"L");
         $pdf->SetX(130);
@@ -231,7 +255,7 @@ if ($rComp=mysqli_query($conn,$sql)){
             $pdf->Cell(20,0.6,number_format($sumNetPrice,2,'.',','),$border,0,"R");
         }
     }
-    $trPaid.="<tr><td></td><td>รวม</td><td class='cnt' align='right'>".number_format($cntPaid)."</td><td class='price' align='right'>".number_format($sumPaid,2,'.',',')."</td><td class='price' align='right'>".number_format($sumDiscount,2,'.',',')."</td><td class='price' align='right'>".number_format($sumNetPrice,2,'.',',')."</td></tr>";
+    //$trPaid.="<tr><td></td><td>รวม</td><td class='cnt' align='right'>".number_format($cntPaid)."</td><td class='price' align='right'>".number_format($sumPaid,2,'.',',')."</td><td class='price' align='right'>".number_format($sumDiscount,2,'.',',')."</td><td class='price' align='right'>".number_format($sumNetPrice,2,'.',',')."</td></tr>";
     $pdf->Output("MyPDF.pdf","F");
 }
 $rComp->free();
