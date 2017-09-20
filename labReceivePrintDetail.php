@@ -179,7 +179,7 @@ $newPage="";
 $cat = "ประจำ ปี ".$yearId." เดือน ".getMonthName($monthId)." ".getPeriodName($periodId)." โรงพยาบาล " .$brname;
 $sql="Select lab_code, lab_name, count(1) as cnt, price2, price3, discount, netprice, paid_type_name From lab_t_data "
     .$where
-    ."Group By lab_name Order By paid_type_name, lab_name";
+    ."Group By paid_type_name, lab_name Order By paid_type_name, lab_name";
 if ($rComp=mysqli_query($conn,$sql)){
     $pdf=new PDF("P", "mm", 'A4');
     $pdf->SetAutoPageBreak(TRUE, 0.1) ;
