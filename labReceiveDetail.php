@@ -240,6 +240,10 @@ mysqli_close($conn);
                                         <label class="label">&nbsp;&nbsp;</label>
                                         <button type="button" id="btnPrintDetail" class="btn btn-primary btn-sm">Print รายละเอียด</button>
                                     </section>
+                                    <section class="col col-2" >    
+                                        <label class="label">&nbsp;&nbsp;</label>
+                                        <button type="button" id="btnSendEmail" class="btn btn-primary btn-sm">ส่ง email แจ้งยอด</button>
+                                    </section>
                                     <section class="col col-2 ">
                                         <ul class="demo-btns">
                                             <li id="uiLoading">
@@ -533,6 +537,41 @@ mysqli_close($conn);
                     }
                 }
             });
+        }
+        function sendEmail(){
+            //alert('bbbbb');
+            //$("#divView").append("aaaaaaaaaaaaa");
+            //alert("aaa"+$("#reLastname").val());
+            if($("#reterms").is(':checked')==true){
+                if($("#rePassword").val()==""){
+                    alert("Password ไม่สามารถว่างได้");
+                    return ;
+                }
+                if($("#rePassword").val() != $("#reCPassword").val()){
+                    alert("Password ไม่ตรงกัน ");
+                    return ;
+                }
+                showLoader();
+                $.ajax({
+                    type: 'GET', url: 'gmail.php', contentType: "application/json", dataType: 'text', 
+                    data: {'flagPage': "regis"
+                        , 'reName':$("#reName").val()
+                        , 'reLastname':$("#reLastname").val()
+                        , 'reUsername':$("#reUsername").val()
+                        , 'reTele':$("#reTele").val()
+                        , 'reEmail':$("#reEmail").val()
+                        , 'rePassword':$("#rePassword").val()
+                        }, 
+                    success: function (data) {
+                        //alert('bbbbb '.data);
+                        $("#divView").append(data);
+                        $("#divView").append("<br>ขอบคุณสำหรับการสมัครสมาชิก กับManit Insurance <br>โปรดตรวจสอบ email และconfirm ");
+                        hideLoader();
+                    }
+                });
+            }else{
+                alert("ยังไม่ได้ Click Terms");
+            }
         }
 
 </script>
