@@ -40,7 +40,7 @@ $trPaid="";
 $compName="";
 $compAddr="";
 $compImg="";
-if((intval($yearId)<=2017) && (intval($monthId) <=6)){
+if((intval($yearId)<=2017) && (intval($monthId) <=7)){
     $compName = "บริษัท เพาเวอร์ไดแอกนอสติค ลาโบราทอรี่ จํากัด";
     $compAddr="79 ม.8 ต.บางครุ อ.พระประแดง จ สมุทรปราการ 10130 โทร.081-3518464 โทรสาร 02-1381175";
     $compImg="img/powerlab.jpg";

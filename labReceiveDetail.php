@@ -74,16 +74,23 @@ if ($rComp=mysqli_query($conn,$sql)){
     }
     $trPaid.="<tr><td>รวม</td><td>".number_format($cntPaid,2,'.',',')."</td><td>".number_format($sumPaid,2,'.',',')."</td><td>".number_format($sumDiscount,2,'.',',')."</td><td>".number_format($sumNetPrice,2,'.',',')."</td></tr>";
 }
+$excelCnt=0;
+$sql = "Select * From lab_t_data_header ".$where;
+if ($rComp=mysqli_query($conn,$sql)){
+    while($aRec = mysqli_fetch_array($rComp)){
+        $excelCnt=$aRec["excel_cnt"];
+    }
+}
 $rComp->free();
 mysqli_close($conn);
 ?>
 <div class="row">
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-        <h1 class="page-title txt-color-blueDark">			
+        <h1 class="page-title txt-color-blueDark">
             <!-- PAGE HEADER -->
-            <i class="fa-fw fa fa-pencil-square-o"></i> 
+            <i class="fa-fw fa fa-pencil-square-o"></i>
                     Forms
-            <span>>  
+            <span>
                     Form Layouts
             </span>
         </h1>
@@ -153,10 +160,12 @@ mysqli_close($conn);
                                         <label class="label">ประจำปี</label>
                                         <label class="select" id="goType1">
                                             <select id="cboYear">
-                                                <option value="2016">2016</option>
-                                                <option value="2017">2017</option>
-                                                <option value="2018">2018</option>
-                                                <option value="2019">2019</option>
+                                                <option value="2015">2015</option>
+                                                    <option value="2016">2016</option>
+                                                    <option value="2017">2017</option>
+                                                    <option value="2018">2018</option>
+                                                    <option value="2019">2019</option>
+                                                    <option value="2020">2020</option>
                                             </select> <i></i> </label>
                                         <input type="hidden" name="yearId" id="yearId" value="<?php echo $yearId;?>">
                                     </section>
@@ -193,12 +202,15 @@ mysqli_close($conn);
                                     <section class="col col-2">
                                         <label class="label">จำนวนข้อมูล</label>
                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="reDesc" id="reDesc" value="<?php echo $cnt;?>" placeholder="จำนวนข้อมูล">                                        
+                                            <input type="text" name="reDesc" id="reDesc" value="<?php echo $cnt;?>" placeholder="จำนวนข้อมูล"></label>
+                                        <label class="label">จำนวนข้อมูล Excel</label>
+                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                            <input type="text" name="reDesc" id="reDesc" value="<?php echo $excelCnt;?>" placeholder="จำนวนข้อมูล"></label>
                                     </section>
                                     <section class="col col-2">
                                         <label class="label">จำนวนคนไข้</label>
                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="reDesc" id="reDesc" value="<?php echo $cntHn;?>" placeholder="จำนวนคนไข้">                                        
+                                            <input type="text" name="reDesc" id="reDesc" value="<?php echo $cntHn;?>" placeholder="จำนวนคนไข้"></label>
                                     </section>
                                     <section class="col col-8">
                                         <table id="dt_basic" class="table table-striped table-bordered table-hover responsive" width="100%">
@@ -263,8 +275,6 @@ mysqli_close($conn);
                             </footer>
                         </form>
                     </div>
-                
-                
                 </div>
             </div>
         </article>

@@ -61,22 +61,47 @@ class PDF extends FPDF
     function Header()
     {
         // Logo
-        $this->Image('img/atta.jpg',10,6,30);
-        // Arial bold 15
-        //$this->SetFont('Arial','B',15);
         $this->AddFont('angsa','','angsa.php');
 	$this->SetFont('angsa','',20);
+        $this->Cell(30);
+        if((intval($yearId)<=2017) && (intval($monthId) <=7)){
+            $this->Image('img/powerlab.jpg',10,6,30);
+            $this->SetFont('angsa','',18);
+            $this->Cell(30,5,iconv( 'UTF-8','TIS-620','บริษัท เพาเวอร์ไดแอกนอสติค ลาโบราทอรี่ จํากัด'),0,0,'L');
+            $this->Ln(7);
+            $this->SetFont('angsa','',14);
+            $this->Cell(30);
+            $this->Cell(60,5,iconv( 'UTF-8','TIS-620','79 ม.8 ต.บางครุ อ.พระประแดง จ สมุทรปราการ 10130 โทร.081-3518464 โทรสาร 02-1381175'),0,0,'L');
+            //$compName = "บริษัท เพาเวอร์ไดแอกนอสติค ลาโบราทอรี่ จํากัด";
+            //$compAddr="79 ม.8 ต.บางครุ อ.พระประแดง จ สมุทรปราการ 10130 โทร.081-3518464 โทรสาร 02-1381175";
+            //$compImg="img/powerlab.jpg";
+        }else{
+            $this->Image('img/atta.jpg',10,6,30);
+            $this->SetFont('angsa','',18);
+            $this->Cell(30,5,iconv( 'UTF-8','TIS-620','บริษัท เอทีทีเอ2016 จำกัด'),0,0,'L');
+            $this->Ln(7);
+            $this->Cell(30);
+            $this->SetFont('angsa','',14);
+            $this->Cell(60,5,iconv( 'UTF-8','TIS-620','หมู่บ้านโครงการทาวร์พลัส เทพารักษ์ หมู่4 ถ.เทพารักษ์ ต.บางพลีใหญ่ อ.บางพลี จ.สมุทรปราการ 10540 โทร.0813518464 โทรสาร 02-1381175'),0,0,'L');
+            //$compName = "บริษัท เอทีทีเอ2016 จำกัด ";
+            //$compAddr="หมู่บ้านโครงการทาวร์พลัส เทพารักษ์ หมู่4 ถ.เทพารักษ์ ต.บางพลีใหญ่ อ.บางพลี จ.สมุทรปราการ 10540 โทร.0813518464 โทรสาร 02-1381175";
+        }
+        
+        // Arial bold 15
+        //$this->SetFont('Arial','B',15);
+//        $this->AddFont('angsa','','angsa.php');
+//	$this->SetFont('angsa','',20);
         // Move to the right
-        $this->Cell(30);
+        //$this->Cell(30);
         // Title
-        $this->Cell(30,5,iconv( 'UTF-8','TIS-620','บริษัท เอทีทีเอ2016 จำกัด'),0,0,'L');
+        //$this->Cell(30,5,iconv( 'UTF-8','TIS-620','บริษัท เอทีทีเอ2016 จำกัด'),0,0,'L');
+//        $this->Ln(7);
+//        $this->SetFont('angsa','',16);
+//        $this->Cell(30);
+        //$this->Cell(60,5,iconv( 'UTF-8','TIS-620','หมู่บ้านโครงการทาวร์พลัส เทพารักษ์ หมู่4 ถ.เทพารักษ์'),0,0,'L');
         $this->Ln(7);
-        $this->SetFont('angsa','',16);
         $this->Cell(30);
-        $this->Cell(60,5,iconv( 'UTF-8','TIS-620','หมู่บ้านโครงการทาวร์พลัส เทพารักษ์ หมู่4 ถ.เทพารักษ์'),0,0,'L');
-        $this->Ln(7);
-        $this->Cell(30);
-        $this->Cell(60,5,iconv( 'UTF-8','TIS-620','ต.บางพลีใหญ่ อ.บางพลี จ.สมุทรปราการ 10540 โทร.0813518464 โทรสาร 02-1381175'),0,0,'L');
+        //$this->Cell(60,5,iconv( 'UTF-8','TIS-620','ต.บางพลีใหญ่ อ.บางพลี จ.สมุทรปราการ 10540 โทร.0813518464 โทรสาร 02-1381175'),0,0,'L');
         $this->Ln();
         // Line break
         $this->Ln(5);
@@ -321,7 +346,7 @@ mysqli_close($conn);
             <div class="col-lg-12">
                 <table class="header-print topbar-v1">
                     <tr><td><img src="<?php echo $compImg;?>" alt="me" ></td>
-                        <td><table><tr><td class="tdTimes">บริษัท เพาเวอร์ไดแอกนอสติค ลาโบราทอรี่ จำกัด </td></tr><tr><td class="tdTimes1">79 ม.8 ต.บางครุ อ.พระประแดง จ สมุทรปราการ 10130 โทร.0813518464 โทรสาร 02-1381175</td></tr></table></td>
+                        <td><table><tr><td class="tdTimes"><?php echo $compName;?></td></tr><tr><td class="tdTimes1"><?php echo $compAddr?></td></tr></table></td>
                     </tr>
                 </table>
             </div>
