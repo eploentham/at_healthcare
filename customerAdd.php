@@ -27,6 +27,10 @@ if ($rComp=mysqli_query($conn,$sql)){
     $cuTele = strval($aCust["tele"]);
     $cuEmail = strval($aCust["email"]);
     $cuTaxId = strval($aCust["tax_id"]);
+    $cuContactName1 = strval($aCust["contact_name1"]);
+    $cuLabEmailTo = strval($aCust["lab_email_address_to"]);
+    $cuLabEmailFrom = strval($aCust["lab_email_address_from"]);
+    $cuLabEmailSubject = strval($aCust["lab_email_subject_to"]);
 }
 
 mysqli_close($conn);
@@ -188,7 +192,31 @@ mysqli_close($conn);
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                     </section >
                                 </div>
-                                
+                                <section>
+                                    <label class="label">ชื่อผู้ติดต่อ</label>
+                                    <label class="input"> <i class="icon-append fa fa-user"></i>
+                                        <input type="text" name="cuContactName1" id="cuContactName1" value="<?php echo $cuContactName1;?>" placeholder="ชื่อผู้ติดต่อ">                                        
+                                        <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
+                                </section>
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <label class="label">Lab email  TO</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="tel" name="cuLabEmailTo" id="cuLabEmailTo" placeholder="Email" value="<?php echo $cuLabEmailTo;?>"></label>
+                                    </section>
+                                    <section class="col col-4">
+                                        <label class="label">Lab email From</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="email" name="cuLabEmailFrom" id="cuLabEmailFrom" placeholder="Email" value="<?php echo $cuLabEmailFrom;?>">
+                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section >
+                                    <section class="col col-4">
+                                        <label class="label">Lab email Subject</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="text" name="cuLabEmailSubject" id="cuLabEmailSubject" placeholder="เลขที่ผู้เสียภาษี" value="<?php echo $cuLabEmailSubject;?>">
+                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section >
+                                </div>
                             </fieldset>
                             
                             <footer>
@@ -453,6 +481,10 @@ mysqli_close($conn);
                     ,'amphur_id': $("#cuAmphur").val()
                     ,'district_id': $("#cuDistrict").val()
                     ,'zipcode': $("#cuZipcode").val()
+                    ,'contact_name1': $("#cuContactName1").val()
+                    ,'lab_email_address_to': $("#cuLabEmailTo").val()
+                    ,'lab_email_address_from': $("#cuLabEmailFrom").val()
+                    ,'lab_email_address_subject_to': $("#cuLabEmailSubject").val()
                     ,'flagPage': "customer" }, 
                 success: function (data) {
                     //alert('bbbbb'+data);

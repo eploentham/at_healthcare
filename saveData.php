@@ -87,6 +87,11 @@ if($_GET["flagPage"] === "company"){
     $amphur_id=$_GET["amphur_id"];
     $district_id=$_GET["district_id"];
     $zipcode=$_GET["zipcode"];
+    $contact_name1=$_GET["contact_name1"];
+    $lab_email_address_to=$_GET["lab_email_address_to"];
+    $lab_email_address_from=$_GET["lab_email_address_from"];
+    $lab_email_address_subject_to=$_GET["lab_email_address_subject_to"];
+    
     if(($_GET["cust_id"]==="-")|| ($_GET["cust_id"]==="")){
         $sql = "Select count(1) as cnt From b_customer ";
         if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
@@ -103,8 +108,8 @@ if($_GET["flagPage"] === "company"){
             }
             //$doc = "C".$year. substr($cnt, strlen($cnt)-3);
         }
-        $sql="Insert Into b_customer(cust_id, cust_code, cust_name_t, cust_address_t, tele, email, tax_id, active, date_create) "
-                ."Values(UUID(),'".$cnt."','".$cust_name_t."','".$cust_address_t."','".$tele."','".$email."','".$tax_id."','1',now())";
+        $sql="Insert Into b_customer(cust_id, cust_code, cust_name_t, cust_address_t, tele, email, tax_id, contact_name1, lab_email_address_to, lab_email_address_from, lab_email_subject_to, active, date_create) "
+                ."Values(UUID(),'".$cnt."','".$cust_name_t."','".$cust_address_t."','".$tele."','".$email."','".$tax_id."','".$contact_name1."','".$lab_email_address_to."','".$lab_email_address_from."','".$lab_email_address_subject_to."','1',now())";
     }else{
         $sql="Update b_customer "
                 ."Set cust_code = '".$cust_code."' "
@@ -117,6 +122,10 @@ if($_GET["flagPage"] === "company"){
                 .", amphur_id = '".$amphur_id."' "
                 .", district_id = '".$district_id."' "
                 .", zipcode = '".$zipcode."' "
+                .", contact_name1 = '".$contact_name1."' "
+                .", lab_email_address_to = '".$lab_email_address_to."' "
+                .", lab_email_address_from = '".$lab_email_address_from."' "
+                .", lab_email_subject_to = '".$lab_email_address_subject_to."' "
                 .", date_modi = now() "
                 ."Where cust_id = '".$cust_id."'";
     }

@@ -15,6 +15,9 @@ $yearId="";
 $monthId="";
 $periodId="";
 $tr="";
+$brname="";
+$monthname="";
+$periodname="";
 if(isset($_GET["branch_id"])){
     $brId = $_GET["branch_id"];
 }else{
@@ -81,6 +84,21 @@ if ($rComp=mysqli_query($conn,$sql)){
         $excelCnt=$aRec["excel_cnt"];
     }
 }
+$labEmailTo="";
+$labEmailFrom="";
+$labEmailSubject="";
+$sql = "Select * from b_customer;";
+if ($rComp=mysqli_query($conn,$sql)){
+    while($aRec = mysqli_fetch_array($rComp)){
+        $labEmailTo=$aRec["lab_email_address_to"];
+        $labEmailFrom=$aRec["lab_email_address_from"];
+        $labEmailSubject=$aRec["lab_email_subject_to"];
+    }
+}
+$brname = getBranchName($brId);
+$monthname = getMonthName($monthId);
+$periodname = getPeriodName($periodId);
+$labEmailSubject.= " ".$brname." ประจำ ปี ".$yearId." เดือน ".$monthname." งวด ".$periodname;
 $rComp->free();
 mysqli_close($conn);
 ?>
@@ -199,19 +217,44 @@ mysqli_close($conn);
                                     </section>
                                 </div>
                                 <div class="row">
-                                    <section class="col col-2">
-                                        <label class="label">จำนวนข้อมูล</label>
-                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="reDesc" id="reDesc" value="<?php echo $cnt;?>" placeholder="จำนวนข้อมูล"></label>
-                                        <label class="label">จำนวนข้อมูล Excel</label>
-                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="reDesc" id="reDesc" value="<?php echo $excelCnt;?>" placeholder="จำนวนข้อมูล"></label>
+                                    <section class="col col-4">
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="label">จำนวนข้อมูล</label>
+                                                <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                    <input type="text" name="reDesc" id="reDesc" value="<?php echo $cnt;?>" placeholder="จำนวนข้อมูล"></label>
+                                                <label class="label">จำนวนข้อมูล Excel</label>
+                                                <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                    <input type="text" name="reExcel" id="reExcel" value="<?php echo $excelCnt;?>" placeholder="จำนวนข้อมูล"></label>
+                                            </section>
+                                            <section class="col col-6">
+                                                <label class="label">จำนวนคนไข้</label>
+                                                <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                    <input type="text" name="reCntHn" id="reCntHn" value="<?php echo $cntHn;?>" placeholder="จำนวนคนไข้"></label>
+                                            </section>
+                                        </div>
+                                        <div class="row" id="divSendEmail">
+                                            <section class="col col-10">
+                                                <label class="label">TO</label>
+                                                <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                    <input type="text" name="reEmailTO" id="reEmailTO" value="<?php echo $labEmailTo;?>" placeholder="TO"></label>
+                                                <label class="label">FROM</label>
+                                                <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                    <input type="text" name="reEmailFrom" id="reEmailFrom" value="<?php echo $labEmailFrom;?>" placeholder="FROM"></label>
+                                                    
+                                                <label class="label">Subject</label>
+                                                <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                    <input type="text" name="reEmailSubject" id="reEmailSubject" value="<?php echo $labEmailSubject;?>" placeholder="Subject"></label>
+                                                    
+                                                <label class="label">&nbsp;&nbsp;</label>
+                                                <button type="button" id="btnComposeEmail" class="btn btn-primary btn-sm">compose email</button>
+                                            </section>
+                                            
+   
+                                            
+                                        </div>
                                     </section>
-                                    <section class="col col-2">
-                                        <label class="label">จำนวนคนไข้</label>
-                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="reDesc" id="reDesc" value="<?php echo $cntHn;?>" placeholder="จำนวนคนไข้"></label>
-                                    </section>
+                                                                        
                                     <section class="col col-8">
                                         <table id="dt_basic" class="table table-striped table-bordered table-hover responsive" width="100%">
                                             <thead>
@@ -274,6 +317,9 @@ mysqli_close($conn);
 
                             </footer>
                         </form>
+                    </div>
+                    <div class="widget-body no-padding">
+                        
                     </div>
                 </div>
             </div>
@@ -428,12 +474,25 @@ mysqli_close($conn);
         $("#btnPrint").click(printSum);
         $("#btnPrintDetail").click(printDetail);
         $("#uiLoading").hide();
+        $("#btnComposeEmail").click(sendEmail);
+        $("#btnSendEmail").click(showSendEmail);
+        hideSendEmail();
         $( document ).ready(function() {
             $("#cboBranch").val($("#branchId").val());
             $("#cboYear").val($("#yearId").val());
             $("#cboMonth").val($("#monthId").val());
             $("#cboPeriod").val($("#periodId").val());
         });
+        function hideSendEmail(){
+            $("#divSendEmail").hide();
+            //$("#reEmailFrom").hide();
+            //$("#reEmailSubject").hide();
+        }
+        function showSendEmail(){
+            $("#divSendEmail").show();
+            //$("#reEmailFrom").show();
+            //$("#reEmailSubject").show();
+        }
         function checkBtnVoid(){
             if($("#chkReVoid").is(':checked'))
                 $("#btnReVoid").hide();  // checked
@@ -526,7 +585,7 @@ mysqli_close($conn);
         }
         function saveRec1(){
             //$.alert("hello222 "+$("#veId").val());
-            $.ajax({ 
+            $.ajax({
                 type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text'
                 , data: { 'branch_id': $("#cboBranch").val(),'year_id': $("#cboYear").val(),'month_id': $("#cboMonth").val()
                     ,'period_id': $("#cboPeriod").val()
@@ -552,36 +611,38 @@ mysqli_close($conn);
             //alert('bbbbb');
             //$("#divView").append("aaaaaaaaaaaaa");
             //alert("aaa"+$("#reLastname").val());
-            if($("#reterms").is(':checked')==true){
-                if($("#rePassword").val()==""){
-                    alert("Password ไม่สามารถว่างได้");
-                    return ;
-                }
-                if($("#rePassword").val() != $("#reCPassword").val()){
-                    alert("Password ไม่ตรงกัน ");
-                    return ;
-                }
-                showLoader();
-                $.ajax({
-                    type: 'GET', url: 'gmail.php', contentType: "application/json", dataType: 'text', 
-                    data: {'flagPage': "regis"
-                        , 'reName':$("#reName").val()
-                        , 'reLastname':$("#reLastname").val()
-                        , 'reUsername':$("#reUsername").val()
-                        , 'reTele':$("#reTele").val()
-                        , 'reEmail':$("#reEmail").val()
-                        , 'rePassword':$("#rePassword").val()
-                        }, 
-                    success: function (data) {
-                        //alert('bbbbb '.data);
-                        $("#divView").append(data);
-                        $("#divView").append("<br>ขอบคุณสำหรับการสมัครสมาชิก กับManit Insurance <br>โปรดตรวจสอบ email และconfirm ");
-                        hideLoader();
-                    }
-                });
-            }else{
-                alert("ยังไม่ได้ Click Terms");
+            
+            if($("#reEmailTO").val()===""){
+                alert("Email TO ไม่สามารถว่างได้");
+                return ;
             }
+            if($("#reEmailFrom").val()===""){
+                alert("Email From ไม่สามารถว่างได้ ");
+                return ;
+            }
+            if($("#reEmailSubject").val()===""){
+                alert("Email Subject ไม่สามารถว่างได้ ");
+                return ;
+            }
+            
+            $.ajax({
+                type: 'GET', url: 'gmail.php', contentType: "application/json", dataType: 'text', 
+                data: {'flagPage': "labsendemail"
+                    , 'branch_id':$("#branchId").val()
+                    , 'year_id':$("#yearId").val()
+                    , 'month_id':$("#monthId").val()
+                    , 'period_id':$("#periodId").val()
+                    , 'reEmailTO':$("#reEmailTO").val()
+                    , 'reEmailFrom':$("#reEmailFrom").val()
+                    , 'reEmailSubject':$("#reEmailSubject").val()
+                    }, 
+                success: function (data) {
+                    //alert('bbbbb '.data);
+                    $("#divView").append(data);
+                    $("#divView").append("<br>ส่ง email เรียบร้อย ");
+                    hideLoader();
+                }
+            });
         }
 
 </script>

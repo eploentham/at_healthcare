@@ -8,6 +8,39 @@ require_once('lib/fpdf.php');
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+$brId="";
+$yearId="";
+$monthId="";
+$periodId="";
+$brname="";
+$tr="";
+if(isset($_GET["branch_id"])){
+    $brId = $_GET["branch_id"];
+}else{
+    $brId = "";
+}
+if(isset($_GET["year_id"])){
+    $yearId = $_GET["year_id"];
+}else{
+    $yearId = "";
+}
+if(isset($_GET["month_id"])){
+    $monthId = $_GET["month_id"];
+}else{
+    $monthId = "";
+}
+if(isset($_GET["period_id"])){
+    $periodId = $_GET["period_id"];
+}else{
+    $periodId = "";
+}
+if($brId==="1"){
+    $brname="บางนา 1";
+}else if($brId==="2"){
+    $brname="บางนา 2";
+}else if($brId==="5"){
+    $brname="บางนา 5";
+}
 
 function NumberToString($number){
 	$number=str_replace(array(',',' ',),'',$number);
@@ -64,7 +97,7 @@ class PDF extends FPDF
         $this->AddFont('angsa','','angsa.php');
 	$this->SetFont('angsa','',20);
         $this->Cell(30);
-        if((intval($yearId)<=2017) && (intval($monthId) <=7)){
+        if((intval($this->year)<=2017) && (intval($this->month) <7)){
             $this->Image('img/powerlab.jpg',10,6,30);
             $this->SetFont('angsa','',18);
             $this->Cell(30,5,iconv( 'UTF-8','TIS-620','บริษัท เพาเวอร์ไดแอกนอสติค ลาโบราทอรี่ จํากัด'),0,0,'L');
@@ -81,7 +114,7 @@ class PDF extends FPDF
             $this->Cell(30,5,iconv( 'UTF-8','TIS-620','บริษัท เอทีทีเอ2016 จำกัด'),0,0,'L');
             $this->Ln(7);
             $this->Cell(30);
-            $this->SetFont('angsa','',14);
+            $this->SetFont('angsa','',12);
             $this->Cell(60,5,iconv( 'UTF-8','TIS-620','หมู่บ้านโครงการทาวร์พลัส เทพารักษ์ หมู่4 ถ.เทพารักษ์ ต.บางพลีใหญ่ อ.บางพลี จ.สมุทรปราการ 10540 โทร.0813518464 โทรสาร 02-1381175'),0,0,'L');
             //$compName = "บริษัท เอทีทีเอ2016 จำกัด ";
             //$compAddr="หมู่บ้านโครงการทาวร์พลัส เทพารักษ์ หมู่4 ถ.เทพารักษ์ ต.บางพลีใหญ่ อ.บางพลี จ.สมุทรปราการ 10540 โทร.0813518464 โทรสาร 02-1381175";
@@ -134,39 +167,7 @@ class PDF extends FPDF
 //$pdf->Cell(0,20,iconv( 'UTF-8','TIS-620','สวัสดี ชาวไทยครีเอท'),0,1,"C");
 
 
-$brId="";
-$yearId="";
-$monthId="";
-$periodId="";
-$brname="";
-$tr="";
-if(isset($_GET["branch_id"])){
-    $brId = $_GET["branch_id"];
-}else{
-    $brId = "";
-}
-if(isset($_GET["year_id"])){
-    $yearId = $_GET["year_id"];
-}else{
-    $yearId = "";
-}
-if(isset($_GET["month_id"])){
-    $monthId = $_GET["month_id"];
-}else{
-    $monthId = "";
-}
-if(isset($_GET["period_id"])){
-    $periodId = $_GET["period_id"];
-}else{
-    $periodId = "";
-}
-if($brId==="1"){
-    $brname="บางนา 1";
-}else if($brId==="2"){
-    $brname="บางนา 2";
-}else if($brId==="5"){
-    $brname="บางนา 5";
-}
+
 $cntHn=0;
 $row=0;
 $rowGroupPaid=0;
@@ -174,13 +175,15 @@ $cntPaid=0;
 $sumPaid=0;
 $sumDiscount=0;
 $sumNetPrice=0;
+$sumGroupNetPrice=0;
+$cntGroup=0;
 $trPaid="";
 $lineBreak = 40; 
 $border="0";
 $compName="";
 $compAddr="";
 $compImg="";
-if((intval($yearId)<=2017) && (intval($monthId) <=6)){
+if((intval($yearId)<=2017) && (intval($monthId) <7)){
     $compName = "บริษัท เพาเวอร์ไดแอกนอสติค ลาโบราทอรี่ จํากัด";
     $compAddr="79 ม.8 ต.บางครุ อ.พระประแดง จ สมุทรปราการ 10130 โทร.081-3518464 โทรสาร 02-1381175";
     $compImg="img/powerlab.jpg";
@@ -219,6 +222,8 @@ $sql="Select lab_code, lab_name, count(1) as cnt, price2, price3, discount, netp
     ."Group By paid_type_name, lab_name Order By paid_type_name, lab_name";
 if ($rComp=mysqli_query($conn,$sql)){
     $pdf=new PDF("P", "mm", 'A4');
+    $pdf->year = $yearId;
+    $pdf->month=$monthId;
     $pdf->SetAutoPageBreak(TRUE, 0.1) ;
     $pdf->AliasNbPages();
     $pdf->AddFont('angsa','','angsa.php');
@@ -228,23 +233,33 @@ if ($rComp=mysqli_query($conn,$sql)){
     $pageCnt=ceil($num_rows / $lineBreak);
     $total=0;
     while($aRec = mysqli_fetch_array($rComp)){
-        $row++;
-        
+        $row++;        
         $paidType = $aRec["paid_type_name"];
         if($paidType!=$paidTypeOld){
-            $paidTypeOld = $paidType;
+            
             $newPage = "new";
             $rowGroupPaid=0;
-        }
-        
-        if(($row===1) || ($row % $lineBreak===0) || $newPage ==="new"){
             
+            if(($row>1)){
+                //$pdf->PageNo()
+                $pdf->SetX(80);
+                $pdf->Cell(10,0.6,iconv('UTF-8','TIS-620',"รวม ".$paidTypeOld),$border,0,"R");
+                $pdf->SetX(130);
+                $pdf->Cell(10,0.6,number_format($cntGroup),$border,0,"R");
+                $pdf->SetX(180);
+                $pdf->Cell(20,0.6,number_format($sumGroupNetPrice,2,'.',','),$border,0,"R");
+            }
+            $paidTypeOld = $paidType;
+            $cntGroup=0;
+            $sumGroupNetPrice=0;
+        }
+        if(($row===1) || ($rowGroupPaid % $lineBreak===0) || $newPage ==="new"){
             $newPage = "old";
             $pdf->AddPage();
             $pdf->SetFont('angsa','',16);
 //            $pdf->AddFont('angsa','','angsa.php');
             $pdf->SetX(5);
-            $pdf->Cell(0,0.6,iconv('UTF-8','TIS-620',"รายงานชันสูตรโรค ตามประเภท"),$border,0,"C");
+            $pdf->Cell(0,0.6,iconv('UTF-8','TIS-620',"รายงานชันสูตรโรค ตามประเภท".$row.$lineBreak),$border,0,"C");
             $pdf->Ln(5);
             $pdf->SetX(15);
             $pdf->Cell(10,0.6,iconv('UTF-8','TIS-620',$aRec["paid_type_name"]),$border,0,"C");
@@ -284,8 +299,20 @@ if ($rComp=mysqli_query($conn,$sql)){
         $cntPaid+=$aRec["cnt"];
         $sumPaid+=$aRec["price3"];
         $sumDiscount+=$aRec["discount"];
-        $sumNetPrice+=$aRec["netprice"];
+        $sumNetPrice+=$total;
+        $sumGroupNetPrice+=$total;
+        $cntGroup+=$aRec["cnt"];
         if($row==$num_rows){
+            $pdf->SetX(80);
+            $pdf->Cell(10,0.6,iconv('UTF-8','TIS-620',"รวม ".$paidType),$border,0,"R");
+            $pdf->SetX(130);
+            $pdf->Cell(10,0.6,number_format($cntGroup),$border,0,"R");
+            $pdf->SetX(180);
+            $pdf->Cell(20,0.6,number_format($sumGroupNetPrice,2,'.',','),$border,0,"R");
+            $pdf->Ln(6);
+                
+            $pdf->SetX(80);
+            $pdf->Cell(10,0.6,iconv('UTF-8','TIS-620',"รวม "),$border,0,"R");
             $pdf->SetX(130);
             $pdf->Cell(10,0.6,number_format($cntPaid),$border,0,"R");
             $pdf->SetX(180);

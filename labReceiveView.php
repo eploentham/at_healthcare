@@ -37,16 +37,16 @@ if(isset($_GET["cboYear"])){
 }else{
     $yearId = "";
 }
-$sql="Select branch_id, year_id, month_id, period_id,count(1) as cnt, sum(price2) as price2  From lab_t_data "
+$sql="Select branch_id, year_id, month_id, period_id,count(1) as cnt, sum(price3) as price3  From lab_t_data "
         ."Where active = '1' and branch_id = '".$brId."' and year_id = '".$yearId."' "
         ."Group By branch_id, year_id, month_id, period_id "
         ."Order By branch_id, year_id, month_id, period_id";
 $result = mysqli_query($conn,$sql);
 if($result){
     while($row = mysqli_fetch_array($result)){
-        $price2 += $row["price2"];
+        $price2 += $row["price3"];
         $row1++;
-        $sparkline .= $row["price2"].", ";
+        $sparkline .= $row["price3"].", ";
         if($row["branch_id"]==="1"){
             $brname="บางนา 1";
         }else if($row["branch_id"]==="2"){
@@ -84,7 +84,7 @@ if($result){
         }else if($row["period_id"]==="2"){
             $period="งวดสิ้นเดือน";
         }
-        $aa = "สาขา ".$brname." ปี ".$row["year_id"]." เดือน ".$monthName." ".$period." จำนวนข้อมูล ".number_format($row["cnt"], 0)." รวมราคา ".number_format($row["price2"], 2);
+        $aa = "สาขา ".$brname." ปี ".$row["year_id"]." เดือน ".$monthName." ".$period." จำนวนข้อมูล ".number_format($row["cnt"], 0)." รวมราคา ".number_format($row["price3"], 2);
         $brName="<a href='#labReceiveDetail.php?branch_id=".$row["branch_id"]."&year_id=".$row["year_id"]."&month_id=".$row["month_id"]."&period_id=".$row["period_id"]."'>".$aa."</a>";
         $trCust .= "<tr><td>".$row1."</td><td>".$brName."</td></tr>";
     }

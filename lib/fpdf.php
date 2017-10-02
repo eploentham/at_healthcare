@@ -66,7 +66,8 @@ protected $ZoomMode;           // zoom display mode
 protected $LayoutMode;         // layout display mode
 protected $metadata;           // document properties
 protected $PDFVersion;         // PDF version number
-
+public $year="";
+public $month="";
 /*******************************************************************************
 *                               Public methods                                 *
 *******************************************************************************/
