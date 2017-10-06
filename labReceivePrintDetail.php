@@ -14,6 +14,7 @@ $monthId="";
 $periodId="";
 $brname="";
 $tr="";
+$paidType="";
 if(isset($_GET["branch_id"])){
     $brId = $_GET["branch_id"];
 }else{
@@ -214,6 +215,8 @@ mysqli_set_charset($conn, "UTF8");
 $pageNum=0;
 $aa=0;
 $paidType="";
+$paidType1="";
+$paidType11="";
 $paidTypeOld="";
 $newPage="";
 $cat = "ประจำ ปี ".$yearId." เดือน ".getMonthName($monthId)." ".getPeriodName($periodId)." โรงพยาบาล " .$brname;
@@ -235,15 +238,24 @@ if ($rComp=mysqli_query($conn,$sql)){
     while($aRec = mysqli_fetch_array($rComp)){
         $row++;        
         $paidType = $aRec["paid_type_name"];
+        $paidType1 = $paidType;
         if($paidType!=$paidTypeOld){
             
             $newPage = "new";
             $rowGroupPaid=0;
             
             if(($row>1)){
+                $paidType11 = $paidTypeOld;
+                if($brId==="2"){
+                    if($paidTypeOld==="@"){
+                        $paidType11="ทั่วไป";
+                    }else if($paidTypeOld==="#"){
+                        $paidType11="ประกันสังคม";
+                    }
+                }
                 //$pdf->PageNo()
                 $pdf->SetX(80);
-                $pdf->Cell(10,0.6,iconv('UTF-8','TIS-620',"รวม ".$paidTypeOld),$border,0,"R");
+                $pdf->Cell(10,0.6,iconv('UTF-8','TIS-620',"รวม ".$paidType11),$border,0,"R");
                 $pdf->SetX(130);
                 $pdf->Cell(10,0.6,number_format($cntGroup),$border,0,"R");
                 $pdf->SetX(180);
@@ -254,15 +266,22 @@ if ($rComp=mysqli_query($conn,$sql)){
             $sumGroupNetPrice=0;
         }
         if(($row===1) || ($rowGroupPaid % $lineBreak===0) || $newPage ==="new"){
+            if($brId==="2"){
+                if($paidType==="@"){
+                    $paidType1="ทั่วไป";
+                }else if($paidType==="#"){
+                    $paidType1="ประกันสังคม";
+                }
+            }
             $newPage = "old";
             $pdf->AddPage();
             $pdf->SetFont('angsa','',16);
 //            $pdf->AddFont('angsa','','angsa.php');
             $pdf->SetX(5);
-            $pdf->Cell(0,0.6,iconv('UTF-8','TIS-620',"รายงานชันสูตรโรค ตามประเภท".$row.$lineBreak),$border,0,"C");
+            $pdf->Cell(0,0.6,iconv('UTF-8','TIS-620',"รายงานชันสูตรโรค ตามประเภท"),$border,0,"C");
             $pdf->Ln(5);
             $pdf->SetX(15);
-            $pdf->Cell(10,0.6,iconv('UTF-8','TIS-620',$aRec["paid_type_name"]),$border,0,"C");
+            $pdf->Cell(10,0.6,iconv('UTF-8','TIS-620',$paidType1),$border,0,"C");
             $pdf->Cell(0,0.6,iconv('UTF-8','TIS-620',$cat),$border,0,"C");
             $pdf->Ln(10);
             $pdf->SetX(5);
@@ -303,8 +322,15 @@ if ($rComp=mysqli_query($conn,$sql)){
         $sumGroupNetPrice+=$total;
         $cntGroup+=$aRec["cnt"];
         if($row==$num_rows){
+            if($brId==="2"){
+                if($paidType==="@"){
+                    $paidType1="ทั่วไป";
+                }else if($paidType==="#"){
+                    $paidType1="ประกันสังคม";
+                }
+            }
             $pdf->SetX(80);
-            $pdf->Cell(10,0.6,iconv('UTF-8','TIS-620',"รวม ".$paidType),$border,0,"R");
+            $pdf->Cell(10,0.6,iconv('UTF-8','TIS-620',"รวม ".$paidType1),$border,0,"R");
             $pdf->SetX(130);
             $pdf->Cell(10,0.6,number_format($cntGroup),$border,0,"R");
             $pdf->SetX(180);

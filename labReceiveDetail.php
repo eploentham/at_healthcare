@@ -45,6 +45,7 @@ $sumPaid=0;
 $sumDiscount=0;
 $sumNetPrice=0;
 $trPaid="";
+$paidType="";
 $where="Where branch_id = '".$brId."' and year_id = '".$yearId
     ."' and month_id = '".$monthId."' and period_id = '".$periodId."' and active = '1' ";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
@@ -69,7 +70,15 @@ $sql="Select distinct paid_type_name, count(1) as cnt, sum(price3) as price3, su
     ."Group By paid_type_name";
 if ($rComp=mysqli_query($conn,$sql)){
     while($aRec = mysqli_fetch_array($rComp)){
-        $trPaid.="<tr><td>".$aRec["paid_type_name"]."</td><td>".number_format($aRec["cnt"],2,'.',',')."</td><td>".number_format($aRec["price3"],2,'.',',')."</td><td>".number_format($aRec["discount"],2,'.',',')."</td><td>".number_format($aRec["netprice"],2,'.',',')."</td></tr>";
+        $paidType = $aRec["paid_type_name"];
+        if($brId==="2"){
+            if($paidType==="@"){
+                $paidType="ทั่วไป";
+            }else if($paidType==="#"){
+                $paidType="ประกันสังคม";
+            }            
+        }
+        $trPaid.="<tr><td>".$paidType."</td><td>".number_format($aRec["cnt"],2,'.',',')."</td><td>".number_format($aRec["price3"],2,'.',',')."</td><td>".number_format($aRec["discount"],2,'.',',')."</td><td>".number_format($aRec["netprice"],2,'.',',')."</td></tr>";
         $cntPaid+=$aRec["cnt"];
         $sumPaid+=$aRec["price3"];
         $sumDiscount+=$aRec["discount"];

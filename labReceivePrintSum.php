@@ -40,6 +40,7 @@ $trPaid="";
 $compName="";
 $compAddr="";
 $compImg="";
+$paidType="";
 if((intval($yearId)<=2017) && (intval($monthId) <7)){
     $compName = "บริษัท เพาเวอร์ไดแอกนอสติค ลาโบราทอรี่ จํากัด";
     $compAddr="79 ม.8 ต.บางครุ อ.พระประแดง จ สมุทรปราการ 10130 โทร.081-3518464 โทรสาร 02-1381175";
@@ -74,7 +75,15 @@ $sql="Select distinct paid_type_name, count(1) as cnt, sum(price3) as price3, su
 if ($rComp=mysqli_query($conn,$sql)){
     while($aRec = mysqli_fetch_array($rComp)){
         $row++;
-        $trPaid.="<tr><td>".$row."</td><td>".$aRec["paid_type_name"]."</td><td class='cnt' align='right'>".number_format($aRec["cnt"])."</td><td class='price' align='right'>".number_format($aRec["price3"],2,'.',',')."</td><td class='price' align='right'>".number_format($aRec["discount"],2,'.',',')."</td><td class='price' align='right'>".number_format($aRec["netprice"],2,'.',',')."</td></tr>";
+        $paidType = $aRec["paid_type_name"];
+        if($brId==="2"){
+            if($paidType==="@"){
+                $paidType="ทั่วไป";
+            }else if($paidType==="#"){
+                $paidType="ประกันสังคม";
+            }            
+        }
+        $trPaid.="<tr><td>".$row."</td><td>".$paidType."</td><td class='cnt' align='right'>".number_format($aRec["cnt"])."</td><td class='price' align='right'>".number_format($aRec["price3"],2,'.',',')."</td><td class='price' align='right'>".number_format($aRec["discount"],2,'.',',')."</td><td class='price' align='right'>".number_format($aRec["netprice"],2,'.',',')."</td></tr>";
         $cntPaid+=$aRec["cnt"];
         $sumPaid+=$aRec["price3"];
         $sumDiscount+=$aRec["discount"];
