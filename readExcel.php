@@ -78,7 +78,7 @@ for ($row = 2; $row <= $highestRow; ++$row) {
 //    }
 }
 $sql = "Insert Into lab_t_data_header(year_id, month_id, period_id, branch_id, active, excel_cnt) "
-        . "Values('".$_GET["year_id"]."','".$_GET["month_id"]."','".$_GET["period_id"]."','".$_GET["period_id"]."','1','".$highestRow."')";
+        . "Values('".$_GET["year_id"]."','".$_GET["month_id"]."','".$_GET["period_id"]."','".$_GET["branch_id"]."','1','".$highestRow."')";
 if ($result=mysqli_query($conn,$sql) or die(mysqli_error($conn))){
     $dataHeaderId = mysqli_insert_id($conn);
 }
@@ -147,6 +147,9 @@ foreach ($namedDataArray as $result) {
     }else{
         $typeOld=$type;
     }
+    if(($_GET["branch_id"]==="2") && $type===""){       //แก้ excel bangna2 ไม่มี สิทธิ
+        $type="#";
+    }
     $name=$result[4];
     if($name === ""){
         $name = $nameOld;
@@ -155,14 +158,14 @@ foreach ($namedDataArray as $result) {
     }
     $price2= floatval($result[9]);
     $price3= floatval($result[10]);
-    if($price2===0){
+    if($price2===0.0){
         $price2Zere++;
     }
-    if($price3===0){
+    if($price3===0.0){
         $price3=$price2;
         $price3Zere++;
     }
-    if((strpos(strtoupper($result[7]),"OUTLAB")>0) || (strpos(strtoupper($result[7]),"OUT LAB")>0)){
+    if((strpos(strtoupper($result[7]),"OUTLAB") > 0) || (strpos(strtoupper($result[7]),"OUT LAB") > 0)){
         $statusOutLab = "1";
         $statusDiscount = "0";
         //remark = "เป็น out lab ไม่มีส่วนลด ใช้ราคา price2";

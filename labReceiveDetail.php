@@ -96,7 +96,7 @@ if ($rComp=mysqli_query($conn,$sql)){
 $labEmailTo="";
 $labEmailFrom="";
 $labEmailSubject="";
-$sql = "Select * from b_customer;";
+$sql = "Select * from b_customer where lab_branch_id = '".$brId."';";
 if ($rComp=mysqli_query($conn,$sql)){
     while($aRec = mysqli_fetch_array($rComp)){
         $labEmailTo=$aRec["lab_email_address_to"];
