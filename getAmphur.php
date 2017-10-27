@@ -298,6 +298,10 @@ if($_GET['flagPage']=="amphur"){
         while($row = mysqli_fetch_array($result)){
             $price2= floatval($row["price2"]);
             $price3= floatval($row["price3"]);
+            if($price3===0){
+                $price3=$price2;
+                //$price3Zere++;
+            }
             $type=trim($row["paid_type_name"]);
             if((strpos(strtoupper($row["lab_name"]),"OUTLAB")>0) || (strpos(strtoupper($row["lab_name"]),"OUT LAB")>0)){
                 $statusOutLab = "1";
