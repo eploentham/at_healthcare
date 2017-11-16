@@ -98,7 +98,12 @@ class PDF extends FPDF
         $this->AddFont('angsa','','angsa.php');
 	$this->SetFont('angsa','',20);
         $this->Cell(30);
-        if((intval($this->year)<=2016) && (intval($this->month) <7)){
+        //$chk = intval($this->year)+intval($this->month);     
+        $dateATTA=date_create("2017-07-01");
+        $date1=date_create($this->year."-".$this->month."-01");
+        $diff=date_diff(date_create("2017-07-01"),$date1);
+        //if((intval($this->year)<=2016) && (intval($this->month) <7)){
+        if($diff->format("%R%a")<0){
             $this->Image('img/powerlab.jpg',10,6,30);
             $this->SetFont('angsa','',18);
             $this->Cell(30,5,iconv( 'UTF-8','TIS-620','บริษัท เพาเวอร์ไดแอกนอสติค ลาโบราทอรี่ จํากัด'),0,0,'L');
@@ -184,7 +189,12 @@ $border="0";
 $compName="";
 $compAddr="";
 $compImg="";
-if((intval($yearId)<=2016) && (intval($monthId) <7)){
+//$chk1 = intval($yearId)+intval($monthId); 
+$dateATTA=date_create("2017-07-01");
+$date1=date_create($yearId."-".$monthId."-01");
+$diff=date_diff(date_create("2017-07-01"),$date1);
+//if((intval($yearId)<=2016) && (intval($monthId) <7)){
+if($diff->format("%R%a")<0){
     $compName = "บริษัท เพาเวอร์ไดแอกนอสติค ลาโบราทอรี่ จํากัด";
     $compAddr="79 ม.8 ต.บางครุ อ.พระประแดง จ สมุทรปราการ 10130 โทร.081-3518464 โทรสาร 02-1381175";
     $compImg="img/powerlab.jpg";

@@ -41,8 +41,14 @@ $compName="";
 $compAddr="";
 $compImg="";
 $paidType="";
-if((intval($yearId)<=2016) && (intval($monthId) <7)){
-    $compName = "บริษัท เพาเวอร์ไดแอกนอสติค ลาโบราทอรี่ จํากัด";
+$chk = intval($yearId)+intval($monthId);
+
+$dateATTA=date_create("2017-07-01");
+$date1=date_create($yearId."-".$monthId."-01");
+$diff=date_diff(date_create("2017-07-01"),$date1);
+//if((intval($yearId)<=2016) && (intval($monthId) <7)){
+if($diff->format("%R%a")<0){
+    $compName = "บริษัท เพาเวอร์ไดแอกนอสติค ลาโบราทอรี่ จํากัด ";
     $compAddr="79 ม.8 ต.บางครุ อ.พระประแดง จ สมุทรปราการ 10130 โทร.081-3518464 โทรสาร 02-1381175";
     $compImg="img/powerlab.jpg";
 }else{
