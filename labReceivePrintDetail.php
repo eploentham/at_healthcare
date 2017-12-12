@@ -309,6 +309,12 @@ if ($rComp=mysqli_query($conn,$sql)){
             $pdf->Ln(7);
             $pdf->SetFont('angsa','',14);
         }
+        $price3="";
+        if($aRec["price3"]==="0"){
+            $price3=$aRec["netprice"];
+        }else{
+            $price3=$aRec["price3"];
+        }
         $rowGroupPaid++;
         $total = $aRec["netprice"] * $aRec["cnt"];
         $pdf->SetX(5);
@@ -318,7 +324,7 @@ if ($rComp=mysqli_query($conn,$sql)){
         $pdf->SetX(130);
         $pdf->Cell(10,0.6,iconv('UTF-8','TIS-620',number_format($aRec["cnt"])),$border,0,"R");
         $pdf->SetX(140);
-        $pdf->Cell(20,0.6,iconv('UTF-8','TIS-620',number_format($aRec["price3"],2,'.',',')),$border,0,"R");
+        $pdf->Cell(20,0.6,iconv('UTF-8','TIS-620',number_format($price3,2,'.',',')),$border,0,"R");
         $pdf->SetX(160);
         $pdf->Cell(20,0.6,iconv('UTF-8','TIS-620',number_format($aRec["netprice"],2,'.',',')),$border,0,"R");
         $pdf->SetX(180);
