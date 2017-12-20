@@ -142,7 +142,7 @@ $mail->Username = "eploentham@gmail.com";
 
 //Password to use for SMTP authentication
 //$mail->Password = "eploentham";
-$mail->Password = "Gsdscitsigol";
+$mail->Password = "Tiriris1*";
 
 //Set who the message is to be sent from
 $mail->setFrom('eploentham@gmail.com', 'บริษัท เอทีทีเอ2016 จำกัด');
