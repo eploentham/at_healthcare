@@ -257,6 +257,7 @@ mysqli_close($conn);
                                                     
                                                 <label class="label">&nbsp;&nbsp;</label>
                                                 <button type="button" id="btnComposeEmail" class="btn btn-primary btn-sm">compose email</button>
+                                                <div id="divView"></div>
                                             </section>
                                             
    
@@ -619,7 +620,7 @@ mysqli_close($conn);
         function sendEmail(){
             //alert('bbbbb');
             //$("#divView").append("aaaaaaaaaaaaa");
-            //alert("aaa"+$("#reLastname").val());
+            //alert("aaa"+$("#branchId").val());
             
             if($("#reEmailTO").val()===""){
                 alert("Email TO ไม่สามารถว่างได้");
@@ -646,10 +647,10 @@ mysqli_close($conn);
                     , 'reEmailSubject':$("#reEmailSubject").val()
                     }, 
                 success: function (data) {
-                    //alert('bbbbb '.data);
+                    alert('ส่ง email เรียบร้อย '.data);
                     $("#divView").append(data);
                     $("#divView").append("<br>ส่ง email เรียบร้อย ");
-                    hideLoader();
+//                    hideLoader();
                 }
             });
         }

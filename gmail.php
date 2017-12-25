@@ -75,7 +75,7 @@ $labEmailSubject="";
 $brname="";
 $monthname="";
 $periodname="";
-$sql = "Select * from b_customer;";
+$sql = "Select * from b_customer Where lab_branch_id = '".$brId."'";
 if ($rComp=mysqli_query($conn,$sql)){
     while($aRec = mysqli_fetch_array($rComp)){
         $labEmailTo=$aRec["lab_email_address_to"];
