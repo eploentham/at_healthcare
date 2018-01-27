@@ -78,6 +78,8 @@ if ($rComp=mysqli_query($conn,$sql)){
                 $paidType="ประกันสังคม";
             }            
         }
+        $price3="";
+        
         $trPaid.="<tr><td>".$paidType."</td><td>".number_format($aRec["cnt"],2,'.',',')."</td><td>".number_format($aRec["price3"],2,'.',',')."</td><td>".number_format($aRec["discount"],2,'.',',')."</td><td>".number_format($aRec["netprice"],2,'.',',')."</td></tr>";
         $cntPaid+=$aRec["cnt"];
         $sumPaid+=$aRec["price3"];
