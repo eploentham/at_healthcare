@@ -354,8 +354,86 @@ mysqli_close($conn);
                                         บันทึกข้อมูล
                                 </button>
                             </footer>
-                        </form>						
+                        </form>			
+                        <div class="row"> 
+                            <div class="col col-lg-12">
+                                <div class="col col-lg-4">
+                                    <!-- widget edit box -->
+                                    <div class="jarviswidget-editbox">
+                                            <!-- This area used as dropdown edit box -->
 
+                                    </div>
+                                    <!-- end widget edit box -->
+
+                                    <!-- widget content -->
+                                    <div class="widget-body col col-lg-12">
+                                        <form action="upload_goods_pic.php" class="dropzone" id="mydropzone">
+                                            <!--<input type="hidden" name="cboBranch1" id="cboBranch1" value="2">
+                                            <input type="hidden" name="cboYear1" id="cboYear1" value="2017">
+                                            <input type="hidden" name="cboMonth1" id="cboMonth1" value="3">
+                                            <input type="hidden" name="cboPeriod1" id="cboPeriod1" value="4">-->
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col col-lg-8">
+                                    <form class="smart-form">
+                                        <header>
+                                                ใส่รูป และคำบรรยาย
+                                        </header>
+                                        <fieldset>                                                
+                                            <section>
+                                                    <label class="label">คำบรรยาย สินค้าแสดงใน web</label>
+                                                    <label class="input">
+                                                            <input type="text" class="input-sm">
+                                                    </label>
+                                            </section>      
+                                            <section>
+                                                <button type="button" id="btnSaveGoodsPic" class="btn btn-labeled btn-primary btn-lg">
+                                                        บันทึกข้อมูลรูปสินค้า
+                                                </button>
+                                            </section>
+                                        </fieldset>                                        
+                                    </form>
+                                </div>
+                            </div>                            
+                        </div>
+                        <div class="row">
+                            <div class="col col-lg-12">
+                                
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <!-- product -->
+                                <div class="product-content product-wrap clearfix">
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-12 col-xs-12">
+                                                <div class="product-image"> 
+                                                        <img src="img/demo/e-comm/3.png" alt="194x228" class="img-responsive"> 
+                                                        <span class="tag2 hot">
+                                                                HOT
+                                                        </span> 
+                                                </div>
+                                        </div>
+                                            <div class="col-md-7 col-sm-12 col-xs-12">
+                                                <div class="product-deatil">
+                                                    <h5 class="name">
+                                                        <a href="#">
+                                                            Product Name Title Here <span>Category</span>
+                                                        </a>
+                                                    </h5>
+                                                    <p class="price-container">
+                                                            <span>$399</span>
+                                                    </p>
+                                                    <span class="tag1"></span> 
+                                                </div>
+                                                <div class="description">
+                                                    <p>Proin in ullamcorper lorem. Maecenas eu ipsum </p>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                                <!-- end product -->
+                            </div>
+                        </div>
                     </div>
                     <!-- end widget content -->
                 </div>
@@ -502,7 +580,14 @@ mysqli_close($conn);
 				$('#startdate').datepicker('option', 'maxDate', selectedDate);
 			}
 		});
-		
+		Dropzone.autoDiscover = false;
+                $("#mydropzone").dropzone({
+                        //url: "/file/post",
+                        addRemoveLinks : true,
+                        maxFilesize: 3,
+                        dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
+                        dictResponseError: 'Error uploading file!'
+                });
 	};
 	
 	// end pagefunction
@@ -515,6 +600,7 @@ mysqli_close($conn);
         });
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
+        loadScript("js/plugin/dropzone/dropzone.min.js", pagefunction);
         hideBtnVoid();
         $("#goAlert").hide();
         $("#goCodeCopy").click(codeCopy);
