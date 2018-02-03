@@ -48,6 +48,8 @@ if ($rComp=mysqli_query($conn,$sql)){
     $goPup = ($aGoods["purchase_point"]);
     $goPuPer = ($aGoods["purchase_period"]);
     $goBarcode = $aGoods["barcode"];
+    $path_pic =  "uploads_goods_pic/".$aGoods["path_pic"];
+    $remark =  $aGoods["remark"];
     if($goSide === "RT"){
         $chkSideRT = "checked='checked'";
     }else if($goSide === "LT"){
@@ -73,12 +75,15 @@ if ($rComp=mysqli_query($conn,$sql)){
     $goPup="2";
     $goPuPer="15";
 }
+$type="";
+$cat="";
 $sql="Select * From b_goods_type Order By sort1, goods_type_name";
 //$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
 if ($result=mysqli_query($conn,$sql)){
     $oType = "<option value='0' selected='' disabled=''>เลือก ประะเภทสินค้า</option>";
     while($row = mysqli_fetch_array($result)){
         if($goTypeId===$row["goods_type_id"]){
+            $type = $row["goods_type_name"];
             $oType .= '<option selected value='.$row["goods_type_id"].'>'.$row["goods_type_name"].'</option>';
         }else{
             $oType .= '<option value='.$row["goods_type_id"].'>'.$row["goods_type_name"].'</option>';
@@ -91,6 +96,7 @@ if ($result=mysqli_query($conn,$sql)){
     $oCat = "<option value='0' selected='' disabled=''>เลือก ชนิดสินค้า</option>";
     while($row = mysqli_fetch_array($result)){
         if($goCatId===$row["goods_cat_id"]){
+            $cat = $row["goods_cat_name"];
             $oCat .= '<option selected value='.$row["goods_cat_id"].'>'.$row["goods_cat_name"].'</option>';
         }else{
             $oCat .= '<option value='.$row["goods_cat_id"].'>'.$row["goods_cat_name"].'</option>';
@@ -368,8 +374,9 @@ mysqli_close($conn);
                                     <!-- widget content -->
                                     <div class="widget-body col col-lg-12">
                                         <form action="upload_goods_pic.php" class="dropzone" id="mydropzone">
+                                            
                                             <!--<input type="hidden" name="cboBranch1" id="cboBranch1" value="2">
-                                            <input type="hidden" name="cboYear1" id="cboYear1" value="2017">
+                                            
                                             <input type="hidden" name="cboMonth1" id="cboMonth1" value="3">
                                             <input type="hidden" name="cboPeriod1" id="cboPeriod1" value="4">-->
                                         </form>
@@ -384,7 +391,7 @@ mysqli_close($conn);
                                             <section>
                                                     <label class="label">คำบรรยาย สินค้าแสดงใน web</label>
                                                     <label class="input">
-                                                            <input type="text" class="input-sm">
+                                                        <input type="text" id="txtGoodsRemark" name="txtGoodsRemark" class="input-sm">
                                                     </label>
                                             </section>      
                                             <section>
@@ -407,7 +414,7 @@ mysqli_close($conn);
                                     <div class="row">
                                         <div class="col-md-5 col-sm-12 col-xs-12">
                                                 <div class="product-image"> 
-                                                        <img src="img/demo/e-comm/3.png" alt="194x228" class="img-responsive"> 
+                                                    <img src="<?php echo $path_pic;?>" alt="194x228" class="img-responsive"> 
                                                         <span class="tag2 hot">
                                                                 HOT
                                                         </span> 
@@ -416,17 +423,17 @@ mysqli_close($conn);
                                             <div class="col-md-7 col-sm-12 col-xs-12">
                                                 <div class="product-deatil">
                                                     <h5 class="name">
-                                                        <a href="#">
-                                                            Product Name Title Here <span>Category</span>
+                                                        <a href="#"><?php echo $goCode." ".$goName ?>
+                                                            <span>ประเภทสินค้า <?php echo $type; ?>  ชนิดสินค้า <?php echo $cat; ?></span>
                                                         </a>
                                                     </h5>
                                                     <p class="price-container">
-                                                            <span>$399</span>
+                                                            <span><?php echo $goPrice;?></span>
                                                     </p>
                                                     <span class="tag1"></span> 
                                                 </div>
                                                 <div class="description">
-                                                    <p>Proin in ullamcorper lorem. Maecenas eu ipsum </p>
+                                                    <p><?php echo $remark; ?> </p>
                                                 </div>
                                             </div>
                                     </div>
@@ -609,6 +616,7 @@ mysqli_close($conn);
         $("#goType").change(checkHole);
         $("#chkGoVoid").click(checkBtnVoid);
         $("#btnGoVoid").click(voidGoods);
+        $("#btnSaveGoodsPic").click(saveGoodsPic);
         checkHole();
         $( ".select" ).change(function() {
             //var name = $('select[name="dept"]').val('3');
@@ -710,10 +718,57 @@ mysqli_close($conn);
                 return false;
             return true;
         }
+        function saveGoodsPic(){
+            $("#goAlert").show();
+            if($("#txtGoodsRemark").val()===""){
+                $("#goAlert").removeClass('alert-success');
+                $("#goAlert").addClass('alert alert-block alert-error');
+                $("#goType1").removeClass('alert-success');
+                $("#goType1").addClass('input state-error');
+                $("#goVali").empty();
+                $("#goVali").append("คำบรรยาย สินค้าแสดงใน web ไม่ได้ป้อน");
+                return;
+            }
+            $.ajax({ 
+                type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', 
+                data: { 'goods_id': $("#goId").val()
+                    ,'goods_remark': $("#txtGoodsRemark").val()
+                    ,'flagPage': "goods_pic" }, 
+                success: function (data) {
+                    //alert('nnnnn '+data);
+//                    $.alert({
+//                        title: 'Save Data',
+//                        content: data,
+//                    });
+                    var json_obj = $.parseJSON(data);
+                    for (var i in json_obj){
+                        //alert("aaaa "+json_obj[i].success);
+                        if(json_obj[i].success==="1"){
+                            $("#goVali").empty();
+//                            $("#goVali").append(json_obj[i].sql);
+                            $("#goVali").append("บันทึกข้อมูลเรียบร้อย");
+                            $("#goAlert").removeClass('alert-error');
+                            $("#goAlert").addClass('alert-success');
+                            $.alert({
+                                title: 'Save Data',
+                                content: 'บันทึกข้อมูลเรียบร้อย'
+                            });
+                        }else{
+//                            $("#goAlert").show();
+//                            $("#goVali").val(json_obj[i].error);
+                        }
+                    }
+                    location.reload(); 
+//                    alert('bbbbb '+json_obj.length);
+//                    alert('ccccc '+$("#cDistrict").val());
+                    //$("#cZipcode").val("aaaa");
+                }
+            });
+        }
         function saveGoods(){
             $("#goAlert").show();//alert-success  alert-error  input state-error input state-success select
             //alert("aaaa "+$("#goType").val());
-            if($("#goType").val()==null){
+            if($("#goType").val()===null){
                 $("#goAlert").removeClass('alert-success');
                 $("#goAlert").addClass('alert alert-block alert-error');
                 $("#goType1").removeClass('alert-success');
@@ -761,7 +816,7 @@ mysqli_close($conn);
                     var json_obj = $.parseJSON(data);
                     for (var i in json_obj){
                         //alert("aaaa "+json_obj[i].success);
-                        if(json_obj[i].success=="1"){
+                        if(json_obj[i].success==="1"){
                             $("#goVali").empty();
 //                            $("#goVali").append(json_obj[i].sql);
                             $("#goVali").append("บันทึกข้อมูลเรียบร้อย");

@@ -18,7 +18,7 @@ $sql="Select g.*, ifnull(gt.goods_type_name,'') as goods_type_name, ifnull(gc.go
         ."From b_goods g "
         ."Left Join b_goods_type gt On g.goods_type_id = gt.goods_type_id "
         ."Left Join b_goods_catagory gc On g.goods_cat_id = gc.goods_cat_id "
-        ."Where g.active = '1' ";
+        ."Where g.active = '1'  Order By g.goods_code";
 $result = mysqli_query($conn,$sql);
 if($result){
     while($row = mysqli_fetch_array($result)){
@@ -31,7 +31,7 @@ if($result){
                 ."<div class='row'>"
                             ."<div class='col-md-5 col-sm-12 col-xs-12'>"
                                 ."<div class='product-image'> "
-                                    ."<img src='img/demo/e-comm/3.png' alt='194x228' class='img-responsive'> "
+                                    ."<img src='uploads_goods_pic/".$row["path_pic"]."' alt='194x228' class='img-responsive'> "
                                     ."<span class='tag2 hot'>HOT</span> "
                                 ."</div>"
                             ."</div>"
@@ -44,7 +44,7 @@ if($result){
                                 ."<p class='price-container'> <span>".$row["price"]."</span> </p>"
                                 ."<span class='tag1'></span> "
                             ."</div>"
-                            ."<div class='description'>  <p>Proin in ullamcorper lorem. Maecenas eu ipsum </p> </div>"
+                            ."<div class='description'>  <p>".$row["remark"]."</p> </div>"
                         ."</div>"
                 ."</div>"
             ."</div>"            

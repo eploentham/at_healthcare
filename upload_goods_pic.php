@@ -6,6 +6,7 @@ $ds          = DIRECTORY_SEPARATOR;  //1
 $storeFolder = 'uploads_goods_pic';   //2
  
 if (!empty($_FILES)) {
+    
     $name = $_FILES['file']['name'];
     if(strpos($_FILES['file']['name'], ".xls")>0){
 //        $name = substr($name,strpos($_FILES['file']['name'], ".xls"));
@@ -25,11 +26,13 @@ if (!empty($_FILES)) {
       
     $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;  //4
      
-    $targetFile =  $targetPath. $_FILES['file']['name'];  //5
+    $targetFile =  $targetPath.$_FILES['file']['name'];  //5
+    //$targetFile =  $targetPath. $goods_id;  //5
 //    $targetFile =  $targetPath.$year.$name;  //5
  
     move_uploaded_file($tempFile,$targetFile); //6
-    $_SESSION['at_goods_pic'] = $targetFile;
+    $_SESSION['at_goods_pic'] = $_FILES['file']['name'];
+    //$_SESSION['at_goods_pic'] = "99999";
     echo "<P>FILE UPLOADED TO: $targetFile</P>";
 }
 ?>
