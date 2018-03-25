@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once("inc/init.php");
 /* 
  * To change this license header, choose License Headers in Project Properties.
@@ -266,6 +267,24 @@ if($_GET["flagPage"] === "company"){
                 .", date_modi = now() "
                 ."Where goods_id = '".$goods_id."'";
     }
+}else if($_GET["flagPage"] === "goods_pic"){
+    $ds = DIRECTORY_SEPARATOR;
+    $storeFolder = 'goods_pic';
+    //$targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;
+    $targetPath = "/var/www/vhosts/bangna.co.th/httpdocs/at/goods_pic/";
+    $goods_id=$_GET["goods_id"];
+    $goods_remark=$_GET["goods_remark"];
+    $tempFile = $_SESSION['at_goods_pic'];    
+    
+    $targetFile = $goods_id;
+        
+    $sql="Update b_goods "
+        ."Set  "
+        ." remark = '".$goods_remark."' "
+        .", path_pic = '".$tempFile."' "         
+        ."Where goods_id = '".$goods_id."'";
+        
+    move_uploaded_file($tempFile,$targetPath.$targetFile);
 }else if($_GET["flagPage"] === "goods_rec"){
     $rec_id=$_GET["rec_id"];
     $rec_doc=$_GET["rec_doc"];

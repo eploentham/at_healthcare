@@ -3,7 +3,7 @@
 session_start();
 if (!isset($_SESSION['at_user_staff_name'])) {
     //header("location: #login.php");
-    $_SESSION['at_page'] ="goodsView.php";
+    $_SESSION['at_page'] ="rptOnhand.php";
     echo "<script>window.location.assign('#login.php');</script>";
 }
 $trCust="";
@@ -70,7 +70,7 @@ mysqli_close($conn);
 ?>
 <form action="" id="smart-form-register" class="smart-form" method="GET">
     <div class="row">
-        <div class="col col-3">&nbsp;
+        <div class="col col-1">&nbsp;
             
         </div>
         <div class="col col-2">
@@ -92,7 +92,12 @@ mysqli_close($conn);
         <div class="col col-2">
             <label class="label">&nbsp;&nbsp;</label>
             <button type="button" class="btn btn-primary btn-lg btn-primary" id="btnSearch">ค้นหา :</button>
-            
+            <input type="hidden" name="txtTypeId" id="txtTypeId" value="<?php echo $goTypeId;?>">
+            <input type="hidden" name="txtCatId" id="txtCatId" value="<?php echo $goCatId;?>">
+        </div>
+        <div class="col col-2" >    
+            <label class="label">&nbsp;&nbsp;</label>
+            <button type="button" id="btnPrint" class="btn btn-primary btn-sm">Print</button>
         </div>
         <div class="col col-1">
             <label class="label">&nbsp;&nbsp;</label>
@@ -212,7 +217,7 @@ mysqli_close($conn);
 	 */
 
 	pageSetUp();
-	
+	$("#btnPrint").click(printSum);
 	/*
 	 * ALL PAGE RELATED SCRIPTS CAN GO BELOW HERE
 	 * eg alert("my home function");
@@ -378,6 +383,9 @@ mysqli_close($conn);
 	});
         function submitRecDaily(){
             $( "#smart-form-register" ).submit();
+        }
+        function printSum(){
+            window.location.assign("#rptOnhandPrint.php?goods_type_id="+$("#txtTypeId").val()+"&goods_cat_id="+$("#txtCatId").val());
         }
         function searchRecDaily(){
             $("#loading").addClass("fa-spin");

@@ -75,7 +75,7 @@ $labEmailSubject="";
 $brname="";
 $monthname="";
 $periodname="";
-$sql = "Select * from b_customer;";
+$sql = "Select * from b_customer Where lab_branch_id = '".$brId."'";
 if ($rComp=mysqli_query($conn,$sql)){
     while($aRec = mysqli_fetch_array($rComp)){
         $labEmailTo=$aRec["lab_email_address_to"];
@@ -142,8 +142,12 @@ $mail->Username = "eploentham@gmail.com";
 
 //Password to use for SMTP authentication
 //$mail->Password = "eploentham";
+<<<<<<< HEAD
 $mail->Password = "Gsdscitsigol";
 $mail->Password = "Singcamma";
+=======
+$mail->Password = "Tiriris1*";
+>>>>>>> 7de3f6219893863b8ee8c86dda3a228fdc3973c5
 
 //Set who the message is to be sent from
 $mail->setFrom('eploentham@gmail.com', 'บริษัท เอทีทีเอ2016 จำกัด');

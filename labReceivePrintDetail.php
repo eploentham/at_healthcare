@@ -98,7 +98,12 @@ class PDF extends FPDF
         $this->AddFont('angsa','','angsa.php');
 	$this->SetFont('angsa','',20);
         $this->Cell(30);
-        if((intval($this->year)<=2017) && (intval($this->month) <7)){
+        //$chk = intval($this->year)+intval($this->month);     
+        $dateATTA=date_create("2017-07-01");
+        $date1=date_create($this->year."-".$this->month."-01");
+        $diff=date_diff(date_create("2017-07-01"),$date1);
+        //if((intval($this->year)<=2016) && (intval($this->month) <7)){
+        if($diff->format("%R%a")<0){
             $this->Image('img/powerlab.jpg',10,6,30);
             $this->SetFont('angsa','',18);
             $this->Cell(30,5,iconv( 'UTF-8','TIS-620','บริษัท เพาเวอร์ไดแอกนอสติค ลาโบราทอรี่ จํากัด'),0,0,'L');
@@ -184,7 +189,12 @@ $border="0";
 $compName="";
 $compAddr="";
 $compImg="";
-if((intval($yearId)<=2017) && (intval($monthId) <7)){
+//$chk1 = intval($yearId)+intval($monthId); 
+$dateATTA=date_create("2017-07-01");
+$date1=date_create($yearId."-".$monthId."-01");
+$diff=date_diff(date_create("2017-07-01"),$date1);
+//if((intval($yearId)<=2016) && (intval($monthId) <7)){
+if($diff->format("%R%a")<0){
     $compName = "บริษัท เพาเวอร์ไดแอกนอสติค ลาโบราทอรี่ จํากัด";
     $compAddr="79 ม.8 ต.บางครุ อ.พระประแดง จ สมุทรปราการ 10130 โทร.081-3518464 โทรสาร 02-1381175";
     $compImg="img/powerlab.jpg";
@@ -299,6 +309,12 @@ if ($rComp=mysqli_query($conn,$sql)){
             $pdf->Ln(7);
             $pdf->SetFont('angsa','',14);
         }
+        $price3="";
+        if($aRec["price3"]==="0"){
+            $price3=$aRec["netprice"];
+        }else{
+            $price3=$aRec["price3"];
+        }
         $rowGroupPaid++;
         $total = $aRec["netprice"] * $aRec["cnt"];
         $pdf->SetX(5);
@@ -308,7 +324,7 @@ if ($rComp=mysqli_query($conn,$sql)){
         $pdf->SetX(130);
         $pdf->Cell(10,0.6,iconv('UTF-8','TIS-620',number_format($aRec["cnt"])),$border,0,"R");
         $pdf->SetX(140);
-        $pdf->Cell(20,0.6,iconv('UTF-8','TIS-620',number_format($aRec["price3"],2,'.',',')),$border,0,"R");
+        $pdf->Cell(20,0.6,iconv('UTF-8','TIS-620',number_format($price3,2,'.',',')),$border,0,"R");
         $pdf->SetX(160);
         $pdf->Cell(20,0.6,iconv('UTF-8','TIS-620',number_format($aRec["netprice"],2,'.',',')),$border,0,"R");
         $pdf->SetX(180);

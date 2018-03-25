@@ -16,11 +16,10 @@ $page = $_SESSION["at_page"];
                 <div class="well no-padding">
                     <form action="<?php echo APP_URL; ?>" id="login-form" class="smart-form client-form">
                         <header>
-                                Sign In<?php //echo $page; ?>
+                                เข้าสู่ระบบ และ สมัครสมาชิก<?php //echo $page; ?>
                         </header>
 
                         <fieldset>
-
                             <section>
                                 <label class="label">E-mail</label>
                                 <label class="input"> <i class="icon-append fa fa-user"></i>
