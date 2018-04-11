@@ -33,11 +33,16 @@ $sql="Select g.*, ifnull(gt.goods_type_name,'') as goods_type_name, ifnull(gc.go
 $result = mysqli_query($conn,$sql);
 if($result){
     while($row = mysqli_fetch_array($result)){
+        $price =0;
+        $qty=0;
+        $price = $row["price"];
+        $qty = $row["on_hand"];
+        $amt = $price * $qty;
         $brName=$row["goods_name"];
 //        $trCust .= "<tr><td>".$row["goods_code"]."</td><td>".$row["goods_code_ex"]."</td><td>".$brName."</td><td>"
 //                .$row["goods_type_name"]."</td><td>".$row["goods_cat_name"]."</td><td>".$row["on_hand"]."</td><td>".$row["purchase_point"]."</td><td>".$row["purchase_period"]."</td></tr>";
         $trCust .= "<tr><td>".$row["goods_code"]."</td><td>".$brName."</td>"
-                ."<td>".$row["on_hand"]."</td><td>".$row["price"]."</td></tr>";
+                ."<td>".$row["on_hand"]."</td><td>".number_format($row["price"],2,".",",")."</td><td>".number_format($amt,2,".",",")."</td></tr>";
     }
 }else{
     echo mysqli_error($conn);
@@ -157,9 +162,9 @@ mysqli_close($conn);
                                         <tr>
                                             <th ><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>รหัสสินค้า</th>                                            
                                             <th ><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> ชื่อสินค้า</th>                                            
-                                            <th ><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> onhand</th>
+                                            <th ><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> คงเหลือ</th>
                                             <th ><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> ราคาต่อหน่วย</th>
-                                            
+                                            <th ><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> มูลค่า</th>
                                         </tr>
                                     </thead>
                                     <tbody>
