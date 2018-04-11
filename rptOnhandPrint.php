@@ -37,7 +37,7 @@ if($result){
 //        $trCust .= "<tr><td>".$row["goods_code"]."</td><td>".$row["goods_code_ex"]."</td><td>".$brName."</td><td>"
 //                .$row["goods_type_name"]."</td><td>".$row["goods_cat_name"]."</td><td>".$row["on_hand"]."</td><td>".$row["purchase_point"]."</td><td>".$row["purchase_period"]."</td></tr>";
         $trCust .= "<tr><td>".$row["goods_code"]."</td><td>".$brName."</td>"
-                ."<td>".$row["on_hand"]."</td></tr>";
+                ."<td>".$row["on_hand"]."</td><td>".$row["price"]."</td></tr>";
     }
 }else{
     echo mysqli_error($conn);
@@ -155,11 +155,10 @@ mysqli_close($conn);
                                 <table id="dt_basic" class="table table-striped table-bordered table-hover responsive" width="100%">
                                     <thead>
                                         <tr>
-                                            <th ><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>รหัสสินค้า</th>
-                                            
-                                            <th ><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> ชื่อสินค้า</th>
-                                            
+                                            <th ><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>รหัสสินค้า</th>                                            
+                                            <th ><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> ชื่อสินค้า</th>                                            
                                             <th ><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> onhand</th>
+                                            <th ><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> ราคาต่อหน่วย</th>
                                             
                                         </tr>
                                     </thead>
