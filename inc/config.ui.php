@@ -637,11 +637,16 @@ $page_nav = array(
                             "icon" => "fa-map-marker",
                             "label_htm" => '<span class="badge bg-color-greenLight pull-right inbox-badge">9</span>'
                     ),
+                    "gmap_skins60" => array(
+                            "title" => "สินค้าคงเหลือ ปี 60",
+                            "url" => "rptOnhand60.php",
+                            "icon" => "fa-map-marker"
+                            
+                    ),
                     "gmap_skins1" => array(
                             "title" => "สินค้าคงเหลือ",
                             "url" => "rptOnhand.php",
-                            "icon" => "fa-map-marker",
-                            "label_htm" => '<span class="badge bg-color-greenLight pull-right inbox-badge">9</span>'
+                            "icon" => "fa-map-marker"                            
                     )
                 )
             )
