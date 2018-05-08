@@ -520,6 +520,9 @@ mysqli_close($conn);
         function printSum(){
             window.location.assign("#labReceivePrintSum.php?branch_id="+$("#branchId").val()+"&year_id="+$("#yearId").val()+"&month_id="+$("#monthId").val()+"&period_id="+$("#periodId").val());
         }
+        function saveSum(){
+            window.location.assign("#labReceiveDetailSum.php?branch_id="+$("#branchId").val()+"&year_id="+$("#yearId").val()+"&month_id="+$("#monthId").val()+"&period_id="+$("#periodId").val());
+        }
         function printDetail(){
             $.ajax({ 
                 type: 'GET', url: 'labReceivePrintDetail.php', contentType: "application/json", dataType: 'text'
