@@ -816,12 +816,13 @@ mysqli_close($conn);
                     var json_obj = $.parseJSON(data);
                     for (var i in json_obj){
                         //alert("aaaa "+json_obj[i].success);
-                        if(json_obj[i].success==="1"){
+                        if(json_obj[i].success===1){
                             $("#goVali").empty();
 //                            $("#goVali").append(json_obj[i].sql);
                             $("#goVali").append("บันทึกข้อมูลเรียบร้อย");
                             $("#goAlert").removeClass('alert-error');
                             $("#goAlert").addClass('alert-success');
+                            //$("#goAlert").addClass('alert-error');
                             $.alert({
                                 title: 'Save Data',
                                 content: 'บันทึกข้อมูลเรียบร้อย',

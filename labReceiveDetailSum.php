@@ -50,6 +50,19 @@ $where="Where branch_id = '".$brId."' and year_id = '".$yearId
     ."' and month_id = '".$monthId."' and period_id = '".$periodId."' and active = '1' ";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
+
+$sql = "Select * From lab_t_data_header_sum "+$where;
+if ($rComp1=mysqli_query($conn,$sql)){
+    $num_rows = mysql_num_rows($rComp1);
+    if($num_rows<=0){
+        
+    }
+}
+
+
+
+
+
 $sql="Select count(1) as cnt  From lab_t_data "
     .$where;
 if ($rComp=mysqli_query($conn,$sql)){

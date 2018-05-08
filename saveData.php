@@ -218,7 +218,7 @@ if($_GET["flagPage"] === "company"){
     }
 }else if($_GET["flagPage"] === "goods"){
     $goods_id=$_GET["goods_id"];
-    $goods_name=$_GET["goods_name"];
+    $goods_name= str_replace("'","''",$_GET["goods_name"]);
     $goods_name_ex=$_GET["goods_name_ex"];
     $goods_code=$_GET["goods_code"];
     $goods_code_ex=$_GET["goods_code_ex"];
