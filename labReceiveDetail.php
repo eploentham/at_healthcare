@@ -485,6 +485,7 @@ mysqli_close($conn);
         $("#chkReVoid").click(checkBtnVoid);
         $("#btnReVoid").click(voidRec);
         $("#btnSave").click(saveLab);
+        $("#btnSaveSum").click(saveSum);
         $("#btnPrint").click(printSum);
         $("#btnPrintDetail").click(printDetail);
         $("#uiLoading").hide();

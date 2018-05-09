@@ -44,68 +44,120 @@ $cntPaid=0;
 $sumPaid=0;
 $sumDiscount=0;
 $sumNetPrice=0;
+$excelCnt=0;
 $trPaid="";
 $paidType="";
+$err="1111111";
 $where="Where branch_id = '".$brId."' and year_id = '".$yearId
     ."' and month_id = '".$monthId."' and period_id = '".$periodId."' and active = '1' ";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 mysqli_set_charset($conn, "UTF8");
 
-$sql = "Select * From lab_t_data_header_sum "+$where;
+$sql = "Select * From lab_t_data_header_sum ".$where;
+$err=$sql;
 if ($rComp1=mysqli_query($conn,$sql)){
+    $err="222222";
     $num_rows = mysql_num_rows($rComp1);
     if($num_rows<=0){
-        
-    }
-}
-
-
-
-
-
-$sql="Select count(1) as cnt  From lab_t_data "
-    .$where;
-if ($rComp=mysqli_query($conn,$sql)){
-    while($aRec = mysqli_fetch_array($rComp)){
-        $cnt = $aRec["cnt"];
-    }
-}
-$sql="Select hn  From lab_t_data "
-    .$where
-    ."Group By hn";
-if ($rComp=mysqli_query($conn,$sql)){
-    while($aRec = mysqli_fetch_array($rComp)){
-        $cntHn++;
-    }
-}
-$sql="Select distinct paid_type_name, count(1) as cnt, sum(price3) as price3, sum(discount) as discount, sum(netprice) as netprice  From lab_t_data "
-    .$where
-    ."Group By paid_type_name";
-if ($rComp=mysqli_query($conn,$sql)){
-    while($aRec = mysqli_fetch_array($rComp)){
-        $paidType = $aRec["paid_type_name"];
-        if($brId==="2"){
-            if($paidType==="@"){
-                $paidType="ทั่วไป";
-            }else if($paidType==="#"){
-                $paidType="ประกันสังคม";
-            }            
+        $err="333333";
+        $sql="Select count(1) as cnt  From lab_t_data ".$where;
+        if ($rComp=mysqli_query($conn,$sql)){
+            while($aRec = mysqli_fetch_array($rComp)){
+                $cnt = $aRec["cnt"];
+            }
         }
-        $trPaid.="<tr><td>".$paidType."</td><td>".number_format($aRec["cnt"],2,'.',',')."</td><td>".number_format($aRec["price3"],2,'.',',')."</td><td>".number_format($aRec["discount"],2,'.',',')."</td><td>".number_format($aRec["netprice"],2,'.',',')."</td></tr>";
-        $cntPaid+=$aRec["cnt"];
-        $sumPaid+=$aRec["price3"];
-        $sumDiscount+=$aRec["discount"];
-        $sumNetPrice+=$aRec["netprice"];
+        $sql="Select hn  From lab_t_data ".$where
+            ."Group By hn";
+        if ($rComp=mysqli_query($conn,$sql)){
+            while($aRec = mysqli_fetch_array($rComp)){
+                $cntHn++;
+            }
+        }
+        
+        $sql = "Select * From lab_t_data_header ".$where;
+        if ($rComp=mysqli_query($conn,$sql)){
+            while($aRec = mysqli_fetch_array($rComp)){
+                $excelCnt=$aRec["excel_cnt"];
+            }
+        }
+        $sql="Select distinct paid_type_name, count(1) as cnt, sum(price3) as price3, sum(discount) as discount, sum(netprice) as netprice  From lab_t_data "
+            .$where
+            ."Group By paid_type_name";
+        if ($rComp=mysqli_query($conn,$sql)){
+            $err="44444455";
+            while($aRec = mysqli_fetch_array($rComp)){
+                $paidType = $aRec["paid_type_name"];
+                if($brId==="2"){
+                    if($paidType==="@"){
+                        $paidType="ทั่วไป";
+                    }else if($paidType==="#"){
+                        $paidType="ประกันสังคม";
+                    }            
+                }
+                //$trPaid.="<tr><td>".$paidType."</td><td>".number_format($aRec["cnt"],2,'.',',')."</td><td>".number_format($aRec["price3"],2,'.',',')."</td><td>".number_format($aRec["discount"],2,'.',',')."</td><td>".number_format($aRec["netprice"],2,'.',',')."</td></tr>";
+                $cntPaid+=$aRec["cnt"];
+                $sumPaid+=$aRec["price3"];
+                $sumDiscount+=$aRec["discount"];
+                $sumNetPrice+=$aRec["netprice"];
+                $sql = "Insert Into lab_t_data_header_sum (branch_id, year_id, month_id, period_id, active,data_header_id,"
+                        . "paid_type_name, qty, price3, discount, netprice  ) "
+                        . "Values ('".$brId."','".$yearId."','".$monthId."','".$periodId."','1','',"
+                        . "'".$paidType."','".$aRec["cnt"]."','".$aRec["price3"]."','".$aRec["discount"]."','".$aRec["netprice"]."')";
+                if ($result=mysqli_query($conn,$sql) or die(mysqli_error($conn))){
+                    
+                }
+            }
+            $cntPaid=0;
+            $sumPaid=0;
+            $sumDiscount=0;
+            $sumDiscount=0;
+            $sumNetPrice=0;
+            $sql = "Select * From lab_t_data_header_sum ".$where;
+            if ($rComp=mysqli_query($conn,$sql)){
+                while($aRec = mysqli_fetch_array($rComp)){
+                    $paidType = $aRec["paid_type_name"];
+                    if($brId==="2"){
+                        if($paidType==="@"){
+                            $paidType="ทั่วไป";
+                        }else if($paidType==="#"){
+                            $paidType="ประกันสังคม";
+                        }            
+                    }
+                    $trPaid.="<tr><td>".$paidType."</td><td>".number_format($aRec["cnt"],2,'.',',')."</td><td>".number_format($aRec["price3"],2,'.',',')."</td><td>".number_format($aRec["discount"],2,'.',',')."</td><td>".number_format($aRec["netprice"],2,'.',',')."</td></tr>";
+                    $cntPaid+=$aRec["cnt"];
+                    $sumPaid+=$aRec["price3"];
+                    $sumDiscount+=$aRec["discount"];
+                    $sumNetPrice+=$aRec["netprice"];
+                }
+                $trPaid.="<tr><td>รวม</td><td>".number_format($cntPaid,2,'.',',')."</td><td>".number_format($sumPaid,2,'.',',')."</td><td>".number_format($sumDiscount,2,'.',',')."</td><td>".number_format($sumNetPrice,2,'.',',')."</td></tr>";
+            }
+            
+        }
+    }else{
+        while($aRec = mysqli_fetch_array($rComp1)){
+            $paidType = $aRec["paid_type_name"];
+            if($brId==="2"){
+                if($paidType==="@"){
+                    $paidType="ทั่วไป";
+                }else if($paidType==="#"){
+                    $paidType="ประกันสังคม";
+                }            
+            }
+            $trPaid.="<tr><td>".$paidType."</td><td>".number_format($aRec["cnt"],2,'.',',')."</td><td>".number_format($aRec["price3"],2,'.',',')."</td><td>".number_format($aRec["discount"],2,'.',',')."</td><td>".number_format($aRec["netprice"],2,'.',',')."</td></tr>";
+        }
     }
-    $trPaid.="<tr><td>รวม</td><td>".number_format($cntPaid,2,'.',',')."</td><td>".number_format($sumPaid,2,'.',',')."</td><td>".number_format($sumDiscount,2,'.',',')."</td><td>".number_format($sumNetPrice,2,'.',',')."</td></tr>";
+}else{
+    
 }
-$excelCnt=0;
-$sql = "Select * From lab_t_data_header ".$where;
-if ($rComp=mysqli_query($conn,$sql)){
-    while($aRec = mysqli_fetch_array($rComp)){
-        $excelCnt=$aRec["excel_cnt"];
-    }
-}
+
+
+
+
+
+
+
+
+
 $labEmailTo="";
 $labEmailFrom="";
 $labEmailSubject="";
@@ -290,6 +342,7 @@ mysqli_close($conn);
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <?php //echo $err;?>
                                                 <?php echo $trPaid;?>
                                             </tbody>
                                         </table>
