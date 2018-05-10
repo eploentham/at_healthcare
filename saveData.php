@@ -670,6 +670,22 @@ if($_GET["flagPage"] === "company"){
         ." branch_id = '".$_GET["branch_id"]."', year_id = '".$_GET["year_id"]."', month_id = '".$_GET["month_id"]."', period_id = '".$_GET["period_id"]."' "
         .", date_modi = now() "
         ."Where branch_id = '".$_GET["branch_id_old"]."' and year_id = '".$_GET["year_id_old"]."' and month_id = '".$_GET["month_id_old"]."' and period_id = '".$_GET["period_id_old"]."'";
+}else if($_GET["flagPage"] === "save_lab_header_sum"){
+    $header_sum_id=$_GET["header_sum_id"];
+    $paid_type=$_GET["paid_type"];
+    $cnt=$_GET["cnt"];
+    $price3=$_GET["price3"];
+    $discount=$_GET["discount"];
+    $netprice=$_GET["netprice"];
+
+    $sql="Update lab_t_data_header_sum "
+            ."Set paid_type_name = '".$paid_type."' "
+            .", qty = '".$cnt."' "
+            .", price3 = '".$price3."' "
+            .", discount = '".$discount."' "
+            .", netprice = '".$netprice."' "
+            ."Where header_sum_id = '".$header_sum_id."'";
+    
 }
 $response = array();
 $resultArray = array();

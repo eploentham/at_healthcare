@@ -57,9 +57,9 @@ $sql = "Select * From lab_t_data_header_sum ".$where;
 $err=$sql;
 if ($rComp1=mysqli_query($conn,$sql)){
     $err="222222";
-    $num_rows = mysql_num_rows($rComp1);
+    $num_rows = mysqli_num_rows($rComp1);
     if($num_rows<=0){
-        $err="333333";
+        $err=$sql;
         $sql="Select count(1) as cnt  From lab_t_data ".$where;
         if ($rComp=mysqli_query($conn,$sql)){
             while($aRec = mysqli_fetch_array($rComp)){
@@ -84,7 +84,7 @@ if ($rComp1=mysqli_query($conn,$sql)){
             .$where
             ."Group By paid_type_name";
         if ($rComp=mysqli_query($conn,$sql)){
-            $err="44444455";
+            //$err="44444455";
             while($aRec = mysqli_fetch_array($rComp)){
                 $paidType = $aRec["paid_type_name"];
                 if($brId==="2"){
@@ -121,7 +121,7 @@ if ($rComp1=mysqli_query($conn,$sql)){
                             $paidType="ทั่วไป";
                         }else if($paidType==="#"){
                             $paidType="ประกันสังคม";
-                        }            
+                        }
                     }
                     $trPaid.="<tr><td>".$paidType."</td><td>".number_format($aRec["cnt"],2,'.',',')."</td><td>".number_format($aRec["price3"],2,'.',',')."</td><td>".number_format($aRec["discount"],2,'.',',')."</td><td>".number_format($aRec["netprice"],2,'.',',')."</td></tr>";
                     $cntPaid+=$aRec["cnt"];
@@ -134,6 +134,10 @@ if ($rComp1=mysqli_query($conn,$sql)){
             
         }
     }else{
+        $err="66666666";
+        $row=0;
+        $num_rows_sum = mysqli_num_rows($rComp1);
+        $txtCnt="<input type='hidden' id='txtCnt' value='".$num_rows_sum."'>";
         while($aRec = mysqli_fetch_array($rComp1)){
             $paidType = $aRec["paid_type_name"];
             if($brId==="2"){
@@ -143,7 +147,17 @@ if ($rComp1=mysqli_query($conn,$sql)){
                     $paidType="ประกันสังคม";
                 }            
             }
-            $trPaid.="<tr><td>".$paidType."</td><td>".number_format($aRec["cnt"],2,'.',',')."</td><td>".number_format($aRec["price3"],2,'.',',')."</td><td>".number_format($aRec["discount"],2,'.',',')."</td><td>".number_format($aRec["netprice"],2,'.',',')."</td></tr>";
+            $id="<input type='hidden' id='id".$row."' value='".$aRec["header_sum_id"]."'>";
+            $paidType1 = "<input type='text' id='paidType".$row."' value='".$paidType."'>";
+            $cnt2=number_format($aRec["qty"],2,'.',',');
+            //$cnt2=$aRec["cnt"];
+            $cnt1 = "<input type='text' id='cnt".$row."' value='".$cnt2."'>";
+            //$paidType = "<input type='text' id='paidType".$row."' value='".$paidType."'>";
+            $price31 = "<input type='text' id='price3".$row."' value='".number_format($aRec["price3"],2,'.',',')."'>";
+            $discount1 = "<input type='text' id='discount".$row."' value='".number_format($aRec["discount"],2,'.',',')."'>";
+            $netprice1 = "<input type='text' id='netprice".$row."' value='".number_format($aRec["netprice"],2,'.',',')."'>";
+            $trPaid.="<tr><td>".$paidType1."</td><td>".$cnt1."</td><td>".$price31."</td><td>".$discount1."</td><td>".$netprice1.$id."</td></tr>";
+            $row++;
         }
     }
 }else{
@@ -344,6 +358,7 @@ mysqli_close($conn);
                                             <tbody>
                                                 <?php //echo $err;?>
                                                 <?php echo $trPaid;?>
+                                                <?php echo $txtCnt;?>
                                             </tbody>
                                         </table>
                                     </section>
@@ -359,10 +374,7 @@ mysqli_close($conn);
                                         <label class="label">&nbsp;&nbsp;</label>
                                         <button type="button" id="btnReVoid" class="btn btn-primary btn-sm">ต้องการยกเลิก</button>
                                     </section>
-                                    <section class="col col-2" >    
-                                        <label class="label">&nbsp;&nbsp;</label>
-                                        <button type="button" id="btnSave" class="btn btn-primary btn-sm">เปลี่ยนแปลง เดือนปี ข้อมูล</button>
-                                    </section>
+                                    
                                     <section class="col col-2" >    
                                         <label class="label">&nbsp;&nbsp;</label>
                                         <button type="button" id="btnSaveSum" class="btn btn-primary btn-sm">บันทึก ข้อมูล</button>
@@ -551,6 +563,7 @@ mysqli_close($conn);
         $("#chkReVoid").click(checkBtnVoid);
         $("#btnReVoid").click(voidRec);
         $("#btnSave").click(saveLab);
+        $("#btnSaveSum").click(saveLabSum);
         $("#btnPrint").click(printSum);
         $("#btnPrintDetail").click(printDetail);
         $("#uiLoading").hide();
@@ -662,6 +675,74 @@ mysqli_close($conn);
                     }
                 }
             });
+        }
+        function saveLabSum(){
+            $.confirm({
+                title: 'ต้องการบันทึก ข้อมูลLAB แก้ไข!',
+                content: 'บันทึก ข้อมูลLAB สาขา '+$("#cboBranch :selected").text()+" ปี "+$("#cboYear :selected").text()+" เดือน "+$("#cboMonth :selected").text()+" งวด "+$("#cboPeriod :selected").text(),
+                buttons: {
+                    confirm: function () {
+                        //$.alert("hello222 "+td.attr("id"));
+                        saveRecSum();
+//                        voidStock();
+                    },
+                    cancel: function () {
+                        $.alert('Canceled!');
+                    }
+                }
+            });
+        }
+        function saveRecSum(){
+            //$.alert("hello222 "+$("#veId").val());
+            var row = $("#txtCnt").val();
+            if(!$.isNumeric(row)){
+                alert("error txtcnt ");
+                return;
+            }
+            //alert("txtcnt "+row);
+            for (i = 0; i < row; i++){
+                //alert("txtcnt "+row);
+                var id = $("#id"+i).val();
+                var chk =$.isNumeric($("#id"+i).val())
+                //alert("chk "+chk);
+                if($.isNumeric($("#id"+i).val())!= true){
+                    return;
+                }
+                var paidType = $("#paidType"+i).val();
+                var cnt = $("#cnt"+i).val();
+                var price3 = $("#price3"+i).val();
+                var discount = $("#discount"+i).val();
+                var netprice = $("#netprice"+i).val();
+//                price3 = price3.replace(",","");
+//                discount = discount.replace(",","");
+//                netprice = netprice.replace(",","");
+                //alert("id "+row+" paidType "+paidType+" cnt "+cnt+" price3 "+price3+" discount "+discount+" netprice "+netprice);
+                
+                $.ajax({
+                    type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text'
+                    , data: { 'header_sum_id': id
+                        ,'paid_type': paidType
+                        ,'cnt': cnt
+                        ,'price3': price3
+                        , 'discount': discount
+                        ,'netprice': netprice
+                        , 'flagPage':"save_lab_header_sum" }, 
+                    success: function (data) {
+                        //alert('bbbbb'+data);
+                        var json_obj = $.parseJSON(data);
+
+                        for (var i in json_obj)
+                        {
+    //                        $.alert({
+    //                            title: 'Save Data',
+    //                            content: 'ยกเลิกข้อมูลเรียบร้อย',
+    //                        });
+                            //window.location.assign('#labReceiveView.php');
+                        }
+                    }
+                });
+            }
+            
         }
         function saveRec1(){
             //$.alert("hello222 "+$("#veId").val());

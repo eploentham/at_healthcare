@@ -297,9 +297,9 @@ mysqli_close($conn);
                                         <label class="label">&nbsp;&nbsp;</label>
                                         <button type="button" id="btnSave" class="btn btn-primary btn-sm">เปลี่ยนแปลง เดือนปี ข้อมูล</button>
                                     </section>
-                                    <section class="col col-2" >    
+                                    <section class="col col-2" >
                                         <label class="label">&nbsp;&nbsp;</label>
-                                        <button type="button" id="btnSaveSum" class="btn btn-primary btn-sm">บันทึก ข้อมูล</button>
+                                        <button type="button" id="btnSaveSum" class="btn btn-primary btn-sm">แก้ไข ข้อมูล</button>
                                     </section>
                                     <section class="col col-2" >    
                                         <label class="label">&nbsp;&nbsp;</label>
