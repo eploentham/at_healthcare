@@ -713,9 +713,10 @@ mysqli_close($conn);
                 var price3 = $("#price3"+i).val();
                 var discount = $("#discount"+i).val();
                 var netprice = $("#netprice"+i).val();
-//                price3 = price3.replace(",","");
-//                discount = discount.replace(",","");
-//                netprice = netprice.replace(",","");
+                price3 = price3.replace(",","");
+                discount = discount.replace(",","");
+                netprice = netprice.replace(",","");
+                cnt = cnt.replace(",","");
                 //alert("id "+row+" paidType "+paidType+" cnt "+cnt+" price3 "+price3+" discount "+discount+" netprice "+netprice);
                 
                 $.ajax({
